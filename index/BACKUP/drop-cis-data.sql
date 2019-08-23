@@ -1,0 +1,21 @@
+USE apindb;
+SET FOREIGN_KEY_CHECKS=0;
+TRUNCATE TABLE pharmacy;
+TRUNCATE TABLE visit;
+TRUNCATE TABLE subswitch;
+DROP TABLE IF EXISTS persons;
+DROP TABLE IF EXISTS member;
+DROP TABLE IF EXISTS test1;
+TRUNCATE TABLE laboratory;
+TRUNCATE TABLE interruptions;
+TRUNCATE TABLE crrirf;
+TRUNCATE TABLE clinicaleval;
+TRUNCATE TABLE audit_trail;
+TRUNCATE TABLE appointment;
+TRUNCATE TABLE patient;
+TRUNCATE TABLE forlabcispro;
+TRUNCATE TABLE expentry_temp;
+TRUNCATE TABLE members;
+SET FOREIGN_KEY_CHECKS=1;
+insert into members (username, password, role)
+values ('userbase', md5('1234'),'Super');

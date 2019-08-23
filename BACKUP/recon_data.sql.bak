@@ -1,0 +1,25 @@
+SELECT CONCAT('DROP TABLE ', TABLE_NAME, '; ')
+  FROM information_schema.tables
+  WHERE table_schema = DATABASE() 
+  AND table_name NOT IN 
+  ('antenatal_care', 
+  'appointment', 
+  'audit_trail', 
+  'basic_info', 
+  'clinicaleval', 
+  'crrirf', 
+  'drugs', 
+  'expentry_temp', 
+  'exposed_infant', 
+  'facility', 
+  'forlabcispro', 
+  'interruptions', 
+  'laboratory', 
+  'members', 
+  'nextappointment', 
+  'patient', 
+  'pharmacy', 
+  'pmtctregistry', 
+  'pmtct_delivery', 
+  'subswitch', 
+  'visit');

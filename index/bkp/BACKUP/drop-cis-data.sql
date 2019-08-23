@@ -1,0 +1,17 @@
+USE apindb;
+UPDATE members set password='' where username='ADMINSUPER';
+SET FOREIGN_KEY_CHECKS=0;
+TRUNCATE TABLE pharmacy;
+TRUNCATE TABLE visit;
+TRUNCATE TABLE subswitch;
+DROP TABLE persons;
+DROP TABLE member;
+DROP TABLE test1;
+TRUNCATE TABLE laboratory;
+TRUNCATE TABLE interruptions;
+TRUNCATE TABLE crrirf;
+TRUNCATE TABLE clinicaleval;
+TRUNCATE TABLE audit_trail;
+TRUNCATE TABLE appointment;
+TRUNCATE TABLE patient;
+SET FOREIGN_KEY_CHECKS=1;

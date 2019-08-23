@@ -1,0 +1,2073 @@
+<?php
+ini_set('max_execution_time', 600);
+ini_set('memory_limit', '512M');
+echo '<p><a href="./adprivsco">[BACK]</a></p>';
+echo 'GENERATING NDR FILES...'.'<br>';
+
+
+$link = mysql_connect('localhost', 'root', 'Nu66et%%');
+if (!$link) {
+    die('Not connected : ' . mysql_error());
+}
+
+// make apindb the current db
+$db_selected = mysql_select_db('apindb', $link);
+if (!$db_selected) {
+    die ('Can\'t use foo : ' . mysql_error());
+}
+
+
+$query_select = "SELECT a.idpatient as PatientIdentifier,a.pepid as pepid,(select facilityname from facility) as FacilityName,CASE 
+WHEN (select facilityname from facility) LIKE '%Solat%Women%' THEN 'SL'
+WHEN (select facilityname from facility) LIKE '%solat%women%' THEN 'SL'
+WHEN (select facilityname from facility) LIKE '%Zamko%' THEN 'ZK'
+WHEN (select facilityname from facility) LIKE '%State%Specialist%Maiduguri%' THEN 'SM'
+WHEN (select facilityname from facility) LIKE '%SSH%' THEN 'SM'
+WHEN (select facilityname from facility) LIKE '%CHC%Zamko%' THEN 'ZK'
+WHEN (select facilityname from facility) LIKE '%Comprehensive%Zamko%' THEN 'ZK'
+WHEN (select facilityname from facility) LIKE '%Kwalla%' THEN 'KW'
+WHEN (select facilityname from facility) LIKE '%Cottage%Hospital%Kwalla%' THEN 'KW'
+WHEN (select facilityname from facility) LIKE '%cottage%hospital%kwalla%' THEN 'KW'
+WHEN (select facilityname from facility) LIKE '%lasuth%' THEN 'LG'
+WHEN (select facilityname from facility) LIKE '%LASUTH%' THEN 'LG'
+WHEN (select facilityname from facility) LIKE '%Lagos%State%University%' THEN 'LG'
+WHEN (select facilityname from facility) LIKE '%Alimosho%' THEN 'GA'
+WHEN (select facilityname from facility) LIKE '%General%Alimosho%' THEN 'GA'
+WHEN (select facilityname from facility) LIKE '%GH%Alimosho%' THEN 'GA'
+WHEN (select facilityname from facility) LIKE '%Aregb%' THEN 'RB'
+WHEN (select facilityname from facility) LIKE '%Ipaja%' THEN 'IP'
+WHEN (select facilityname from facility) LIKE '%Ipaja%PHC%' THEN 'IP'
+WHEN (select facilityname from facility) LIKE '%Ipaja%Primary%' THEN 'IP'
+WHEN (select facilityname from facility) LIKE '%Primary%Health%Ipaja%' THEN 'IP'
+WHEN (select facilityname from facility) LIKE '%Ojodu%' THEN 'OJ'
+WHEN (select facilityname from facility) LIKE '%PHC%Ojodu%' THEN 'OJ'
+WHEN (select facilityname from facility) LIKE '%Primary%Health%Care%Ojodu%' THEN 'OJ'
+WHEN (select facilityname from facility) LIKE '%GH%Ifako%' THEN 'IF'
+WHEN (select facilityname from facility) LIKE '%General%Hospital%Ifako%' THEN 'IF'
+WHEN (select facilityname from facility) LIKE '%GH%Ikorodu%' THEN 'IK'
+WHEN (select facilityname from facility) LIKE '%General%Hospital%Ikorodu%' THEN 'IK'
+WHEN (select facilityname from facility) LIKE '%Ifako%Primary%' THEN 'FK'
+WHEN (select facilityname from facility) LIKE '%Primary%Health%Care%ifako%' THEN 'FK'
+WHEN (select facilityname from facility) LIKE '%Ifako%PHC%' THEN 'FK'
+WHEN (select facilityname from facility) LIKE '%Ancilla%' THEN 'AN'
+WHEN (select facilityname from facility) LIKE '%GH%Mushin%' THEN 'MU'
+WHEN (select facilityname from facility) LIKE '%General%Hospital%Mushin%' THEN 'MU'
+WHEN (select facilityname from facility) LIKE '%GH%Epe%' THEN 'EP'
+WHEN (select facilityname from facility) LIKE '%General%Hospital%Epe%' THEN 'EP'
+WHEN (select facilityname from facility) LIKE '%Ajeabo%' THEN 'JB'
+WHEN (select facilityname from facility) LIKE '%Palm%' THEN 'PV'
+WHEN (select facilityname from facility) LIKE '%Palm%Avenue%' THEN 'PV'
+WHEN (select facilityname from facility) LIKE '%LUTH%' THEN 'LU'
+WHEN (select facilityname from facility) LIKE '%Lagos%University%' THEN 'LU'
+WHEN (select facilityname from facility) LIKE '%Police%' THEN 'FL'
+WHEN (select facilityname from facility) LIKE '%NIMR%' THEN 'NM'
+WHEN (select facilityname from facility) LIKE '%Nigerian%Insti%' THEN 'NM'
+WHEN (select facilityname from facility) LIKE '%Ibej%' THEN 'IL'
+WHEN (select facilityname from facility) LIKE '%University College Hospital%' THEN 'UC'
+WHEN (select facilityname from facility) LIKE '%University Collage Hospital%' THEN 'UC'
+WHEN (select facilityname from facility) LIKE '%UCH%' THEN 'UC'
+WHEN (select facilityname from facility) LIKE '%Adeoyo%' THEN 'AD'
+WHEN (select facilityname from facility) LIKE '%State Hospital Ogbomoso%' THEN 'OG'
+WHEN (select facilityname from facility) LIKE '%Ogbomoso%' THEN 'OG'
+WHEN (select facilityname from facility) LIKE '%St%Mary%' THEN 'EH'
+WHEN (select facilityname from facility) LIKE '%Mary%' THEN 'EH'
+WHEN (select facilityname from facility) LIKE '%Baptist%Medical%saki%' THEN 'BM'
+WHEN (select facilityname from facility) LIKE '%Baptist%Medical%' THEN 'BM'
+WHEN (select facilityname from facility) LIKE '%State Hospital Oyo%' THEN 'SY'
+WHEN (select facilityname from facility) LIKE '%State Hospital Saki%' THEN 'SK'
+WHEN (select facilityname from facility) LIKE '%Bowen%' THEN 'BW'
+WHEN (select facilityname from facility) LIKE '%OLA%' THEN 'OL'
+WHEN (select facilityname from facility) LIKE '%Our%Lady%' THEN 'OL'
+WHEN (select facilityname from facility) LIKE '%Eruwa%' THEN 'ER'
+WHEN (select facilityname from facility) LIKE '%Barkin%Ladi%' THEN 'BL'
+WHEN (select facilityname from facility) LIKE '%Jos University%' THEN 'JU'
+WHEN (select facilityname from facility) LIKE '%Cottage Hospital%' THEN 'KW'
+WHEN (select facilityname from facility) LIKE '%Plateau State Specialist%' THEN 'PS'
+WHEN (select facilityname from facility) LIKE '%Our Lady of Apostle%' THEN 'OL'
+WHEN (select facilityname from facility) LIKE '%Pankshin%General%Hospital%' THEN 'PH'
+WHEN (select facilityname from facility) LIKE '%General%Hospital%Pankshin%' THEN 'PH'
+WHEN (select facilityname from facility) LIKE '%GH%Pankshin%' THEN 'PH'
+WHEN (select facilityname from facility) LIKE '%Pankshin%GH%' THEN 'PH'
+WHEN (select facilityname from facility) LIKE '%Panyam%Maternity%' THEN 'PY'
+WHEN (select facilityname from facility) LIKE '%CCDP%Panyam%' THEN 'PY'
+WHEN (select facilityname from facility) LIKE '%CCDP%Hospital%Panyam%' THEN 'PY'
+WHEN (select facilityname from facility) LIKE '%COCIN%Hospital%Panyam%' THEN 'PY'
+WHEN (select facilityname from facility) LIKE '%COCIN%Panyam%' THEN 'PY'
+WHEN (select facilityname from facility) LIKE '%Seventh%Day%' THEN 'SD'
+WHEN (select facilityname from facility) LIKE '%General%Hospital%Shendam%' THEN 'SH'
+WHEN (select facilityname from facility) LIKE '%Shendam%General%Hospital%' THEN 'SH'
+WHEN (select facilityname from facility) LIKE '%Shendam%GH%' THEN 'SH'
+WHEN (select facilityname from facility) LIKE '%GH%Shendam%' THEN 'SH'
+WHEN (select facilityname from facility) LIKE '%Vom%Christian%' THEN 'VH'
+WHEN (select facilityname from facility) LIKE '%VCH%' THEN 'VH'
+WHEN (select facilityname from facility) LIKE '%Military%' THEN 'MH'
+WHEN (select facilityname from facility) LIKE '%JUTH%Comprehensive%' THEN 'ZK'
+WHEN (select facilityname from facility) LIKE '%JUTH%' THEN 'JU'
+WHEN (select facilityname from facility) LIKE '%Jos%University%Teaching%Hospital%' THEN 'JU'
+WHEN (select facilityname from facility) LIKE '%General%Hospital%Mangu%' THEN 'MG'
+WHEN (select facilityname from facility) LIKE '%GH%Mangu%' THEN 'MG'
+WHEN (select facilityname from facility) LIKE '%Faith%Alive%' THEN 'FA'
+WHEN (select facilityname from facility) LIKE '%FAF%' THEN 'FA'
+WHEN (select facilityname from facility) LIKE '%COCIN%Mangu%' THEN 'RC'
+WHEN (select facilityname from facility) LIKE '%CH%RC%Mangu%' THEN 'RC'
+WHEN (select facilityname from facility) LIKE '%CHRC%Mangu%' THEN 'RC'
+WHEN (select facilityname from facility) LIKE '%Church%Mangu%' THEN 'RC'
+WHEN (select facilityname from facility) LIKE '%General%Hospital%Langtang%' THEN 'LG'
+WHEN (select facilityname from facility) LIKE '%GH%Langtang%' THEN 'LG'
+WHEN (select facilityname from facility) LIKE '%Cottage%Hospital%Bassa%' THEN 'BA'
+WHEN (select facilityname from facility) LIKE '%Cottage%Hospital%Bokkos%' THEN 'BK'
+WHEN (select facilityname from facility) LIKE '%Our%Lady%Apostles%Zawan%' THEN 'ZA'
+WHEN (select facilityname from facility) LIKE '%Zawan%' THEN 'ZA'
+WHEN (select facilityname from facility) LIKE '%zawan%' THEN 'ZA'
+WHEN (select facilityname from facility) LIKE '%Hwolshe%Medical%Centre%' THEN 'HW'
+WHEN (select facilityname from facility) LIKE '%Dadinkowa%' THEN 'DK'
+WHEN (select facilityname from facility) LIKE '%FMC%' THEN 'FM'
+WHEN (select facilityname from facility) LIKE '%University%Maiduguri%' THEN 'UM'
+WHEN (select facilityname from facility) LIKE '%UMTH%' THEN 'UM'
+WHEN (select facilityname from facility) LIKE '%Nsukka%' THEN 'UN'
+WHEN (select facilityname from facility) LIKE '%UNTH%' THEN 'UN'
+WHEN (select facilityname from facility) LIKE '%University%Nigeria%Teaching%' THEN 'UN'
+WHEN (select facilityname from facility) LIKE '%Virgilus%' THEN 'VC'
+WHEN (select facilityname from facility) LIKE '%Bingham%' THEN 'BU'
+WHEN (select facilityname from facility) LIKE '%BUTH%' THEN 'BU'
+WHEN (select facilityname from facility) LIKE '%CCDP%' THEN 'PY'
+WHEN (select facilityname from facility) LIKE '%Plateau%State%' THEN 'PS'
+WHEN (select facilityname from facility) LIKE '%PSSH%' THEN 'PS'
+WHEN (select facilityname from facility) LIKE '%Ahmadu%' THEN 'AB'
+WHEN (select facilityname from facility) LIKE '%ABUTH%' THEN 'AB'
+WHEN (select facilityname from facility) LIKE '%Makurdi%' THEN 'FM'
+WHEN (select facilityname from facility) LIKE '%Federal%Medical%Center%Makurdi%' THEN 'FM'
+WHEN (select facilityname from facility) LIKE '%Nursing%Home%Maiduguri%' THEN 'NH'
+WHEN (select facilityname from facility) LIKE '%Nursing%' THEN 'NH'
+WHEN (select facilityname from facility) LIKE '%General%Hospital%Ijebu%' THEN 'IJ'
+WHEN (select facilityname from facility) LIKE '%GH%Ijebu%' THEN 'IJ'
+WHEN (select facilityname from facility) LIKE '%Sacred%Heart%Lantoro%' THEN 'LT'
+WHEN (select facilityname from facility) LIKE '%Lantoro%' THEN 'LT'
+WHEN (select facilityname from facility) LIKE '%Dadin%Kowa%' THEN 'DK'
+WHEN (select facilityname from facility) LIKE '%Womens%Hospital%Onikan%' THEN 'ON'
+WHEN (select facilityname from facility) LIKE '%Onikan%' THEN 'ON'
+WHEN (select facilityname from facility) LIKE '%Nguru%' THEN 'NU'
+WHEN (select facilityname from facility) LIKE '%Federeal%Nguru%' THEN 'NU'
+WHEN (select facilityname from facility) LIKE '%General%Tunkus%' THEN 'TK'
+WHEN (select facilityname from facility) LIKE '%GH%Tunkus%' THEN 'TK'
+WHEN (select facilityname from facility) LIKE '%General%Moniya%' THEN 'MO'
+WHEN (select facilityname from facility) LIKE '%GH%Moniya%' THEN 'MO'
+WHEN (select facilityname from facility) LIKE '%GH%Angware%' THEN 'AW'
+WHEN (select facilityname from facility) LIKE '%General%Angware%' THEN 'AW'
+WHEN (select facilityname from facility) LIKE '%GH%Ibeju%' THEN 'IL'
+WHEN (select facilityname from facility) LIKE '%General%Ibeju%' THEN 'IL'
+WHEN (select facilityname from facility) LIKE '%GH%Isolo%' THEN 'GS'
+WHEN (select facilityname from facility) LIKE '%General%Isolo%' THEN 'GS'
+WHEN (select facilityname from facility) LIKE '%Angware%' THEN 'AW'
+WHEN (select facilityname from facility) LIKE '%Adefemi%Hospital%' THEN 'FH'
+WHEN (select facilityname from facility) LIKE '%Agape%Hospital%' THEN 'AG'
+WHEN (select facilityname from facility) LIKE '%Comprehensive%Bassa%' THEN 'BA'
+WHEN (select facilityname from facility) LIKE '%CHC%Bassa%' THEN 'BA'
+WHEN (select facilityname from facility) LIKE '%Comprehensive%Bokkos%' THEN 'BC'
+WHEN (select facilityname from facility) LIKE '%CHC%Bokkos%' THEN 'BC'
+WHEN (select facilityname from facility) LIKE '%Comprehensive%Dyerok%' THEN 'DY'
+WHEN (select facilityname from facility) LIKE '%CHC%Dyerok%' THEN 'DY'
+WHEN (select facilityname from facility) LIKE '%Comprehensive%Gindiri%' THEN 'GD'
+WHEN (select facilityname from facility) LIKE '%CHC%Gindiri%' THEN 'GD'
+WHEN (select facilityname from facility) LIKE '%Comprehensive%Lardang%' THEN 'CL'
+WHEN (select facilityname from facility) LIKE '%CHC%Lardang%' THEN 'CL'
+WHEN (select facilityname from facility) LIKE '%Comprehensive%Banki%' THEN 'BK'
+WHEN (select facilityname from facility) LIKE '%CHC%Banki%' THEN 'BK'
+WHEN (select facilityname from facility) LIKE '%Comprehensive%Madagali%' THEN 'MA'
+WHEN (select facilityname from facility) LIKE '%CHC%Madagali%' THEN 'MA'
+WHEN (select facilityname from facility) LIKE '%General%Quan%' THEN 'QP'
+WHEN (select facilityname from facility) LIKE '%General%Quaan%' THEN 'QP'
+WHEN (select facilityname from facility) LIKE '%GH%Quan%' THEN 'QP'
+WHEN (select facilityname from facility) LIKE '%GH%Quaan%' THEN 'QP'
+WHEN (select facilityname from facility) LIKE '%Jericho%Specialist%' THEN 'JH'
+WHEN (select facilityname from facility) LIKE '%JSH%' THEN 'JH'
+WHEN (select facilityname from facility) LIKE '%Ladoke%Akintola%' THEN 'LD'
+WHEN (select facilityname from facility) LIKE '%LAUTECH%' THEN 'LD'
+WHEN (select facilityname from facility) LIKE '%May%Clinic%Shendam%' THEN 'MC'
+WHEN (select facilityname from facility) LIKE '%May%Clinic%' THEN 'MC'
+WHEN (select facilityname from facility) LIKE '%Ring%Road%' THEN 'RS'
+WHEN (select facilityname from facility) LIKE '%RRSH%' THEN 'RS'
+WHEN (select facilityname from facility) LIKE '%Kizito%Catholic%' THEN 'KZ'
+WHEN (select facilityname from facility) LIKE '%Kizito%Clinic%' THEN 'SU'
+WHEN (select facilityname from facility) LIKE '%General%Agbowa%' THEN 'GB'
+WHEN (select facilityname from facility) LIKE '%GH%Agbowa%' THEN 'GB'
+WHEN (select facilityname from facility) LIKE '%General%Shomolu%' THEN 'SG'
+WHEN (select facilityname from facility) LIKE '%GH%Shomolu%' THEN 'SG'
+WHEN (select facilityname from facility) LIKE '%Lagoon%Hospital%' THEN 'LN'
+WHEN (select facilityname from facility) LIKE '%Lagoon%' THEN 'LN'
+WHEN (select facilityname from facility) LIKE '%Primary%Agboju%' THEN 'AP'
+WHEN (select facilityname from facility) LIKE '%PHC%Agboju%' THEN 'AP'
+WHEN (select facilityname from facility) LIKE '%Agboju%Primary%' THEN 'AP'
+WHEN (select facilityname from facility) LIKE '%Agboju%PHC%' THEN 'AP'
+WHEN (select facilityname from facility) LIKE '%Primary%Aregbesola%' THEN 'RB'
+WHEN (select facilityname from facility) LIKE '%PHC%Aregbesola%' THEN 'RB'
+WHEN (select facilityname from facility) LIKE '%Aregbesola%Primary%' THEN 'RB'
+WHEN (select facilityname from facility) LIKE '%Aregbesola%PHC%' THEN 'RB'
+WHEN (select facilityname from facility) LIKE '%Primary%Iru%' THEN 'IR'
+WHEN (select facilityname from facility) LIKE '%PHC%Iru%' THEN 'IR'
+WHEN (select facilityname from facility) LIKE '%Iru%Primary%' THEN 'IR'
+WHEN (select facilityname from facility) LIKE '%Iru%PHC%' THEN 'IR'
+WHEN (select facilityname from facility) LIKE '%MCC%Amuwo%' THEN 'MW'
+ELSE SUBSTRING(a.pepid,1,2) END AS facn,CASE SUBSTRING(a.pepid,1,2) 
+WHEN 'LG' THEN 'LASUTH'
+WHEN 'MW' THEN 'MCC Amuwo Odofin'
+WHEN 'IR' THEN 'Iru Primary Health Center'
+WHEN 'AP' THEN 'Agboju Primary Health Center'
+WHEN 'LN' THEN 'Lagoon Hospital'
+WHEN 'SG' THEN 'General Hospital Shomolu'
+WHEN 'GB' THEN 'General Hospital Agbowa'
+WHEN 'GH' THEN 'General Hospital Agbowa'
+WHEN 'KZ' THEN 'St Kizito Catholic Clinic'
+WHEN 'SU' THEN 'St Kizito Clinic'
+WHEN 'RS' THEN 'Ring Road Specialist Hospital'
+WHEN 'MC' THEN 'May Clinic Shendam'
+WHEN 'LD' THEN 'Ladoke Akintola University of Technology'
+WHEN 'JH' THEN 'Jericho Specialist Hospital Ibadan'
+WHEN 'BA' THEN 'Comprehensive Health Center Bassa'
+WHEN 'BA' THEN 'Comprehensive Health Center Madagali'
+WHEN 'BK' THEN 'Comprehensive Health Center Banki'
+WHEN 'CL' THEN 'Comprehensive Health Center Lardang'
+WHEN 'GD' THEN 'Comprehensive Health Center JUTH Gindiri'
+WHEN 'DY' THEN 'Comprehensive Health Center Dyerok'
+WHEN 'BC' THEN 'Comprehensive Health Center Bokkos'
+WHEN 'TK' THEN 'General Hospital Tunkus'
+WHEN 'MO' THEN 'General Hospital Moniya'
+WHEN 'QP' THEN 'General Hospital Quan Pan'
+WHEN 'IK' THEN 'General Hospital Ikorodu'
+WHEN 'EP' THEN 'General Hospital Epe'
+WHEN 'FH' THEN 'Adefemi Hospital'
+WHEN 'AG' THEN 'Agape Hospital'
+WHEN 'AW' THEN 'General Hospital Angware'
+WHEN 'GS' THEN 'General Hospital Isolo'
+WHEN 'NU' THEN 'Federal Medical Center Nguru'
+WHEN 'ON' THEN 'Womens Hospital Onikan'
+WHEN 'DK' THEN 'Dadin Kowa Comprehensive Health Center'
+WHEN 'LT' THEN 'Sacred Heart Hospital Lantoro'
+WHEN 'IJ' THEN 'General Hospital Ijebu-Ode'
+WHEN 'NH' THEN 'Nursing Home Maiduguri'
+WHEN 'SM' THEN 'State Specialist Hospital Maiduguri'
+WHEN 'UM' THEN 'University Of Maiduguri Teaching Hospital'
+WHEN 'MH' THEN '68 Military Hospital'
+WHEN 'AB' THEN 'Ahmadu Bello Teaching Hospital'
+WHEN 'PY' THEN 'CCDP Panyam'
+WHEN 'PS' THEN 'Plateau State Hospital'
+WHEN 'BU' THEN 'Bingham University Teaching Hospital'
+WHEN 'BU' THEN 'BUTH'
+WHEN 'GA' THEN 'GH Alimosho'
+WHEN 'RB' THEN 'Rauf Aregbesola PHC'
+WHEN 'IP' THEN 'Ipaja PHC'
+WHEN 'OJ' THEN 'Ojodu PHC'
+WHEN 'IF' THEN 'GH Ifako-Ijaiye'
+WHEN 'FK' THEN 'Ifako PHC'
+WHEN 'AN' THEN 'Ancilla Hospital'
+WHEN 'MU' THEN 'GH Mushin'
+WHEN 'JB' THEN 'Ajeabo PHC'
+WHEN 'PV' THEN 'Palm Avenue PHC'
+WHEN 'LU' THEN 'LUTH'
+WHEN 'JU' THEN 'Jos University Teaching Hospital'
+
+WHEN 'FL' THEN 'Police Hospital, Falomo'
+WHEN 'NM' THEN 'National Insitute of Medical Research (NIMR)'
+WHEN 'IL' THEN 'GH Ibeju-Lekki'
+
+WHEN 'UC' THEN 'University College Hospital'
+WHEN 'AD' THEN 'Adeoyo Maternity Hospital'
+WHEN 'OG' THEN 'State Hospital Ogbomoso'
+WHEN 'EH' THEN 'St. Mary Chatholic Hospital Eleta'
+WHEN 'BM' THEN 'Baptist  Medical Centre Saki'
+WHEN 'SY' THEN 'State Hospital Oyo'
+WHEN 'SK' THEN 'State Hospital Saki'
+WHEN 'BW' THEN 'Bowen Teachin Hospital Ogbomoso'
+WHEN 'OY' THEN 'OLA Hospital Oluyoro'
+WHEN 'ER' THEN 'General Hospital Eruwa'
+
+WHEN 'BL' THEN 'Barkin Ladi General Hospital'
+WHEN 'JU' THEN 'Jos University Teaching Hospital'
+WHEN 'KW' THEN 'Cottage Hospital, Kwalla'
+WHEN 'PS' THEN 'Plateau State Specialist Hospital, Jos'
+WHEN 'OL' THEN 'Our Lady of Apostles, Jos'
+WHEN 'PK' THEN 'Pankshin General Hospital'
+WHEN 'PY' THEN 'CCDP Panyam'
+WHEN 'SD' THEN 'Seventh Day Adventist Hospital, Jengre'
+WHEN 'SH' THEN 'General Hospital, Shendam'
+WHEN 'SL' THEN 'Solat Women Hospital'
+WHEN 'VH' THEN 'Vom Christian Hospital'
+WHEN 'ZK' THEN 'JUTH, Comprehensive Health Centre, Zamko'
+WHEN 'MG' THEN 'General Hospital, Mangu'
+WHEN 'FA' THEN 'Faith Alive Foundation'
+WHEN 'RC' THEN 'COCIN Hospital Rehabilitation Centre, Mangu'
+WHEN 'LG' THEN 'General Hospital, Langtang'
+WHEN 'BA' THEN 'Cottage Hospital, Bassa'
+WHEN 'BK' THEN 'Cottage Hospital Bokkos'
+WHEN 'ZA' THEN 'Our Lady of Apostles, Zawan'
+WHEN 'HW' THEN 'Hwolshe Medical Centre'
+WHEN 'DK' THEN 'CHC Dakinkowa'
+WHEN 'FM' THEN 'FMC Makurdi'
+WHEN 'UM' THEN 'University Of Maiduguri'
+WHEN 'UN' THEN 'University Of Nigeria Teaching Hospital'
+WHEN 'VC' THEN 'St Virgilus Mangu'
+
+ELSE SUBSTRING(a.pepid,1,2) END AS diagfac,uniqueid as IDNumber,dob as PatientDateOfBirth,substring(upper(sex),1,1) as PatientSexCode,CASE lower(patientdied) WHEN 'art' THEN 'true' WHEN 'pre-art' THEN 'true' ELSE 'false' END as PatientDeceasedIndicator,CASE educationallevel WHEN 'None' THEN 1 WHEN 'Quranic' THEN 4 WHEN 'Primary' THEN 2 WHEN 'Junior Secondary' THEN 5 WHEN 'Senior Secondary' THEN 3 WHEN 'Post Secondary' THEN 6 ELSE 7 END as PatientEducationLevelCode,CASE jobstatus WHEN 'Unemployed' THEN 'UNE' WHEN 'Student' THEN 'STU' WHEN 'Employed' THEN 'EMP' WHEN 'Retired' THEN 'RET' ELSE 'UNK' END as PatientOccupationCode,CASE maritalstatus WHEN 'Single' THEN 'S' WHEN 'Widowed' THEN 'W' WHEN 'Married' THEN 'M' WHEN 'Separated' THEN 'A' WHEN 'Divorced' THEN 'D' ELSE 'U' END as PatientMaritalStatusCode,CASE  
+WHEN whostagecriteria LIKE '%Asymptomatic%' THEN '236704009' 
+WHEN whostagecriteria LIKE '%Persistent Lymphadenopathy%' THEN '95892003' 
+WHEN whostagecriteria LIKE '%Minor Mucocutaneous Manifestations%' THEN '29147005' 
+WHEN whostagecriteria LIKE '%Herpes Zoster%' THEN '4740000' 
+WHEN whostagecriteria LIKE '%Recurrent Upper Respiratory Tract Infections%' THEN '195708003' 
+WHEN whostagecriteria LIKE '%Unexplained Chronic Diarrhea%' THEN '86615009' 
+WHEN whostagecriteria LIKE '%Unexplained Prolonged Fever%' THEN '409553007' 
+WHEN whostagecriteria LIKE '%Oral Candidiasis%' THEN '79740000' 
+WHEN whostagecriteria LIKE '%Oral Hairy Leukoplakia%' THEN '235032001' 
+WHEN whostagecriteria LIKE '%TB, Pulmonary%' THEN '154283005' 
+WHEN whostagecriteria LIKE '%Severe Bacterial Infections%' THEN '428875002' 
+WHEN whostagecriteria LIKE '%PCP%' THEN '75549005' 
+WHEN whostagecriteria LIKE '%Toxoplasmosis, CNS%' THEN '187192000' 
+WHEN whostagecriteria LIKE '%Cryptosporidiosis with Diarrhea%' THEN '240370009' 
+WHEN whostagecriteria LIKE '%Cryptococcosis, Extrapulmonary%' THEN '20953001' 
+WHEN whostagecriteria LIKE '%Cytomegalovirus disease%' THEN '28944009' 
+WHEN whostagecriteria LIKE '%Herpes Simplex%' THEN '88594005' 
+WHEN whostagecriteria LIKE '%Progressive Multifocal Leukoencephalopathy%' THEN '22255007' 
+WHEN whostagecriteria LIKE '%Mycosis, disseminated%' THEN '402138008' 
+WHEN whostagecriteria LIKE '%Candidiasis%' THEN '78048006' 
+WHEN whostagecriteria LIKE '%Atypical Mycobacteriosis, disseminated%' THEN '88415009' 
+WHEN whostagecriteria LIKE '%Oral Candidiasis%' THEN '79740000' 
+ELSE '' 
+END as ConditionCode,WardVillage, town,CASE  
+WHEN lower(state) LIKE '%abia%' THEN '1' 
+WHEN lower(state) LIKE '%adamawa%' THEN '2' 
+WHEN lower(state) LIKE '%akwaibom%' THEN '3' 
+WHEN lower(state) LIKE '%anambra%' THEN '4' 
+WHEN lower(state) LIKE '%bauchi%' THEN '5' 
+WHEN lower(state) LIKE '%benue%' THEN '6' 
+WHEN lower(state) LIKE '%bayelsa%' THEN '7' 
+WHEN lower(state) LIKE '%borno%' THEN '8' 
+WHEN lower(state) LIKE '%cross%' THEN '9' 
+WHEN lower(state) LIKE '%delta%' THEN '10' 
+WHEN lower(state) LIKE '%ebonyi%' THEN '11' 
+WHEN lower(state) LIKE '%edo%' THEN '12' 
+WHEN lower(state) LIKE '%ekiti%' THEN '13' 
+WHEN lower(state) LIKE '%enugu%' THEN '14' 
+WHEN lower(state) LIKE '%fct%' THEN '15' 
+WHEN lower(state) LIKE '%abuja%' THEN '15' 
+WHEN lower(state) LIKE '%gombe%' THEN '16' 
+WHEN lower(state) LIKE '%imo%' THEN '17' 
+WHEN lower(state) LIKE '%jigawa%' THEN '18' 
+WHEN lower(state) LIKE '%kaduna%' THEN '19' 
+WHEN lower(state) LIKE '%kano%' THEN '20' 
+WHEN lower(state) LIKE '%katsina%' THEN '21' 
+WHEN lower(state) LIKE '%kebbi%' THEN '22' 
+WHEN lower(state) LIKE '%kogi%' THEN '23' 
+WHEN lower(state) LIKE '%kwara%' THEN '24' 
+WHEN lower(state) LIKE '%lagos%' THEN '25' 
+WHEN lower(state) LIKE '%nasarawa%' THEN '26' 
+WHEN lower(state) LIKE '%niger%' THEN '27' 
+WHEN lower(state) LIKE '%ogun%' THEN '28' 
+WHEN lower(state) LIKE '%ondo%' THEN '29' 
+WHEN lower(state) LIKE '%osun%' THEN '30' 
+WHEN lower(state) LIKE '%oyo%' THEN '31' 
+WHEN lower(state) LIKE '%plateau%' THEN '32' 
+WHEN lower(state) LIKE '%rivers%' THEN '33' 
+WHEN lower(state) LIKE '%sokoto%' THEN '34' 
+WHEN lower(state) LIKE '%taraba%' THEN '35' 
+WHEN lower(state) LIKE '%yobe%' THEN '36' 
+WHEN lower(state) LIKE '%zamfara%' THEN '37' 
+ELSE '' 
+END as state,CASE
+WHEN (select addrlga from patient) LIKE '%Abadam%'              THEN '1'	         
+WHEN (select addrlga from patient) LIKE '%Abaji%'               THEN '2'	
+WHEN (select addrlga from patient) LIKE '%Abak%'                THEN '3'	
+WHEN (select addrlga from patient) LIKE '%Abakaliki%'           THEN '4'	
+WHEN (select addrlga from patient) LIKE '%Aba%North%'           THEN '5'	
+WHEN (select addrlga from patient) LIKE '%Aba%South%'           THEN '6'	
+WHEN (select addrlga from patient) LIKE '%Abeokuta%North%'      THEN '7'	
+WHEN (select addrlga from patient) LIKE '%Abeokuta%South%'      THEN '8'	
+WHEN (select addrlga from patient) LIKE '%Abi%'                 THEN '9'	
+WHEN (select addrlga from patient) LIKE '%Aboh%Mbaise%'         THEN '10'	
+WHEN (select addrlga from patient) LIKE '%Abua%Odual%'          THEN '11'	
+WHEN (select addrlga from patient) LIKE '%Adavi%'               THEN '12'	
+WHEN (select addrlga from patient) LIKE '%Ado%Ekiti%'           THEN '13'	
+WHEN (select addrlga from patient) LIKE '%Ado%Odo%Ota%'         THEN '14'	
+WHEN (select addrlga from patient) LIKE '%Afijio%'              THEN '15'	
+WHEN (select addrlga from patient) LIKE '%Afikpo%North%'        THEN '16'	
+WHEN (select addrlga from patient) LIKE '%Afikpo%South%'        THEN '17'	
+WHEN (select addrlga from patient) LIKE '%Agaie%'               THEN '18'	
+WHEN (select addrlga from patient) LIKE '%Agatu%'               THEN '19'	
+WHEN (select addrlga from patient) LIKE '%Agwara%'              THEN '20'	
+WHEN (select addrlga from patient) LIKE '%Agege%'               THEN '21'	
+WHEN (select addrlga from patient) LIKE '%Aguata%'              THEN '22'	
+WHEN (select addrlga from patient) LIKE '%Ahiazu%Mbaise%'       THEN '23'	
+WHEN (select addrlga from patient) LIKE '%Ahoada%East%'         THEN '24'	
+WHEN (select addrlga from patient) LIKE '%Ahoada%West%'         THEN '25'	
+WHEN (select addrlga from patient) LIKE '%Ajaokuta%'            THEN '26'	
+WHEN (select addrlga from patient) LIKE '%Ajeromi%Ifelodun%'    THEN '27'	
+WHEN (select addrlga from patient) LIKE '%Ajingi%'              THEN '28'	
+WHEN (select addrlga from patient) LIKE '%Akamkpa%'             THEN '29'	
+WHEN (select addrlga from patient) LIKE '%Akinyele%'            THEN '30'	
+WHEN (select addrlga from patient) LIKE '%Akko%'                THEN '31'	
+WHEN (select addrlga from patient) LIKE '%Akoko%Edo%'           THEN '32'	
+WHEN (select addrlga from patient) LIKE '%Akoko%North%East%'    THEN '33'	
+WHEN (select addrlga from patient) LIKE '%Akoko%North%West%'    THEN '34'	
+WHEN (select addrlga from patient) LIKE '%Akoko%South%West%'    THEN '35'	
+WHEN (select addrlga from patient) LIKE '%Akoko%South%East%'    THEN '36'	
+WHEN (select addrlga from patient) LIKE '%Akpabuyo%'            THEN '37'	
+WHEN (select addrlga from patient) LIKE '%Akuku%Toru%'          THEN '38'	
+WHEN (select addrlga from patient) LIKE '%Akure%North%'         THEN '39'	
+WHEN (select addrlga from patient) LIKE '%Akure%South%'         THEN '40'	
+WHEN (select addrlga from patient) LIKE '%Akwanga%'             THEN '41'	
+WHEN (select addrlga from patient) LIKE '%Albasu%'              THEN '42'	
+WHEN (select addrlga from patient) LIKE '%Aleiro%'              THEN '43'	
+WHEN (select addrlga from patient) LIKE '%Alimosho%'            THEN '44'	
+WHEN (select addrlga from patient) LIKE '%Alkaleri%'            THEN '45'	
+WHEN (select addrlga from patient) LIKE '%Amuwo%Odofin%'        THEN '46'	
+WHEN (select addrlga from patient) LIKE '%Anambra%East%'        THEN '47'	
+WHEN (select addrlga from patient) LIKE '%Anambra%West%'        THEN '48'	
+WHEN (select addrlga from patient) LIKE '%Anaocha%'             THEN '49'	
+WHEN (select addrlga from patient) LIKE '%Andoni%'              THEN '50'	
+WHEN (select addrlga from patient) LIKE '%Aninri%'              THEN '51'	
+WHEN (select addrlga from patient) LIKE '%Aniocha%North%'       THEN '52'	
+WHEN (select addrlga from patient) LIKE '%Aniocha%South%'       THEN '53'	
+WHEN (select addrlga from patient) LIKE '%Anka%'                THEN '54'	
+WHEN (select addrlga from patient) LIKE '%Ankpa%'               THEN '55'	
+WHEN (select addrlga from patient) LIKE '%Apa%'                 THEN '56'	
+WHEN (select addrlga from patient) LIKE '%Apapa%'               THEN '57'	
+WHEN (select addrlga from patient) LIKE '%Ado%'                 THEN '58'	
+WHEN (select addrlga from patient) LIKE '%Ardo%Kola%'           THEN '59'	
+WHEN (select addrlga from patient) LIKE '%Arewa%Dandi%'         THEN '60'	
+WHEN (select addrlga from patient) LIKE '%Argungu%'             THEN '61'	
+WHEN (select addrlga from patient) LIKE '%Arochukwu%'           THEN '62'	
+WHEN (select addrlga from patient) LIKE '%Asa%'                 THEN '63'	
+WHEN (select addrlga from patient) LIKE '%Asari%Toru%'          THEN '64'	
+WHEN (select addrlga from patient) LIKE '%Askira%Uba%'          THEN '65'	
+WHEN (select addrlga from patient) LIKE '%Atakunmosa%East%'     THEN '66'	
+WHEN (select addrlga from patient) LIKE '%Atakunmosa%West%'     THEN '67'	
+WHEN (select addrlga from patient) LIKE '%Atiba%'               THEN '68'	
+WHEN (select addrlga from patient) LIKE '%Atisbo%'              THEN '69'	
+WHEN (select addrlga from patient) LIKE '%Augie%'               THEN '70'	
+WHEN (select addrlga from patient) LIKE '%Auyo%'                THEN '71'	
+WHEN (select addrlga from patient) LIKE '%Awe%'                 THEN '72'	
+WHEN (select addrlga from patient) LIKE '%Awgu%'                THEN '73'	
+WHEN (select addrlga from patient) LIKE '%Awka%North%'          THEN '74'	
+WHEN (select addrlga from patient) LIKE '%Awka%South%'          THEN '75'	
+WHEN (select addrlga from patient) LIKE '%Ayamelum%'            THEN '76'	
+WHEN (select addrlga from patient) LIKE '%Aiyedaade%'           THEN '77'	
+WHEN (select addrlga from patient) LIKE '%Aiyedire%'            THEN '78'	
+WHEN (select addrlga from patient) LIKE '%Babura%'              THEN '79'	
+WHEN (select addrlga from patient) LIKE '%Badagry%'             THEN '80'	
+WHEN (select addrlga from patient) LIKE '%Bagudo%'              THEN '81'	
+WHEN (select addrlga from patient) LIKE '%Bagwai%'              THEN '82'	
+WHEN (select addrlga from patient) LIKE '%Bakassi%'             THEN '83'	
+WHEN (select addrlga from patient) LIKE '%Bokkos%'              THEN '84'	
+WHEN (select addrlga from patient) LIKE '%Bakori%'              THEN '85'	
+WHEN (select addrlga from patient) LIKE '%Bakura%'              THEN '86'	
+WHEN (select addrlga from patient) LIKE '%Balanga%'             THEN '87'	
+WHEN (select addrlga from patient) LIKE '%Bali%'                THEN '88'	
+WHEN (select addrlga from patient) LIKE '%Bama%'                THEN '89'	
+WHEN (select addrlga from patient) LIKE '%Bade%'                THEN '90'	
+WHEN (select addrlga from patient) LIKE '%Barkin%Ladi%'         THEN '91'	
+WHEN (select addrlga from patient) LIKE '%Baruten%'             THEN '92'	
+WHEN (select addrlga from patient) LIKE '%Bassa%'               THEN '93'	
+WHEN (select addrlga from patient) LIKE '%Bassa%'               THEN '94'	
+WHEN (select addrlga from patient) LIKE '%Batagarawa%'          THEN '95'	
+WHEN (select addrlga from patient) LIKE '%Batsari%'             THEN '96'	
+WHEN (select addrlga from patient) LIKE '%Bauchi%'              THEN '97'	
+WHEN (select addrlga from patient) LIKE '%Baure%'               THEN '98'	
+WHEN (select addrlga from patient) LIKE '%Bayo%'                THEN '99'	
+WHEN (select addrlga from patient) LIKE '%Bebeji%'              THEN '100'     
+WHEN (select addrlga from patient) LIKE '%Bekwarra%'            THEN '102'     
+WHEN (select addrlga from patient) LIKE '%Bende%'               THEN '103'     
+WHEN (select addrlga from patient) LIKE '%Biase%'               THEN '104'     
+WHEN (select addrlga from patient) LIKE '%Bichi%'               THEN '105'     
+WHEN (select addrlga from patient) LIKE '%Bida%'                THEN '106'     
+WHEN (select addrlga from patient) LIKE '%Billiri%'             THEN '107'     
+WHEN (select addrlga from patient) LIKE '%Bindawa%'             THEN '108'     
+WHEN (select addrlga from patient) LIKE '%Binji%'               THEN '109'     
+WHEN (select addrlga from patient) LIKE '%Biriniwa%'            THEN '110'     
+WHEN (select addrlga from patient) LIKE '%Birnin%Gwari%'        THEN '111'     
+WHEN (select addrlga from patient) LIKE '%Birnin%Kebbi%'        THEN '112'     
+WHEN (select addrlga from patient) LIKE '%Birnin%Kudu%'         THEN '113'     
+WHEN (select addrlga from patient) LIKE '%Birnin%Magaji%Kiyaw%' THEN '114'     
+WHEN (select addrlga from patient) LIKE '%Biu%'                 THEN '115'     
+WHEN (select addrlga from patient) LIKE '%Bodinga%'             THEN '116'     
+WHEN (select addrlga from patient) LIKE '%Bogoro%'              THEN '117'     
+WHEN (select addrlga from patient) LIKE '%Boki%'                THEN '118'     
+WHEN (select addrlga from patient) LIKE '%Boluwaduro%'          THEN '119'     
+WHEN (select addrlga from patient) LIKE '%Bomadi%'              THEN '120'     
+WHEN (select addrlga from patient) LIKE '%Bonny%'               THEN '121'     
+WHEN (select addrlga from patient) LIKE '%Borgu%'               THEN '122'     
+WHEN (select addrlga from patient) LIKE '%Boripe%'              THEN '123'     
+WHEN (select addrlga from patient) LIKE '%Bursari%'             THEN '124'     
+WHEN (select addrlga from patient) LIKE '%Bosso%'               THEN '125'     
+WHEN (select addrlga from patient) LIKE '%Brass%'               THEN '126'     
+WHEN (select addrlga from patient) LIKE '%Buji%'                THEN '127'     
+WHEN (select addrlga from patient) LIKE '%Bukkuyum%'            THEN '128'     
+WHEN (select addrlga from patient) LIKE '%Buruku%'              THEN '129'     
+WHEN (select addrlga from patient) LIKE '%Bungudu%'             THEN '130'     
+WHEN (select addrlga from patient) LIKE '%Bunkure%'             THEN '131'     
+WHEN (select addrlga from patient) LIKE '%Bunza%'               THEN '132'     
+WHEN (select addrlga from patient) LIKE '%Burutu%'              THEN '133'     
+WHEN (select addrlga from patient) LIKE '%Bwari%'               THEN '134'     
+WHEN (select addrlga from patient) LIKE '%Calabar%Municipal%'   THEN '135'     
+WHEN (select addrlga from patient) LIKE '%Calabar%South%'       THEN '136'     
+WHEN (select addrlga from patient) LIKE '%Chanchaga%'           THEN '137'     
+WHEN (select addrlga from patient) LIKE '%Charanchi%'           THEN '138'     
+WHEN (select addrlga from patient) LIKE '%Chibok%'              THEN '139'     
+WHEN (select addrlga from patient) LIKE '%Chikun%'              THEN '140'     
+WHEN (select addrlga from patient) LIKE '%Dala%'                THEN '141'     
+WHEN (select addrlga from patient) LIKE '%Damaturu%'            THEN '142'     
+WHEN (select addrlga from patient) LIKE '%Damban%'              THEN '143'     
+WHEN (select addrlga from patient) LIKE '%Dambatta%'            THEN '144'     
+WHEN (select addrlga from patient) LIKE '%Damboa%'              THEN '145'     
+WHEN (select addrlga from patient) LIKE '%Dandi%'               THEN '146'     
+WHEN (select addrlga from patient) LIKE '%Dandume%'             THEN '147'     
+WHEN (select addrlga from patient) LIKE '%Dange%Shuni%'         THEN '148'     
+WHEN (select addrlga from patient) LIKE '%Danja%'               THEN '149'     
+WHEN (select addrlga from patient) LIKE '%Dan%Musa%'            THEN '150'     
+WHEN (select addrlga from patient) LIKE '%Darazo%'              THEN '151'     
+WHEN (select addrlga from patient) LIKE '%Dass%'                THEN '152'     
+WHEN (select addrlga from patient) LIKE '%Daura%'               THEN '153'     
+WHEN (select addrlga from patient) LIKE '%Dawakin%Kudu%'        THEN '154'     
+WHEN (select addrlga from patient) LIKE '%Dawakin%Tofa%'        THEN '155'     
+WHEN (select addrlga from patient) LIKE '%Degema%'              THEN '156'     
+WHEN (select addrlga from patient) LIKE '%Dekina%'              THEN '157'     
+WHEN (select addrlga from patient) LIKE '%Demsa%'               THEN '158'     
+WHEN (select addrlga from patient) LIKE '%Dikwa%'               THEN '159'     
+WHEN (select addrlga from patient) LIKE '%Doguwa%'              THEN '160'     
+WHEN (select addrlga from patient) LIKE '%Doma%'                THEN '161'     
+WHEN (select addrlga from patient) LIKE '%Donga%'               THEN '162'     
+WHEN (select addrlga from patient) LIKE '%Dukku%'               THEN '163'     
+WHEN (select addrlga from patient) LIKE '%Dunukofia%'           THEN '164'     
+WHEN (select addrlga from patient) LIKE '%Dutse%'               THEN '165'     
+WHEN (select addrlga from patient) LIKE '%Dutsi%'               THEN '166'     
+WHEN (select addrlga from patient) LIKE '%Dutsin%Ma%'           THEN '167'     
+WHEN (select addrlga from patient) LIKE '%Eastern%Obolo%'       THEN '168'     
+WHEN (select addrlga from patient) LIKE '%Ebonyi%'              THEN '169'     
+WHEN (select addrlga from patient) LIKE '%Edati%'               THEN '170'     
+WHEN (select addrlga from patient) LIKE '%Ede%North%'           THEN '171'     
+WHEN (select addrlga from patient) LIKE '%Ede%South%'           THEN '172'     
+WHEN (select addrlga from patient) LIKE '%Edu%'                 THEN '173'     
+WHEN (select addrlga from patient) LIKE '%Ife%Central%'         THEN '174'     
+WHEN (select addrlga from patient) LIKE '%Ife%East%'            THEN '175'     
+WHEN (select addrlga from patient) LIKE '%Ife%North%'           THEN '176'     
+WHEN (select addrlga from patient) LIKE '%Ife%South%'           THEN '177'     
+WHEN (select addrlga from patient) LIKE '%Efon%'                THEN '178'     
+WHEN (select addrlga from patient) LIKE '%Egbado%North%'        THEN '179'     
+WHEN (select addrlga from patient) LIKE '%Egbado%South%'        THEN '180'     
+WHEN (select addrlga from patient) LIKE '%Egbeda%'              THEN '181'     
+WHEN (select addrlga from patient) LIKE '%Egbedore%'            THEN '182'     
+WHEN (select addrlga from patient) LIKE '%Egor%'                THEN '183'     
+WHEN (select addrlga from patient) LIKE '%Ehime%Mbano%'         THEN '184'     
+WHEN (select addrlga from patient) LIKE '%Ejigbo%'              THEN '185'     
+WHEN (select addrlga from patient) LIKE '%Ekeremor%'            THEN '186'     
+WHEN (select addrlga from patient) LIKE '%Eket%'                THEN '187'     
+WHEN (select addrlga from patient) LIKE '%Ekiti%'               THEN '188'     
+WHEN (select addrlga from patient) LIKE '%Ekiti%East%'          THEN '189'     
+WHEN (select addrlga from patient) LIKE '%Ekiti%South-West%'    THEN '190'     
+WHEN (select addrlga from patient) LIKE '%Ekiti%West%'          THEN '191'     
+WHEN (select addrlga from patient) LIKE '%Ekwusigo%'            THEN '192'     
+WHEN (select addrlga from patient) LIKE '%Eleme%'               THEN '193'     
+WHEN (select addrlga from patient) LIKE '%Emuoha%'              THEN '194'     
+WHEN (select addrlga from patient) LIKE '%Emure%'               THEN '195'     
+WHEN (select addrlga from patient) LIKE '%Enugu%East%'          THEN '196'     
+WHEN (select addrlga from patient) LIKE '%Enugu%North%'         THEN '197'     
+WHEN (select addrlga from patient) LIKE '%Enugu%South%'         THEN '198'     
+WHEN (select addrlga from patient) LIKE '%Epe%'                 THEN '199'     
+WHEN (select addrlga from patient) LIKE '%Esan%Central%'        THEN '200'     
+WHEN (select addrlga from patient) LIKE '%Esan%North%East%'     THEN '201'     
+WHEN (select addrlga from patient) LIKE '%Esan%South%East%'     THEN '202'     
+WHEN (select addrlga from patient) LIKE '%Esan%West%'           THEN '203'     
+WHEN (select addrlga from patient) LIKE '%Ese%Odo%'             THEN '204'     
+WHEN (select addrlga from patient) LIKE '%Esit%Eket%'           THEN '205'     
+WHEN (select addrlga from patient) LIKE '%Essien%Udim%'         THEN '206'     
+WHEN (select addrlga from patient) LIKE '%Etche%'               THEN '207'     
+WHEN (select addrlga from patient) LIKE '%Ethiope%East%'        THEN '208'     
+WHEN (select addrlga from patient) LIKE '%Ethiope%West%'        THEN '209'     
+WHEN (select addrlga from patient) LIKE '%Etim%Ekpo%'           THEN '210'     
+WHEN (select addrlga from patient) LIKE '%Etinan%'              THEN '211'     
+WHEN (select addrlga from patient) LIKE '%Eti%Osa%'             THEN '212'     
+WHEN (select addrlga from patient) LIKE '%Etsako%Central%'      THEN '213'     
+WHEN (select addrlga from patient) LIKE '%Etsako%East%'         THEN '214'     
+WHEN (select addrlga from patient) LIKE '%Etsako%West%'         THEN '215'     
+WHEN (select addrlga from patient) LIKE '%Etung%'               THEN '216'     
+WHEN (select addrlga from patient) LIKE '%Ewekoro%'             THEN '217'     
+WHEN (select addrlga from patient) LIKE '%Ezeagu%'              THEN '218'     
+WHEN (select addrlga from patient) LIKE '%Ezinihitte%'          THEN '219'     
+WHEN (select addrlga from patient) LIKE '%Ezza%North%'          THEN '220'     
+WHEN (select addrlga from patient) LIKE '%Ezza%South%'          THEN '221'     
+WHEN (select addrlga from patient) LIKE '%Fagge%'               THEN '222'     
+WHEN (select addrlga from patient) LIKE '%Fakai%'               THEN '223'     
+WHEN (select addrlga from patient) LIKE '%Faskari%'             THEN '224'     
+WHEN (select addrlga from patient) LIKE '%Fika%'                THEN '225'     
+WHEN (select addrlga from patient) LIKE '%Fufure%'              THEN '226'     
+WHEN (select addrlga from patient) LIKE '%Funakaye%'            THEN '227'     
+WHEN (select addrlga from patient) LIKE '%Fune%'                THEN '228'     
+WHEN (select addrlga from patient) LIKE '%Funtua%'              THEN '229'     
+WHEN (select addrlga from patient) LIKE '%Gabasawa%'            THEN '230'     
+WHEN (select addrlga from patient) LIKE '%Gada%'                THEN '231'     
+WHEN (select addrlga from patient) LIKE '%Gagarawa%'            THEN '232'     
+WHEN (select addrlga from patient) LIKE '%Gamawa%'              THEN '233'     
+WHEN (select addrlga from patient) LIKE '%Ganjuwa%'             THEN '234'     
+WHEN (select addrlga from patient) LIKE '%Ganye%'               THEN '235'     
+WHEN (select addrlga from patient) LIKE '%Garki%'               THEN '236'     
+WHEN (select addrlga from patient) LIKE '%Garko%'               THEN '237'     
+WHEN (select addrlga from patient) LIKE '%Garun%Mallam%'        THEN '238'     
+WHEN (select addrlga from patient) LIKE '%Gashaka%'             THEN '239'     
+WHEN (select addrlga from patient) LIKE '%Gassol%'              THEN '240'     
+WHEN (select addrlga from patient) LIKE '%Gaya%'                THEN '241'     
+WHEN (select addrlga from patient) LIKE '%Gayuk%'               THEN '242'     
+WHEN (select addrlga from patient) LIKE '%Gezawa%'              THEN '243'     
+WHEN (select addrlga from patient) LIKE '%Gbako%'               THEN '244'     
+WHEN (select addrlga from patient) LIKE '%Gboko%'               THEN '245'     
+WHEN (select addrlga from patient) LIKE '%Gbonyin%'             THEN '246'     
+WHEN (select addrlga from patient) LIKE '%Geidam%'              THEN '247'     
+WHEN (select addrlga from patient) LIKE '%Giade%'               THEN '248'     
+WHEN (select addrlga from patient) LIKE '%Giwa%'                THEN '249'     
+WHEN (select addrlga from patient) LIKE '%Gokana%'              THEN '250'     
+WHEN (select addrlga from patient) LIKE '%Gombe%'               THEN '251'     
+WHEN (select addrlga from patient) LIKE '%Gombi%'               THEN '252'     
+WHEN (select addrlga from patient) LIKE '%Goronyo%'             THEN '253'     
+WHEN (select addrlga from patient) LIKE '%Grie%'                THEN '254'     
+WHEN (select addrlga from patient) LIKE '%Gubio%'               THEN '255'     
+WHEN (select addrlga from patient) LIKE '%Gudu%'                THEN '256'     
+WHEN (select addrlga from patient) LIKE '%Gujba%'               THEN '257'     
+WHEN (select addrlga from patient) LIKE '%Gulani%'              THEN '258'     
+WHEN (select addrlga from patient) LIKE '%Guma%'                THEN '259'     
+WHEN (select addrlga from patient) LIKE '%Gumel%'               THEN '260'     
+WHEN (select addrlga from patient) LIKE '%Gummi%'               THEN '261'     
+WHEN (select addrlga from patient) LIKE '%Gurara%'              THEN '262'     
+WHEN (select addrlga from patient) LIKE '%Guri%'                THEN '263'     
+WHEN (select addrlga from patient) LIKE '%Gusau%'               THEN '264'     
+WHEN (select addrlga from patient) LIKE '%Guzamala%'            THEN '265'     
+WHEN (select addrlga from patient) LIKE '%Gwadabawa%'           THEN '266'     
+WHEN (select addrlga from patient) LIKE '%Gwagwalada%'          THEN '267'     
+WHEN (select addrlga from patient) LIKE '%Gwale%'               THEN '268'     
+WHEN (select addrlga from patient) LIKE '%Gwandu%'              THEN '269'     
+WHEN (select addrlga from patient) LIKE '%Gwaram%'              THEN '270'     
+WHEN (select addrlga from patient) LIKE '%Gwarzo%'              THEN '271'     
+WHEN (select addrlga from patient) LIKE '%Gwer%East%'           THEN '272'     
+WHEN (select addrlga from patient) LIKE '%Gwer%West%'           THEN '273'     
+WHEN (select addrlga from patient) LIKE '%Gwiwa%'               THEN '274'     
+WHEN (select addrlga from patient) LIKE '%Gwoza%'               THEN '275'     
+WHEN (select addrlga from patient) LIKE '%Hadejia%'             THEN '276'     
+WHEN (select addrlga from patient) LIKE '%Hawul%'               THEN '277'     
+WHEN (select addrlga from patient) LIKE '%Hong%'                THEN '278'     
+WHEN (select addrlga from patient) LIKE '%Ibadan%North%'        THEN '279'     
+WHEN (select addrlga from patient) LIKE '%Ibadan%North%East%'   THEN '280'     
+WHEN (select addrlga from patient) LIKE '%Ibadan%North%West%'   THEN '281'     
+WHEN (select addrlga from patient) LIKE '%Ibadan%South%East%'   THEN '282'     
+WHEN (select addrlga from patient) LIKE '%Ibadan%South%West%'   THEN '283'     
+WHEN (select addrlga from patient) LIKE '%Ibaji%'               THEN '284'     
+WHEN (select addrlga from patient) LIKE '%Ibarapa%Central%'     THEN '285'     
+WHEN (select addrlga from patient) LIKE '%Ibarapa%East%'        THEN '286'     
+WHEN (select addrlga from patient) LIKE '%Ibarapa%North%'       THEN '287'     
+WHEN (select addrlga from patient) LIKE '%Ibeju%Lekki%'         THEN '288'     
+WHEN (select addrlga from patient) LIKE '%Ibeno%'               THEN '289'     
+WHEN (select addrlga from patient) LIKE '%Ibesikpo%Asutan%'     THEN '290'     
+WHEN (select addrlga from patient) LIKE '%Ibi%'                 THEN '291'     
+WHEN (select addrlga from patient) LIKE '%Ibiono%Ibom%'         THEN '292'     
+WHEN (select addrlga from patient) LIKE '%Idah%'                THEN '293'     
+WHEN (select addrlga from patient) LIKE '%Idanre%'              THEN '294'     
+WHEN (select addrlga from patient) LIKE '%Ideato%North%'        THEN '295'     
+WHEN (select addrlga from patient) LIKE '%Ideato%South%'        THEN '296'     
+WHEN (select addrlga from patient) LIKE '%Idemili%North%'       THEN '297'     
+WHEN (select addrlga from patient) LIKE '%Idemili%South%'       THEN '298'     
+WHEN (select addrlga from patient) LIKE '%Ido%'                 THEN '299'     
+WHEN (select addrlga from patient) LIKE '%Ido%Osi%'             THEN '300'     
+WHEN (select addrlga from patient) LIKE '%Ifako%Ijaiye%'        THEN '301'     
+WHEN (select addrlga from patient) LIKE '%Ifedayo%'             THEN '302'     
+WHEN (select addrlga from patient) LIKE '%Ifedore%'             THEN '303'     
+WHEN (select addrlga from patient) LIKE '%Ifelodun%'            THEN '304'     
+WHEN (select addrlga from patient) LIKE '%Ifelodun%'            THEN '305'     
+WHEN (select addrlga from patient) LIKE '%Ifo%'                 THEN '306'     
+WHEN (select addrlga from patient) LIKE '%Igabi%'               THEN '307'     
+WHEN (select addrlga from patient) LIKE '%Igalamela%Odolu%'     THEN '308'     
+WHEN (select addrlga from patient) LIKE '%Igbo%Etiti%'          THEN '309'     
+WHEN (select addrlga from patient) LIKE '%Igbo%Eze%North%'      THEN '310'     
+WHEN (select addrlga from patient) LIKE '%Igbo%Eze%South%'      THEN '311'     
+WHEN (select addrlga from patient) LIKE '%Igueben%'             THEN '312'     
+WHEN (select addrlga from patient) LIKE '%Ihiala%'              THEN '313'     
+WHEN (select addrlga from patient) LIKE '%Ihitte%Uboma%'        THEN '314'     
+WHEN (select addrlga from patient) LIKE '%Ilaje%'               THEN '315'     
+WHEN (select addrlga from patient) LIKE '%Ijebu%East%'          THEN '316'     
+WHEN (select addrlga from patient) LIKE '%Ijebu%North%'         THEN '317'     
+WHEN (select addrlga from patient) LIKE '%Ijebu%North East%'    THEN '318'     
+WHEN (select addrlga from patient) LIKE '%Ijebu%Ode%'           THEN '319'     
+WHEN (select addrlga from patient) LIKE '%Ijero%'               THEN '320'     
+WHEN (select addrlga from patient) LIKE '%Ijumu%'               THEN '321'     
+WHEN (select addrlga from patient) LIKE '%Ika%'                 THEN '322'     
+WHEN (select addrlga from patient) LIKE '%Ika%North%East%'      THEN '323'     
+WHEN (select addrlga from patient) LIKE '%Ikara%'               THEN '324'     
+WHEN (select addrlga from patient) LIKE '%Ika%South%'           THEN '325'     
+WHEN (select addrlga from patient) LIKE '%Ikeduru%'             THEN '326'     
+WHEN (select addrlga from patient) LIKE '%Ikeja%'               THEN '327'     
+WHEN (select addrlga from patient) LIKE '%Ikenne%'              THEN '328'     
+WHEN (select addrlga from patient) LIKE '%Ikere%'               THEN '329'     
+WHEN (select addrlga from patient) LIKE '%Ikole%'               THEN '330'     
+WHEN (select addrlga from patient) LIKE '%Ikom%'                THEN '331'     
+WHEN (select addrlga from patient) LIKE '%Ikono%'               THEN '332'     
+WHEN (select addrlga from patient) LIKE '%Ikorodu%'             THEN '333'     
+WHEN (select addrlga from patient) LIKE '%Ikot%Abasi%'          THEN '334'     
+WHEN (select addrlga from patient) LIKE '%Ikot%Ekpene%'         THEN '335'     
+WHEN (select addrlga from patient) LIKE '%Ikpoba%Okha%'         THEN '336'     
+WHEN (select addrlga from patient) LIKE '%Ikwerre%'             THEN '337'     
+WHEN (select addrlga from patient) LIKE '%Ikwo%'                THEN '338'     
+WHEN (select addrlga from patient) LIKE '%Ikwuano%'             THEN '339'     
+WHEN (select addrlga from patient) LIKE '%Ila%'                 THEN '340'     
+WHEN (select addrlga from patient) LIKE '%Ilejemeje%'           THEN '341'     
+WHEN (select addrlga from patient) LIKE '%Ile%Oluji%Okeigbo%'   THEN '342'     
+WHEN (select addrlga from patient) LIKE '%Ilesa%East%'          THEN '343'     
+WHEN (select addrlga from patient) LIKE '%Ilesa%West%'          THEN '344'     
+WHEN (select addrlga from patient) LIKE '%Illela%'              THEN '345'     
+WHEN (select addrlga from patient) LIKE '%Ilorin%East%'         THEN '346'     
+WHEN (select addrlga from patient) LIKE '%Ilorin%South%'        THEN '347'     
+WHEN (select addrlga from patient) LIKE '%Ilorin%West%'         THEN '348'     
+WHEN (select addrlga from patient) LIKE '%Imeko%Afon%'          THEN '349'     
+WHEN (select addrlga from patient) LIKE '%Ingawa%'              THEN '350'     
+WHEN (select addrlga from patient) LIKE '%Ini%'                 THEN '351'     
+WHEN (select addrlga from patient) LIKE '%Ipokia%'              THEN '352'     
+WHEN (select addrlga from patient) LIKE '%Irele%'               THEN '353'     
+WHEN (select addrlga from patient) LIKE '%Irepo%'               THEN '354'     
+WHEN (select addrlga from patient) LIKE '%Irepodun%'            THEN '355'     
+WHEN (select addrlga from patient) LIKE '%Irepodun%'            THEN '356'     
+WHEN (select addrlga from patient) LIKE '%Irepodun%Ifelodun%'   THEN '357'     
+WHEN (select addrlga from patient) LIKE '%Irewole%'             THEN '358'     
+WHEN (select addrlga from patient) LIKE '%Isa%'                 THEN '359'     
+WHEN (select addrlga from patient) LIKE '%Ise%Orun%'            THEN '360'     
+WHEN (select addrlga from patient) LIKE '%Iseyin%'              THEN '361'     
+WHEN (select addrlga from patient) LIKE '%Ishielu%'             THEN '362'     
+WHEN (select addrlga from patient) LIKE '%Isiala%Mbano%'        THEN '363'     
+WHEN (select addrlga from patient) LIKE '%Isiala%Ngwa%North%'   THEN '364'     
+WHEN (select addrlga from patient) LIKE '%Isiala%Ngwa%South%'   THEN '365'     
+WHEN (select addrlga from patient) LIKE '%Isin%'                THEN '366'     
+WHEN (select addrlga from patient) LIKE '%Isi%Uzo%'             THEN '367'     
+WHEN (select addrlga from patient) LIKE '%Isokan%'              THEN '368'     
+WHEN (select addrlga from patient) LIKE '%Isoko%North%'         THEN '369'     
+WHEN (select addrlga from patient) LIKE '%Isoko%South%'         THEN '370'     
+WHEN (select addrlga from patient) LIKE '%Isu%'                 THEN '371'     
+WHEN (select addrlga from patient) LIKE '%Isuikwuato%'          THEN '372'     
+WHEN (select addrlga from patient) LIKE '%Itas%Gadau%'          THEN '373'     
+WHEN (select addrlga from patient) LIKE '%Itesiwaju%'           THEN '374'     
+WHEN (select addrlga from patient) LIKE '%Itu%'                 THEN '375'     
+WHEN (select addrlga from patient) LIKE '%Ivo%'                 THEN '376'     
+WHEN (select addrlga from patient) LIKE '%Iwajowa%'             THEN '377'     
+WHEN (select addrlga from patient) LIKE '%Iwo%'                 THEN '378'     
+WHEN (select addrlga from patient) LIKE '%Izzi%'                THEN '379'     
+WHEN (select addrlga from patient) LIKE '%Jaba%'                THEN '380'     
+WHEN (select addrlga from patient) LIKE '%Jada%'                THEN '381'     
+WHEN (select addrlga from patient) LIKE '%Jahun%'               THEN '382'     
+WHEN (select addrlga from patient) LIKE '%Jakusko%'             THEN '383'     
+WHEN (select addrlga from patient) LIKE '%Jalingo%'             THEN '384'     
+WHEN (select addrlga from patient) LIKE '%Jama%are%'            THEN '385'     
+WHEN (select addrlga from patient) LIKE '%Jega%'                THEN '386'     
+WHEN (select addrlga from patient) LIKE '%Jema%a%'              THEN '387'     
+WHEN (select addrlga from patient) LIKE '%Jere%'                THEN '388'     
+WHEN (select addrlga from patient) LIKE '%Jibia%'               THEN '389'     
+WHEN (select addrlga from patient) LIKE '%Jos%East%'            THEN '390'     
+WHEN (select addrlga from patient) LIKE '%Jos%North%'           THEN '391'     
+WHEN (select addrlga from patient) LIKE '%Jos%South%'           THEN '392'     
+WHEN (select addrlga from patient) LIKE '%Kabba%Bunu%'          THEN '393'     
+WHEN (select addrlga from patient) LIKE '%Kabo%'                THEN '394'     
+WHEN (select addrlga from patient) LIKE '%Kachia%'              THEN '395'     
+WHEN (select addrlga from patient) LIKE '%Kaduna%North%'        THEN '396'     
+WHEN (select addrlga from patient) LIKE '%Kaduna%South%'        THEN '397'     
+WHEN (select addrlga from patient) LIKE '%Kafin%Hausa%'         THEN '398'     
+WHEN (select addrlga from patient) LIKE '%Kafur%'               THEN '399'     
+WHEN (select addrlga from patient) LIKE '%Kaga%'                THEN '400'     
+WHEN (select addrlga from patient) LIKE '%Kagarko%'             THEN '401'     
+WHEN (select addrlga from patient) LIKE '%Kaiama%'              THEN '402'     
+WHEN (select addrlga from patient) LIKE '%Kaita%'               THEN '403'     
+WHEN (select addrlga from patient) LIKE '%Kajola%'              THEN '404'     
+WHEN (select addrlga from patient) LIKE '%Kajuru%'              THEN '405'     
+WHEN (select addrlga from patient) LIKE '%Kala%Balge%'          THEN '406'     
+WHEN (select addrlga from patient) LIKE '%Kalgo%'               THEN '407'     
+WHEN (select addrlga from patient) LIKE '%Kaltungo%'            THEN '408'     
+WHEN (select addrlga from patient) LIKE '%Kanam%'               THEN '409'     
+WHEN (select addrlga from patient) LIKE '%Kankara%'             THEN '410'     
+WHEN (select addrlga from patient) LIKE '%Kanke%'               THEN '411'     
+WHEN (select addrlga from patient) LIKE '%Kankia%'              THEN '412'     
+WHEN (select addrlga from patient) LIKE '%Kano%Municipal%'      THEN '413'     
+WHEN (select addrlga from patient) LIKE '%Karasuwa%'            THEN '414'     
+WHEN (select addrlga from patient) LIKE '%Karaye%'              THEN '415'     
+WHEN (select addrlga from patient) LIKE '%Karim%Lamido%'        THEN '416'     
+WHEN (select addrlga from patient) LIKE '%Karu%'                THEN '417'     
+WHEN (select addrlga from patient) LIKE '%Katagum%'             THEN '418'     
+WHEN (select addrlga from patient) LIKE '%Katcha%'              THEN '419'     
+WHEN (select addrlga from patient) LIKE '%Katsina%'             THEN '420'     
+WHEN (select addrlga from patient) LIKE '%Katsina%Ala%'         THEN '421'     
+WHEN (select addrlga from patient) LIKE '%Kaura%'               THEN '422'     
+WHEN (select addrlga from patient) LIKE '%Kaura%Namoda%'        THEN '423'     
+WHEN (select addrlga from patient) LIKE '%Kauru%'               THEN '424'     
+WHEN (select addrlga from patient) LIKE '%Kazaure%'             THEN '425'     
+WHEN (select addrlga from patient) LIKE '%Keana%'               THEN '426'     
+WHEN (select addrlga from patient) LIKE '%Kebbe%'               THEN '427'     
+WHEN (select addrlga from patient) LIKE '%Keffi%'               THEN '428'     
+WHEN (select addrlga from patient) LIKE '%Khana%'               THEN '429'     
+WHEN (select addrlga from patient) LIKE '%Kibiya%'              THEN '430'     
+WHEN (select addrlga from patient) LIKE '%Kirfi%'               THEN '431'     
+WHEN (select addrlga from patient) LIKE '%Kiri%Kasama%'         THEN '432'     
+WHEN (select addrlga from patient) LIKE '%Kiru%'                THEN '433'     
+WHEN (select addrlga from patient) LIKE '%Kiyawa%'              THEN '434'     
+WHEN (select addrlga from patient) LIKE '%Kogi%'                THEN '435'     
+WHEN (select addrlga from patient) LIKE '%Koko%Besse%'          THEN '436'     
+WHEN (select addrlga from patient) LIKE '%Kokona%'              THEN '437'     
+WHEN (select addrlga from patient) LIKE '%Kolokuma%Opokuma%'    THEN '438'     
+WHEN (select addrlga from patient) LIKE '%Konduga%'             THEN '439'     
+WHEN (select addrlga from patient) LIKE '%Konshisha%'           THEN '440'     
+WHEN (select addrlga from patient) LIKE '%Kontagora%'           THEN '441'     
+WHEN (select addrlga from patient) LIKE '%Kosofe%'              THEN '442'     
+WHEN (select addrlga from patient) LIKE '%Kaugama%'             THEN '443'     
+WHEN (select addrlga from patient) LIKE '%Kubau%'               THEN '444'     
+WHEN (select addrlga from patient) LIKE '%Kudan%'               THEN '445'     
+WHEN (select addrlga from patient) LIKE '%Kuje%'                THEN '446'     
+WHEN (select addrlga from patient) LIKE '%Kukawa%'              THEN '447'     
+WHEN (select addrlga from patient) LIKE '%Kumbotso%'            THEN '448'     
+WHEN (select addrlga from patient) LIKE '%Kumi%'                THEN '449'     
+WHEN (select addrlga from patient) LIKE '%Kunchi%'              THEN '450'     
+WHEN (select addrlga from patient) LIKE '%Kura%'                THEN '451'     
+WHEN (select addrlga from patient) LIKE '%Kurfi%'               THEN '452'     
+WHEN (select addrlga from patient) LIKE '%Kusada%'              THEN '453'     
+WHEN (select addrlga from patient) LIKE '%Kwali%'               THEN '454'     
+WHEN (select addrlga from patient) LIKE '%Kwande%'              THEN '455'     
+WHEN (select addrlga from patient) LIKE '%Kwami%'               THEN '456'     
+WHEN (select addrlga from patient) LIKE '%Kware%'               THEN '457'     
+WHEN (select addrlga from patient) LIKE '%Kwaya%Kusar%'         THEN '458'     
+WHEN (select addrlga from patient) LIKE '%Lafia%'               THEN '459'     
+WHEN (select addrlga from patient) LIKE '%Lagelu%'              THEN '460'     
+WHEN (select addrlga from patient) LIKE '%Lagos%Island%'        THEN '461'     
+WHEN (select addrlga from patient) LIKE '%Lagos%Mainland%'      THEN '462'     
+WHEN (select addrlga from patient) LIKE '%Langtang%South%'      THEN '463'     
+WHEN (select addrlga from patient) LIKE '%Langtang%North%'      THEN '464'     
+WHEN (select addrlga from patient) LIKE '%Lapai%'               THEN '465'     
+WHEN (select addrlga from patient) LIKE '%Larmurde%'            THEN '466'     
+WHEN (select addrlga from patient) LIKE '%Lau%'                 THEN '467'     
+WHEN (select addrlga from patient) LIKE '%Lavun%'               THEN '468'     
+WHEN (select addrlga from patient) LIKE '%Lere%'                THEN '469'     
+WHEN (select addrlga from patient) LIKE '%Logo%'                THEN '470'     
+WHEN (select addrlga from patient) LIKE '%Lokoja%'              THEN '471'     
+WHEN (select addrlga from patient) LIKE '%Machina%'             THEN '472'     
+WHEN (select addrlga from patient) LIKE '%Madagali%'            THEN '473'     
+WHEN (select addrlga from patient) LIKE '%Madobi%'              THEN '474'     
+WHEN (select addrlga from patient) LIKE '%Mafa%'                THEN '475'     
+WHEN (select addrlga from patient) LIKE '%Magama%'              THEN '476'     
+WHEN (select addrlga from patient) LIKE '%Magumeri%'            THEN '477'     
+WHEN (select addrlga from patient) LIKE '%Mai%Adua%'            THEN '478'     
+WHEN (select addrlga from patient) LIKE '%Maiduguri%'           THEN '479'     
+WHEN (select addrlga from patient) LIKE '%Maigatari%'           THEN '480'     
+WHEN (select addrlga from patient) LIKE '%Maiha%'               THEN '481'     
+WHEN (select addrlga from patient) LIKE '%Maiyama%'             THEN '482'     
+WHEN (select addrlga from patient) LIKE '%Makarfi%'             THEN '483'     
+WHEN (select addrlga from patient) LIKE '%Makoda%'              THEN '484'     
+WHEN (select addrlga from patient) LIKE '%Malam%Madori%'        THEN '485'     
+WHEN (select addrlga from patient) LIKE '%Malumfashi%'          THEN '486'     
+WHEN (select addrlga from patient) LIKE '%Mangu%'               THEN '487'     
+WHEN (select addrlga from patient) LIKE '%Mani%'                THEN '488'     
+WHEN (select addrlga from patient) LIKE '%Maradun%'             THEN '489'     
+WHEN (select addrlga from patient) LIKE '%Mariga%'              THEN '490'     
+WHEN (select addrlga from patient) LIKE '%Makurdi%'             THEN '491'     
+WHEN (select addrlga from patient) LIKE '%Marte%'               THEN '492'     
+WHEN (select addrlga from patient) LIKE '%Maru%'                THEN '493'     
+WHEN (select addrlga from patient) LIKE '%Mashegu%'             THEN '494'     
+WHEN (select addrlga from patient) LIKE '%Mashi%'               THEN '495'     
+WHEN (select addrlga from patient) LIKE '%Matazu%'              THEN '496'     
+WHEN (select addrlga from patient) LIKE '%Mayo%Belwa%'          THEN '497'     
+WHEN (select addrlga from patient) LIKE '%Mbaitoli%'            THEN '498'     
+WHEN (select addrlga from patient) LIKE '%Mbo%'                 THEN '499'     
+WHEN (select addrlga from patient) LIKE '%Michika%'             THEN '500'     
+WHEN (select addrlga from patient) LIKE '%Miga%'                THEN '501'     
+WHEN (select addrlga from patient) LIKE '%Mikang%'              THEN '502'     
+WHEN (select addrlga from patient) LIKE '%Minjibir%'            THEN '503'     
+WHEN (select addrlga from patient) LIKE '%Misau%'               THEN '504'     
+WHEN (select addrlga from patient) LIKE '%Moba%'                THEN '505'     
+WHEN (select addrlga from patient) LIKE '%Mobbar%'              THEN '506'     
+WHEN (select addrlga from patient) LIKE '%Mubi%North%'          THEN '507'     
+WHEN (select addrlga from patient) LIKE '%Mubi%South%'          THEN '508'     
+WHEN (select addrlga from patient) LIKE '%Mokwa%'               THEN '509'     
+WHEN (select addrlga from patient) LIKE '%Monguno%'             THEN '510'     
+WHEN (select addrlga from patient) LIKE '%Mopa%Muro%'           THEN '511'     
+WHEN (select addrlga from patient) LIKE '%Moro%'                THEN '512'     
+WHEN (select addrlga from patient) LIKE '%Moya%'                THEN '513'     
+WHEN (select addrlga from patient) LIKE '%Mkpat%Enin%'          THEN '514'     
+WHEN (select addrlga from patient) LIKE '%AMAC%'                THEN '515'     
+WHEN (select addrlga from patient) LIKE '%Musawa%'              THEN '516'     
+WHEN (select addrlga from patient) LIKE '%Mushin%'              THEN '517'     
+WHEN (select addrlga from patient) LIKE '%Nafada%'              THEN '518'     
+WHEN (select addrlga from patient) LIKE '%Nangere%'             THEN '519'     
+WHEN (select addrlga from patient) LIKE '%Nasarawa%'            THEN '520'     
+WHEN (select addrlga from patient) LIKE '%Nasarawa%'            THEN '521'     
+WHEN (select addrlga from patient) LIKE '%Nasarawa%Egon%'       THEN '522'     
+WHEN (select addrlga from patient) LIKE '%Ndokwa%East%'         THEN '523'     
+WHEN (select addrlga from patient) LIKE '%Ndokwa%West%'         THEN '524'     
+WHEN (select addrlga from patient) LIKE '%Nembe%'               THEN '525'     
+WHEN (select addrlga from patient) LIKE '%Ngala%'               THEN '526'     
+WHEN (select addrlga from patient) LIKE '%Nganzai%'             THEN '527'     
+WHEN (select addrlga from patient) LIKE '%Ngaski%'              THEN '528'     
+WHEN (select addrlga from patient) LIKE '%Ngor%Okpala%'         THEN '529'     
+WHEN (select addrlga from patient) LIKE '%Nguru%'               THEN '530'     
+WHEN (select addrlga from patient) LIKE '%Ningi%'               THEN '531'     
+WHEN (select addrlga from patient) LIKE '%Njaba%'               THEN '532'     
+WHEN (select addrlga from patient) LIKE '%Njikoka%'             THEN '533'     
+WHEN (select addrlga from patient) LIKE '%Nkanu%East%'          THEN '534'     
+WHEN (select addrlga from patient) LIKE '%Nkanu%West%'          THEN '535'     
+WHEN (select addrlga from patient) LIKE '%Nkwerre%'             THEN '536'     
+WHEN (select addrlga from patient) LIKE '%Nnewi%North%'         THEN '537'     
+WHEN (select addrlga from patient) LIKE '%Nnewi%South%'         THEN '538'     
+WHEN (select addrlga from patient) LIKE '%Nsit%Atai%'           THEN '539'     
+WHEN (select addrlga from patient) LIKE '%Nsit%Ibom%'           THEN '540'     
+WHEN (select addrlga from patient) LIKE '%Nsit%Ubium%'          THEN '541'     
+WHEN (select addrlga from patient) LIKE '%Nsukka%'              THEN '542'     
+WHEN (select addrlga from patient) LIKE '%Numan%'               THEN '543'     
+WHEN (select addrlga from patient) LIKE '%Nwangele%'            THEN '544'     
+WHEN (select addrlga from patient) LIKE '%Obafemi Owode%'       THEN '545'     
+WHEN (select addrlga from patient) LIKE '%Obanliku%'            THEN '546'     
+WHEN (select addrlga from patient) LIKE '%Obi%'                 THEN '547'     
+WHEN (select addrlga from patient) LIKE '%Obi%'                 THEN '548'     
+WHEN (select addrlga from patient) LIKE '%Obi%Ngwa%'            THEN '549'     
+WHEN (select addrlga from patient) LIKE '%Obio%Akpor%'          THEN '550'     
+WHEN (select addrlga from patient) LIKE '%Obokun%'              THEN '551'     
+WHEN (select addrlga from patient) LIKE '%Obot%Akara%'          THEN '552'     
+WHEN (select addrlga from patient) LIKE '%Obowo%'               THEN '553'     
+WHEN (select addrlga from patient) LIKE '%Obubra%'              THEN '554'     
+WHEN (select addrlga from patient) LIKE '%Obudu%'               THEN '555'     
+WHEN (select addrlga from patient) LIKE '%Odeda%'               THEN '556'     
+WHEN (select addrlga from patient) LIKE '%Odigbo%'              THEN '557'     
+WHEN (select addrlga from patient) LIKE '%Odogbolu%'            THEN '558'     
+WHEN (select addrlga from patient) LIKE '%Odo%Otin%'            THEN '559'     
+WHEN (select addrlga from patient) LIKE '%Odukpani%'            THEN '560'     
+WHEN (select addrlga from patient) LIKE '%Offa%'                THEN '561'     
+WHEN (select addrlga from patient) LIKE '%Ofu%'                 THEN '562'     
+WHEN (select addrlga from patient) LIKE '%Ogba%Egbema%Ndoni%'   THEN '563'     
+WHEN (select addrlga from patient) LIKE '%Ogbadibo%'            THEN '564'     
+WHEN (select addrlga from patient) LIKE '%Ogbaru%'              THEN '565'     
+WHEN (select addrlga from patient) LIKE '%Ogbia%'               THEN '566'     
+WHEN (select addrlga from patient) LIKE '%Ogbomosho%North%'     THEN '567'     
+WHEN (select addrlga from patient) LIKE '%Ogbomosho%South%'     THEN '568'     
+WHEN (select addrlga from patient) LIKE '%Ogu%Bolo%'            THEN '569'     
+WHEN (select addrlga from patient) LIKE '%Ogoja%'               THEN '570'     
+WHEN (select addrlga from patient) LIKE '%Ogo%Oluwa%'           THEN '571'     
+WHEN (select addrlga from patient) LIKE '%Ogori%Magongo%'       THEN '572'     
+WHEN (select addrlga from patient) LIKE '%Ogun%Waterside%'      THEN '573'     
+WHEN (select addrlga from patient) LIKE '%Oguta%'               THEN '574'     
+WHEN (select addrlga from patient) LIKE '%Ohafia%'              THEN '575'     
+WHEN (select addrlga from patient) LIKE '%Ohaji%Egbema%'        THEN '576'     
+WHEN (select addrlga from patient) LIKE '%Ohaozara%'            THEN '577'     
+WHEN (select addrlga from patient) LIKE '%Ohaukwu%'             THEN '578'     
+WHEN (select addrlga from patient) LIKE '%Ohimini%'             THEN '579'     
+WHEN (select addrlga from patient) LIKE '%Orhionmwon%'          THEN '580'     
+WHEN (select addrlga from patient) LIKE '%Oji%River%'           THEN '581'     
+WHEN (select addrlga from patient) LIKE '%Ojo%'                 THEN '582'     
+WHEN (select addrlga from patient) LIKE '%Oju%'                 THEN '583'     
+WHEN (select addrlga from patient) LIKE '%Okehi%'               THEN '584'     
+WHEN (select addrlga from patient) LIKE '%Okene%'               THEN '585'     
+WHEN (select addrlga from patient) LIKE '%Oke Ero%'             THEN '586'     
+WHEN (select addrlga from patient) LIKE '%Okigwe%'              THEN '587'     
+WHEN (select addrlga from patient) LIKE '%Okitipupa%'           THEN '588'     
+WHEN (select addrlga from patient) LIKE '%Okobo%'               THEN '589'     
+WHEN (select addrlga from patient) LIKE '%Okpe%'                THEN '590'     
+WHEN (select addrlga from patient) LIKE '%Okrika%'              THEN '591'     
+WHEN (select addrlga from patient) LIKE '%Olamaboro%'           THEN '592'     
+WHEN (select addrlga from patient) LIKE '%Ola%Oluwa%'           THEN '593'     
+WHEN (select addrlga from patient) LIKE '%Olorunda%'            THEN '594'     
+WHEN (select addrlga from patient) LIKE '%Olorunsogo%'          THEN '595'     
+WHEN (select addrlga from patient) LIKE '%Oluyole%'             THEN '596'     
+WHEN (select addrlga from patient) LIKE '%Omala%'               THEN '597'     
+WHEN (select addrlga from patient) LIKE '%Omuma%'               THEN '598'     
+WHEN (select addrlga from patient) LIKE '%Ona%Ara%'             THEN '599'     
+WHEN (select addrlga from patient) LIKE '%Ondo%East%'           THEN '600'     
+WHEN (select addrlga from patient) LIKE '%Ondo%West%'           THEN '601'     
+WHEN (select addrlga from patient) LIKE '%Onicha%'              THEN '602'     
+WHEN (select addrlga from patient) LIKE '%Onitsha%North%'       THEN '603'     
+WHEN (select addrlga from patient) LIKE '%Onitsha%South%'       THEN '604'     
+WHEN (select addrlga from patient) LIKE '%Onna%'                THEN '605'     
+WHEN (select addrlga from patient) LIKE '%Okpokwu%'             THEN '606'     
+WHEN (select addrlga from patient) LIKE '%Opobo%Nkoro%'         THEN '607'     
+WHEN (select addrlga from patient) LIKE '%Oredo%'               THEN '608'     
+WHEN (select addrlga from patient) LIKE '%Orelope%'             THEN '609'     
+WHEN (select addrlga from patient) LIKE '%Oriade%'              THEN '610'     
+WHEN (select addrlga from patient) LIKE '%Ori%Ire%'             THEN '611'     
+WHEN (select addrlga from patient) LIKE '%Orlu%'                THEN '612'     
+WHEN (select addrlga from patient) LIKE '%Orolu%'               THEN '613'     
+WHEN (select addrlga from patient) LIKE '%Oron%'                THEN '614'     
+WHEN (select addrlga from patient) LIKE '%Orsu%'                THEN '615'     
+WHEN (select addrlga from patient) LIKE '%Oru%East%'            THEN '616'     
+WHEN (select addrlga from patient) LIKE '%Oruk%Anam%'           THEN '617'     
+WHEN (select addrlga from patient) LIKE '%Orumba%North%'        THEN '618'     
+WHEN (select addrlga from patient) LIKE '%Orumba%South%'        THEN '619'     
+WHEN (select addrlga from patient) LIKE '%Oru%West%'            THEN '620'     
+WHEN (select addrlga from patient) LIKE '%Ose%'                 THEN '621'     
+WHEN (select addrlga from patient) LIKE '%Oshimili%North%'      THEN '622'     
+WHEN (select addrlga from patient) LIKE '%Oshimili%South%'      THEN '623'     
+WHEN (select addrlga from patient) LIKE '%Oshodi%Isolo%'        THEN '624'     
+WHEN (select addrlga from patient) LIKE '%Osisioma%'            THEN '625'     
+WHEN (select addrlga from patient) LIKE '%Osogbo%'              THEN '626'     
+WHEN (select addrlga from patient) LIKE '%Oturkpo%'             THEN '627'     
+WHEN (select addrlga from patient) LIKE '%Ovia%North-East%'     THEN '628'     
+WHEN (select addrlga from patient) LIKE '%Ovia%South-West%'     THEN '629'     
+WHEN (select addrlga from patient) LIKE '%Owan%East%'           THEN '630'     
+WHEN (select addrlga from patient) LIKE '%Owan%West%'           THEN '631'     
+WHEN (select addrlga from patient) LIKE '%Owerri%Municipal%'    THEN '632'     
+WHEN (select addrlga from patient) LIKE '%Owerri%North%'        THEN '633'     
+WHEN (select addrlga from patient) LIKE '%Owerri%West%'         THEN '634'     
+WHEN (select addrlga from patient) LIKE '%Owo%'                 THEN '635'     
+WHEN (select addrlga from patient) LIKE '%Oye%'                 THEN '636'     
+WHEN (select addrlga from patient) LIKE '%Oyi%'                 THEN '637'     
+WHEN (select addrlga from patient) LIKE '%Oyigbo%'              THEN '638'     
+WHEN (select addrlga from patient) LIKE '%Oyo%'                 THEN '639'     
+WHEN (select addrlga from patient) LIKE '%Oyo%East%'            THEN '640'     
+WHEN (select addrlga from patient) LIKE '%Oyun%'                THEN '641'     
+WHEN (select addrlga from patient) LIKE '%Paikoro%'             THEN '642'     
+WHEN (select addrlga from patient) LIKE '%Pankshin%'            THEN '643'     
+WHEN (select addrlga from patient) LIKE '%Patani%'              THEN '644'     
+WHEN (select addrlga from patient) LIKE '%Pategi%'              THEN '645'     
+WHEN (select addrlga from patient) LIKE '%Port%Harcourt%'       THEN '646'     
+WHEN (select addrlga from patient) LIKE '%Potiskum%'            THEN '647'     
+WHEN (select addrlga from patient) LIKE '%Qua%an%Pan%'          THEN '648'     
+WHEN (select addrlga from patient) LIKE '%Rabah%'               THEN '649'     
+WHEN (select addrlga from patient) LIKE '%Rafi%'                THEN '650'     
+WHEN (select addrlga from patient) LIKE '%Rano%'                THEN '651'     
+WHEN (select addrlga from patient) LIKE '%Remo%North%'          THEN '652'     
+WHEN (select addrlga from patient) LIKE '%Rijau%'               THEN '653'     
+WHEN (select addrlga from patient) LIKE '%Rimi%'                THEN '654'     
+WHEN (select addrlga from patient) LIKE '%Rimin%Gado%'          THEN '655'     
+WHEN (select addrlga from patient) LIKE '%Ringim%'              THEN '656'     
+WHEN (select addrlga from patient) LIKE '%Riyom%'               THEN '657'     
+WHEN (select addrlga from patient) LIKE '%Rogo%'                THEN '658'     
+WHEN (select addrlga from patient) LIKE '%Roni%'                THEN '659'     
+WHEN (select addrlga from patient) LIKE '%Sabon%Birni%'         THEN '660'     
+WHEN (select addrlga from patient) LIKE '%Sabon%Gari%'          THEN '661'     
+WHEN (select addrlga from patient) LIKE '%Sabuwa%'              THEN '662'     
+WHEN (select addrlga from patient) LIKE '%Safana%'              THEN '663'     
+WHEN (select addrlga from patient) LIKE '%Sagbama%'             THEN '664'     
+WHEN (select addrlga from patient) LIKE '%Sakaba%'              THEN '665'     
+WHEN (select addrlga from patient) LIKE '%Saki%East%'           THEN '666'     
+WHEN (select addrlga from patient) LIKE '%Saki%West%'           THEN '667'     
+WHEN (select addrlga from patient) LIKE '%Sandamu%'             THEN '668'     
+WHEN (select addrlga from patient) LIKE '%Sanga%'               THEN '669'     
+WHEN (select addrlga from patient) LIKE '%Sapele%'              THEN '670'     
+WHEN (select addrlga from patient) LIKE '%Sardauna%'            THEN '671'     
+WHEN (select addrlga from patient) LIKE '%Shagamu%'             THEN '672'     
+WHEN (select addrlga from patient) LIKE '%Shagari%'             THEN '673'     
+WHEN (select addrlga from patient) LIKE '%Shanga%'              THEN '674'     
+WHEN (select addrlga from patient) LIKE '%Shani%'               THEN '675'     
+WHEN (select addrlga from patient) LIKE '%Shanono%'             THEN '676'     
+WHEN (select addrlga from patient) LIKE '%Shelleng%'            THEN '677'     
+WHEN (select addrlga from patient) LIKE '%Shendam%'             THEN '678'     
+WHEN (select addrlga from patient) LIKE '%Shinkafi%'            THEN '679'     
+WHEN (select addrlga from patient) LIKE '%Shira%'               THEN '680'     
+WHEN (select addrlga from patient) LIKE '%Shiroro%'             THEN '681'     
+WHEN (select addrlga from patient) LIKE '%Shongom%'             THEN '682'     
+WHEN (select addrlga from patient) LIKE '%Shomolu%'             THEN '683'     
+WHEN (select addrlga from patient) LIKE '%Silame%'              THEN '684'     
+WHEN (select addrlga from patient) LIKE '%Soba%'                THEN '685'     
+WHEN (select addrlga from patient) LIKE '%Sokoto%North%'        THEN '686'     
+WHEN (select addrlga from patient) LIKE '%Sokoto%South%'        THEN '687'     
+WHEN (select addrlga from patient) LIKE '%Song%'                THEN '688'     
+WHEN (select addrlga from patient) LIKE '%Southern%Ijaw%'       THEN '689'     
+WHEN (select addrlga from patient) LIKE '%Suleja%'              THEN '690'     
+WHEN (select addrlga from patient) LIKE '%Sule%Tankarkar%'      THEN '691'     
+WHEN (select addrlga from patient) LIKE '%Sumaila%'             THEN '692'     
+WHEN (select addrlga from patient) LIKE '%Suru%'                THEN '693'     
+WHEN (select addrlga from patient) LIKE '%Surulere%'            THEN '694'     
+WHEN (select addrlga from patient) LIKE '%Surulere%'            THEN '695'     
+WHEN (select addrlga from patient) LIKE '%Tafa%'                THEN '696'     
+WHEN (select addrlga from patient) LIKE '%Tafawa%Balewa%'       THEN '697'     
+WHEN (select addrlga from patient) LIKE '%Tai%'                 THEN '698'     
+WHEN (select addrlga from patient) LIKE '%Takai%'               THEN '699'     
+WHEN (select addrlga from patient) LIKE '%Takum%'               THEN '700'     
+WHEN (select addrlga from patient) LIKE '%Talata%Mafara%'       THEN '701'     
+WHEN (select addrlga from patient) LIKE '%Tambuwal%'            THEN '702'     
+WHEN (select addrlga from patient) LIKE '%Tangaza%'             THEN '703'     
+WHEN (select addrlga from patient) LIKE '%Tarauni%'             THEN '704'     
+WHEN (select addrlga from patient) LIKE '%Tarka%'               THEN '705'     
+WHEN (select addrlga from patient) LIKE '%Tarmuwa%'             THEN '706'     
+WHEN (select addrlga from patient) LIKE '%Taura%'               THEN '707'     
+WHEN (select addrlga from patient) LIKE '%Toungo%'              THEN '708'     
+WHEN (select addrlga from patient) LIKE '%Tofa%'                THEN '709'     
+WHEN (select addrlga from patient) LIKE '%Toro%'                THEN '710'     
+WHEN (select addrlga from patient) LIKE '%Toto%'                THEN '711'     
+WHEN (select addrlga from patient) LIKE '%Chafe%'               THEN '712'     
+WHEN (select addrlga from patient) LIKE '%Tsanyawa%'            THEN '713'     
+WHEN (select addrlga from patient) LIKE '%Tudun%Wada%'          THEN '714'     
+WHEN (select addrlga from patient) LIKE '%Tureta%'              THEN '715'     
+WHEN (select addrlga from patient) LIKE '%Udenu%'               THEN '716'     
+WHEN (select addrlga from patient) LIKE '%Udi%'                 THEN '717'     
+WHEN (select addrlga from patient) LIKE '%Udu%'                 THEN '718'     
+WHEN (select addrlga from patient) LIKE '%Udung%Uko%'           THEN '719'     
+WHEN (select addrlga from patient) LIKE '%Ughelli%North%'       THEN '720'     
+WHEN (select addrlga from patient) LIKE '%Ughelli%South%'       THEN '721'     
+WHEN (select addrlga from patient) LIKE '%Ugwunagbo%'           THEN '722'     
+WHEN (select addrlga from patient) LIKE '%Uhunmwonde%'          THEN '723'     
+WHEN (select addrlga from patient) LIKE '%Ukanafun%'            THEN '724'     
+WHEN (select addrlga from patient) LIKE '%Ukum%'                THEN '725'     
+WHEN (select addrlga from patient) LIKE '%Ukwa%East%'           THEN '726'     
+WHEN (select addrlga from patient) LIKE '%Ukwa%West%'           THEN '727'     
+WHEN (select addrlga from patient) LIKE '%Ukwuani%'             THEN '728'     
+WHEN (select addrlga from patient) LIKE '%Umuahia%North%'       THEN '729'     
+WHEN (select addrlga from patient) LIKE '%Umuahia%South%'       THEN '730'     
+WHEN (select addrlga from patient) LIKE '%Umu%Nneochi%'         THEN '731'     
+WHEN (select addrlga from patient) LIKE '%Ungogo%'              THEN '732'     
+WHEN (select addrlga from patient) LIKE '%Unuimo%'              THEN '733'     
+WHEN (select addrlga from patient) LIKE '%Uruan%'               THEN '734'     
+WHEN (select addrlga from patient) LIKE '%Urue%Offong%Oruko%'   THEN '735'     
+WHEN (select addrlga from patient) LIKE '%Ushongo%'             THEN '736'     
+WHEN (select addrlga from patient) LIKE '%Ussa%'                THEN '737'     
+WHEN (select addrlga from patient) LIKE '%Uvwie%'               THEN '738'     
+WHEN (select addrlga from patient) LIKE '%Uyo%'                 THEN '739'     
+WHEN (select addrlga from patient) LIKE '%Uzo%Uwani%'           THEN '740'     
+WHEN (select addrlga from patient) LIKE '%Vandeikya%'           THEN '741'     
+WHEN (select addrlga from patient) LIKE '%Wamako%'              THEN '742'     
+WHEN (select addrlga from patient) LIKE '%Wamba%'               THEN '743'     
+WHEN (select addrlga from patient) LIKE '%Warawa%'              THEN '744'     
+WHEN (select addrlga from patient) LIKE '%Warji%'               THEN '745'     
+WHEN (select addrlga from patient) LIKE '%Warri%North%'         THEN '746'     
+WHEN (select addrlga from patient) LIKE '%Warri%South%'         THEN '747'     
+WHEN (select addrlga from patient) LIKE '%Warri%South%West%'    THEN '748'     
+WHEN (select addrlga from patient) LIKE '%Wasagu%Danko%'        THEN '749'     
+WHEN (select addrlga from patient) LIKE '%Wase%'                THEN '750'     
+WHEN (select addrlga from patient) LIKE '%Wudil%'               THEN '751'     
+WHEN (select addrlga from patient) LIKE '%Wukari%'              THEN '752'     
+WHEN (select addrlga from patient) LIKE '%Wurno%'               THEN '753'     
+WHEN (select addrlga from patient) LIKE '%Wushishi%'            THEN '754'     
+WHEN (select addrlga from patient) LIKE '%Yabo%'                THEN '755'     
+WHEN (select addrlga from patient) LIKE '%Yagba%East%'          THEN '756'     
+WHEN (select addrlga from patient) LIKE '%Yagba%West%'          THEN '757'     
+WHEN (select addrlga from patient) LIKE '%Yakuur%'              THEN '758'     
+WHEN (select addrlga from patient) LIKE '%Yala%'                THEN '759'     
+WHEN (select addrlga from patient) LIKE '%Yamaltu%Deba%'        THEN '760'     
+WHEN (select addrlga from patient) LIKE '%Yankwashi%'           THEN '761'     
+WHEN (select addrlga from patient) LIKE '%Yauri%'               THEN '762'     
+WHEN (select addrlga from patient) LIKE '%Yenagoa%'             THEN '763'     
+WHEN (select addrlga from patient) LIKE '%Yola%North%'          THEN '764'     
+WHEN (select addrlga from patient) LIKE '%Yola%South%'          THEN '765'     
+WHEN (select addrlga from patient) LIKE '%Yorro%'               THEN '766'     
+WHEN (select addrlga from patient) LIKE '%Yunusari%'            THEN '767'     
+WHEN (select addrlga from patient) LIKE '%Yusufari%'            THEN '768'     
+WHEN (select addrlga from patient) LIKE '%Zaki%'                THEN '769'     
+WHEN (select addrlga from patient) LIKE '%Zango%'               THEN '770'     
+WHEN (select addrlga from patient) LIKE '%Zangon Kataf%'        THEN '771'     
+WHEN (select addrlga from patient) LIKE '%Zaria%'               THEN '772'     
+WHEN (select addrlga from patient) LIKE '%Zing%'                THEN '773'     
+WHEN (select addrlga from patient) LIKE '%Zurmi%'               THEN '774'     
+WHEN (select addrlga from patient) LIKE '%Zuru%'                THEN '775'     
+ELSE '0' END AS LGACode,hospitalid as HospitalNumber, enroldate as DateOfFirstReport,enroldate as DiagnosisDate,age as PatientAge,CASE serviceentry 
+WHEN 'STI' THEN 1 
+WHEN 'OPD' THEN 2 
+WHEN 'HCT' THEN 3 
+WHEN 'Private' THEN 5 
+WHEN 'TB' THEN 6 
+WHEN 'Ward' THEN 7 
+WHEN 'Casualty' THEN 8 
+WHEN 'ANC/PMTCT' THEN 9 
+WHEN 'Current Clinic Patient' THEN 12 
+WHEN 'Self Referral' THEN 13  
+ELSE '' END as CareEntryPoint,CASE WHEN hivposdate='0000-00-00' OR hivposdate IS NULL THEN DATE_SUB(enroldate, INTERVAL 7 DAY) ELSE hivposdate END as FirstConfirmedHIVTestDate,CASE WHEN lower(hivmode) LIKE '%ab%' THEN 'HIVAb'
+WHEN lower(hivmode) LIKE '%pcr%' THEN 'HIVPCR'
+ELSE '' END as FirstHIVTestMode,testlocation as WhereFirstHIVTest, CASE priorart 
+WHEN 'Transfer in with records' THEN 'T' 
+WHEN 'Earlier ARV but not a transfer in' THEN 'NT'
+WHEN 'PMTCT only' THEN 'P' 
+WHEN 'None' THEN 'N' 
+ELSE '' END as PriorArt,dateeligible as MedicallyEligibleDate,CASE whyeligible 
+WHEN 'CD4' THEN '2' 
+WHEN 'TLC' THEN '4' 
+WHEN 'Clinically only' THEN '1'
+ELSE '' END as ReasonMedicallyEligible,dateinitadh as InitialAdherenceCounselingCompletedDate,CASE firstartregimen 
+WHEN 'AZT/3TC/EFV' THEN '1a' 
+WHEN 'AZT/3TC/NVP' THEN '1b' 
+WHEN 'TDF/FTC/EFV' THEN '1c' 
+WHEN 'TDF/FTC/NVP' THEN '1d' 
+WHEN 'TDF/3TC/EFV' THEN '1e' 
+WHEN 'TDF/3TC/NVP' THEN '1f' 
+WHEN 'AZT/3TC/ABC' THEN '1g' 
+WHEN 'AZT/3TC/TDF' THEN '1h' 
+WHEN 'TDF/FTC/LPV/r' THEN '2a' 
+WHEN 'TDF/3TC/LPV/r' THEN '2b' 
+WHEN 'TDF/FTC/ATV/r' THEN '2c' 
+WHEN 'TDF/3TC/ATV/r' THEN '2d' 
+WHEN 'AZT/3TC/LPV/r' THEN '2e' 
+WHEN 'AZT/3TC/ATV/r' THEN '2f' 
+WHEN 'TLC' THEN '4' 
+
+ELSE '' END as Code,CASE firstartregimen 
+WHEN 'AZT/3TC/EFV' THEN 'AZT-3TC-EFV' 
+WHEN 'AZT/3TC/NVP' THEN 'AZT-3TC-NVP' 
+WHEN 'TDF/FTC/EFV' THEN 'TDF-FTC-EFV' 
+WHEN 'TDF/FTC/NVP' THEN 'TDF-FTC-NVP' 
+WHEN 'TDF/3TC/EFV' THEN 'TDF-3TC-EFV' 
+WHEN 'TDF/3TC/NVP' THEN 'TDF-3TC-NVP' 
+WHEN 'AZT/3TC/ABC' THEN 'AZT-3TC-ABC' 
+WHEN 'AZT/3TC/TDF' THEN 'AZT-3TC-TDF' 
+WHEN 'TDF/FTC/LPV/r' THEN 'TDF-FTC-LPV/r' 
+WHEN 'TDF/3TC/LPV/r' THEN 'TDF-3TC-LPV/r' 
+WHEN 'TDF/FTC/ATV/r' THEN 'TDF-FTC-ATV/r' 
+WHEN 'TDF/3TC/ATV/r' THEN 'TDF-3TC-ATV/r' 
+WHEN 'AZT/3TC/LPV/r' THEN 'AZT-3TC-LPV/r' 
+WHEN 'AZT/3TC/ATV/r' THEN 'AZT-3TC-ATV/r' 
+ELSE '' END as CodeDescTxt,CASE b.regimen
+WHEN 'AZT-3TC-EFV' THEN '1a' 
+WHEN 'AZT-3TC-NVP' THEN '1b' 
+WHEN 'TDF-FTC-EFV' THEN '1c' 
+WHEN 'TDF-FTC-NVP' THEN '1d' 
+WHEN 'TDF-3TC-EFV' THEN '1e' 
+WHEN 'TDF-3TC-NVP' THEN '1f' 
+WHEN 'AZT-3TC-ABC' THEN '1g' 
+WHEN 'AZT-3TC-TDF' THEN '1h' 
+WHEN 'TDF-FTC-LPV/r' THEN '2a' 
+WHEN 'TDF-3TC-LPV/r' THEN '2b' 
+WHEN 'TDF-FTC-ATV/r' THEN '2c' 
+WHEN 'TDF-3TC-ATV/r' THEN '2d' 
+WHEN 'AZT-3TC-LPV/r' THEN '2e' 
+WHEN 'AZT-3TC-ATV/r' THEN '2f' 
+WHEN 'TLC' THEN '4' 
+
+ELSE '' END as CodeRegEnc,b.regimen as CodeDescTxtRegEnc,dateartstart AS ARTStartDate,clinicalstageart as WHOClinicalStageARTStart,ROUND(peweightatart) as WeightAtARTStart,CASE patfunction 
+WHEN 'Working' THEN 'W' 
+WHEN 'Ambulant' THEN 'A' 
+WHEN 'Bedridden' THEN 'B' 
+ELSE '' END as FunctionalStatusStartART,cd4atart as CD4AtStartOfART,enroldate as EnrolledInHIVCareDate,CASE b.tbstatus 
+WHEN 'No Signs' THEN '1' 
+WHEN 'TB Suspected and referred for evaluation' THEN '2' 
+WHEN 'On INH prophylaxis' THEN '3' 
+WHEN 'Currently on TB treatment' THEN '4' 
+WHEN 'TB positive, Not on drugs' THEN '5' 
+ELSE '' END as InitialTBStatus,b.clinicevalid as VisitIDEnc,b.visitdate as VisitDateEnc,CASE b.artduration 
+WHEN '' THEN 0
+WHEN '2/12' THEN 2
+WHEN '3/12' THEN 3
+WHEN '1/12' THEN 1
+WHEN '2/52' THEN 0.5
+WHEN '1/52' THEN 0.25
+ELSE b.artduration END as DurationOnArt,ROUND(b.weight) as Weight,b.bp as BloodPressure,CASE b.fp 
+WHEN 'Condoms' THEN 'FP1' 
+WHEN 'Oral contraceptive pills' THEN 'FP2' 
+WHEN 'Injectable/Implantable hormones' THEN 'FP3' 
+WHEN 'Diaphragm/cervical caps' THEN 'FP4' 
+WHEN 'Intra uterine device' THEN 'FP5' 
+WHEN 'Vasectomy/tubal ligation/hysterectomy' THEN 'FP6' 
+WHEN 'Other' THEN 'FP7' 
+WHEN 'Not on family planning' THEN 'NOFP'
+ELSE '' END as PatientFamilyPlanningMethodCode,CASE b.functionalstatus 
+WHEN 'Working' THEN 'W' 
+WHEN 'Ambulant' THEN 'A' 
+WHEN 'Bedridden' THEN 'B' 
+ELSE '' END as FunctionalStatus,b.whostage AS WHOClinicalStage,CASE b.tbstatus 
+WHEN 'No Signs' THEN '1' 
+WHEN 'TB Suspected and referred for evaluation' THEN '2' 
+WHEN 'On INH prophylaxis' THEN '3' 
+WHEN 'Currently on TB treatment' THEN '4' 
+WHEN 'TB positive, Not on drugs' THEN 'B' 
+ELSE '' END as TBStatus,CASE  
+WHEN b.cotrimdose like '%480%' THEN 'CTX480' 
+WHEN b.cotrimdose like '%960%' THEN 'CTX960' 
+ELSE '' END as CodeCTX,CASE  
+WHEN b.cotrimdose like '%480%' THEN 'Cotrimoxazole 480mg' 
+WHEN b.cotrimdose like '%960%' THEN 'Cotrimoxazole 960mg' 
+ELSE '' END as CodeDescTxtCTX,CASE  
+WHEN d.oiqty like '%100%' AND d.oidrug like '%CTX%' THEN 'CTX100' 
+WHEN d.oiqty like '%200%' AND d.oidrug like '%CTX%' THEN 'CTX200' 
+WHEN d.oiqty like '%300%' AND d.oidrug like '%CTX%' THEN 'CTX300' 
+WHEN d.oiqty like '%480%' AND d.oidrug like '%CTX%' THEN 'CTX480' 
+WHEN d.oiqty like '%960%' AND d.oidrug like '%CTX%' THEN 'CTX960' 
+ELSE '' END as CodeCTXPharm,CASE  
+WHEN d.oiqty like '%100%' AND d.oidrug like '%CTX%' THEN 'Cotrimoxazole 100mg' 
+WHEN d.oiqty like '%200%' AND d.oidrug like '%CTX%' THEN 'Cotrimoxazole 200mg' 
+WHEN d.oiqty like '%300%' AND d.oidrug like '%CTX%' THEN 'Cotrimoxazole 300mg' 
+WHEN d.oiqty like '%480%' AND d.oidrug like '%CTX%' THEN 'Cotrimoxazole 480mg' 
+WHEN d.oiqty like '%960%' AND d.oidrug like '%CTX%' THEN 'Cotrimoxazole 960mg' 
+ELSE '' END as CodeDescTxtCTXPharm,c.labid as VisitID,c.VisitDate as VisitDate,c.reportdate as CollectionDate,CASE c.baselineorrepeat 
+WHEN 'Baseline' THEN 'B' 
+WHEN 'Repeat' THEN 'R' 
+ELSE '' END as BaselineRepeatCode,CASE c.artstatus 
+WHEN 'ART' THEN 'A' 
+WHEN 'Non-ART' THEN 'N' 
+ELSE '' END as ARTStatusCode,results as Value1,c.clinicianname as Clinician,c.reportedby as ReportedBy,c.CheckedBy as checkedby,d.pharmacyid as VisitIDpharm,d.visitdate as VisitDatepharm,CASE drugname1 
+WHEN 'AZT/3TC/EFV' THEN '1a' 
+WHEN 'AZT/3TC/NVP' THEN '1b' 
+WHEN 'TDF/FTC/EFV' THEN '1c' 
+WHEN 'TDF/FTC/NVP' THEN '1d' 
+WHEN 'TDF/3TC/EFV' THEN '1e' 
+WHEN 'TDF/3TC/NVP' THEN '1f' 
+WHEN 'AZT/3TC/ABC' THEN '1g' 
+WHEN 'AZT/3TC/TDF' THEN '1h' 
+WHEN 'TDF/FTC/LPV/r' THEN '2a' 
+WHEN 'TDF/3TC/LPV/r' THEN '2b' 
+WHEN 'TDF/FTC/ATV/r' THEN '2c' 
+WHEN 'TDF/3TC/ATV/r' THEN '2d' 
+WHEN 'AZT/3TC/LPV/r' THEN '2e' 
+WHEN 'AZT/3TC/ATV/r' THEN '2f' 
+WHEN 'ABC/3TC/NVP' THEN '4d' 
+WHEN 'ABC/3TC/EFV' THEN '4c' 
+WHEN 'd4T/3TC/NVP' THEN '4d'
+WHEN 'ABC/3TC/LPV/r' THEN '5a'
+WHEN 'd4T/3TC/LPV/r' THEN '5c'
+WHEN 'ddi/3TC/NVP' THEN '5d'
+WHEN 'ABC/3TC/ddi' THEN '5e'
+WHEN 'TLC' THEN '4' 
+ELSE '' END as CodePharmDrgName1,CASE d.drugname1 
+WHEN 'AZT/3TC/EFV' THEN 'AZT-3TC-EFV' 
+WHEN 'AZT/3TC/NVP' THEN 'AZT-3TC-NVP' 
+WHEN 'TDF/FTC/EFV' THEN 'TDF-FTC-EFV' 
+WHEN 'TDF/FTC/NVP' THEN 'TDF-FTC-NVP' 
+WHEN 'TDF/3TC/EFV' THEN 'TDF-3TC-EFV' 
+WHEN 'TDF/3TC/NVP' THEN 'TDF-3TC-NVP' 
+WHEN 'AZT/3TC/ABC' THEN 'AZT-3TC-ABC' 
+WHEN 'AZT/3TC/TDF' THEN 'AZT-3TC-TDF' 
+WHEN 'ABC/3TC/NVP' THEN 'ABC-3TC-NVP' 
+WHEN 'ABC/3TC/EFV' THEN 'ABC-3TC-EFV' 
+WHEN 'd4T/3TC/NVP' THEN 'd4T-3TC-NVP'
+WHEN 'ABC/3TC/LPV/r' THEN 'ABC-3TC-LPV/r'
+WHEN 'd4T/3TC/LPV/r' THEN 'd4T-3TC-LPV/r'
+WHEN 'ddi/3TC/NVP' THEN 'ddi-3TC-NVP'
+WHEN 'ABC/3TC/ddi' THEN 'ABC-3TC-ddi'
+WHEN 'TDF/FTC/LPV/r' THEN 'TDF-FTC-LPV/r' 
+WHEN 'TDF/3TC/LPV/r' THEN 'TDF-3TC-LPV/r' 
+WHEN 'TDF/FTC/ATV/r' THEN 'TDF-FTC-ATV/r' 
+WHEN 'TDF/3TC/ATV/r' THEN 'TDF-3TC-ATV/r' 
+WHEN 'AZT/3TC/LPV/r' THEN 'AZT-3TC-LPV/r' 
+WHEN 'AZT/3TC/ATV/r' THEN 'AZT-3TC-ATV/r' 
+ELSE '' END as CodeDescTxtPharmDrgName1,d.dispensedate as PrescribedRegimenDispensedDate,CASE  
+WHEN (d.oidrug like '%CTX%' AND d.oiqty='480mg') THEN 'CTX480' 
+WHEN (d.oidrug like '%CTX%' AND d.oiqty='960mg') THEN 'CTX960' 
+ELSE '' END AS Code_oi,CASE  
+WHEN (d.oidrug like '%CTX%' AND d.oiqty='480mg') THEN 'Cotrimoxazole 480mg' 
+WHEN (d.oidrug like '%CTX%' AND d.oiqty='960mg') THEN 'Cotrimoxazole 960mg' 
+ELSE '' END AS CodeDescTxt_OI,b.nextapptdate as NextAppointmentDate,CASE d.drugname1 
+WHEN 'AZT/3TC/EFV' THEN '10' 
+WHEN 'AZT/3TC/NVP' THEN '10' 
+WHEN 'TDF/FTC/EFV' THEN '10' 
+WHEN 'TDF/FTC/NVP' THEN '10' 
+WHEN 'TDF/3TC/EFV' THEN '10' 
+WHEN 'TDF/3TC/NVP' THEN '10' 
+WHEN 'AZT/3TC/EFV' THEN '10' 
+WHEN 'AZT/3TC/NVP' THEN '10' 
+WHEN 'ABC/3TC/EFV' THEN '10'
+WHEN 'AZT/3TC/ABC' THEN '11'
+WHEN 'AZT/3TC/TDF' THEN '11'
+WHEN 'ABC/3TC/NVP' THEN '11'
+WHEN 'AZT/3TC/ABC' THEN '11'
+WHEN 'ABC/3TC/EFV' THEN '11'
+WHEN 'ABC/3TC/EFV' THEN '11'
+WHEN 'TDF/FTC/LPV/r' THEN '20'
+WHEN 'TDF/3TC/LPV/r' THEN '20'
+WHEN 'TDF/FTC/ATV/r' THEN '20'
+WHEN 'TDF/3TC/ATV/r' THEN '20'
+WHEN 'AZT/3TC/LPV/r' THEN '20'
+WHEN 'AZT/3TC/ATV/r' THEN '20'
+WHEN 'ABC/3TC/LPV/r' THEN '20'
+WHEN 'AZT/3TC/LPV/r' THEN '20' 
+WHEN 'd4T/3TC/LPV/r' THEN '20' 
+WHEN 'ddi/3TC/NVP' THEN '20' 
+WHEN 'ABC/3TC/ddi' THEN '20' 
+WHEN 'DAR' THEN '30' 
+WHEN 'RAL' THEN '30' 
+WHEN 'ETR' THEN '30' 
+WHEN 'RTV' THEN '30' 
+ELSE '' END as PrescribedRegimenLineCode,d.regduration1 as PrescribedRegimenDuration,CASE d.oiduration 
+WHEN '1 month' THEN '30' 
+WHEN '2 month' THEN '60' 
+WHEN '3 month' THEN '90' 
+WHEN '4 month' THEN '120' 
+ELSE '' END as PrescribedRegimenDurationCTXpharm,CASE d.tbduration 
+WHEN '1 month' THEN '30' 
+WHEN '2 month' THEN '60' 
+WHEN '3 month' THEN '90' 
+WHEN '4 month' THEN '120' 
+ELSE '' END as PrescribedRegimenDurationTBpharm,b.cd4value as cd4value,b.visitdate as CD4TestDate,CASE  
+WHEN d.tbdrug LIKE '%INH%' and d.tbdrug LIKE '%Rifampicin%' AND d.tbdrug LIKE '%PZI%' AND d.tbdrug LIKE '%Streptomycin Injection%' AND d.tbdrug LIKE '%Ethambutol%' THEN 'HRZES'
+WHEN d.tbdrug LIKE '%INH%' and d.tbdrug LIKE '%Rifampicin%' AND d.tbdrug LIKE '%PZI%' AND d.tbdrug LIKE '%Ethambutol%' THEN 'HRZE' 
+WHEN d.tbdrug LIKE '%INH%' and d.tbdrug LIKE '%Rifampicin%' AND d.tbdrug LIKE '%Ethambutol%' THEN 'HRE' 
+WHEN d.tbdrug LIKE '%INH%' and d.tbdrug LIKE '%Rifampicin%' AND d.tbdrug LIKE '%Streptomycin Injection%' THEN 'HRS' 
+WHEN d.tbdrug LIKE '%INH%' and d.tbdrug LIKE '%Rifampicin%' THEN 'HR' 
+WHEN d.tbdrug LIKE '%INH%' AND d.tbdrug LIKE '%Ethambutol%' THEN 'HE' 
+WHEN d.tbdrug LIKE '%Streptomycin Injection%' THEN 'S' 
+WHEN d.tbdrug LIKE '%PZI%' THEN 'Z' 
+WHEN d.tbdrug LIKE '%Ethambutol%' THEN 'E' 
+WHEN d.tbdrug LIKE '%Rifampicin%' THEN 'R' 
+WHEN d.tbdrug LIKE '%INH%' THEN 'H'  
+ELSE '' END as tbdrugcode,d.tbdrug as tbdrug,c.labregno as LaboratoryTestIdentifier
+from patient a LEFT JOIN (select * from clinicaleval order by visitdate DESC) b
+ON (a.pepid=b.pepid)
+LEFT JOIN (select * from laboratory where tests='CD4' order by visitdate DESC) c
+ON (a.pepid=c.pepid)
+LEFT JOIN (select * from pharmacy order by visitdate DESC) d
+ON (a.pepid=d.pepid)
+group by a.pepid";
+
+$result_select = mysql_query($query_select) or die(mysql_error());
+$rows = array();
+while($row = mysql_fetch_array($result_select))
+    $rows[] = $row;
+foreach($rows as $row){ 
+        /*** a new dom object ***/ 
+    $dom = new domDocument; 
+
+    /*** make the output tidy ***/ 
+    $dom->formatOutput = true; 
+
+    /*** create the root element ***/ 
+    $root = $dom->appendChild($dom->createElement( "Container" )); 
+
+    /*** create the simple xml element ***/ 
+    $Container = simplexml_import_dom( $dom ); 
+	
+
+    /*** add a MessageHeader element ***/ 
+	$MessageHeader = $Container->addChild("MessageHeader"); 
+	$MessageHeader->addChild("MessageStatusCode", "INITIAL"); 
+    $MessageHeader->addChild("MessageCreationDateTime", date('Y-m-d\TH:i:s')); 
+    $MessageHeader->addChild("MessageSchemaVersion", "1.2"); 
+	$MessageHeader->addChild("MessageUniqueID", date('YmdHis')); 
+	
+	/*** add a MessageSendingOrganization element ***/
+	$MessageSendingOrganization = $MessageHeader->addChild("MessageSendingOrganization"); 
+	$MessageSendingOrganization->addChild("FacilityName", "AIDS Prevention Initiative In Nigeria"); 
+    $MessageSendingOrganization->addChild("FacilityID",  "APIN"); 
+    $MessageSendingOrganization->addChild("FacilityTypeCode", "IP"); 
+    
+	/*** add a IndividualReport element ***/ 
+	$IndividualReport = $Container->addChild("IndividualReport"); 
+	
+	/////////////////////////////////////////////////////////////Start Patient Demographics//////////////////////////////////// 
+	$PatientDemographics = $IndividualReport->addChild("PatientDemographics"); 
+	
+	///// add patientidentifer//////////////////
+	$PatientDemographics->addChild("PatientIdentifier", $row['PatientIdentifier']); 
+	/////////add treatment facility
+	$TreatmentFacility = $PatientDemographics->addChild("TreatmentFacility");
+	$TreatmentFacility->addChild("FacilityName", $row['FacilityName']);
+	$TreatmentFacility->addChild("FacilityID", $row['facn']);
+	$TreatmentFacility->addChild("FacilityTypeCode", "FAC");
+	///////////////////add OtherPatientIdentifiers //////////////////////////
+	$OtherPatientIdentifiers = $PatientDemographics->addChild("OtherPatientIdentifiers");
+	$Identifier = $OtherPatientIdentifiers->addChild("Identifier");
+	$Identifier->addChild("IDNumber", $row['IDNumber']);
+	$Identifier->addChild("IDTypeCode", "PN");
+	if($row['PatientDateOfBirth']=='0000-00-00'){
+	//$PatientDemographics->addChild("PatientDateOfBirth", $row['PatientDateOfBirth']);
+	}
+	else{
+	$PatientDemographics->addChild("PatientDateOfBirth", $row['PatientDateOfBirth']);
+	}
+	$PatientDemographics->addChild("PatientSexCode", $row['PatientSexCode']);
+	$PatientDemographics->addChild("PatientDeceasedIndicator", $row['PatientDeceasedIndicator']);
+	//$PatientDemographics->addChild("PatientPrimaryLanguageCode", "");
+	$PatientDemographics->addChild("PatientEducationLevelCode", $row['PatientEducationLevelCode']);
+	$PatientDemographics->addChild("PatientOccupationCode", $row['PatientOccupationCode']);
+	$PatientDemographics->addChild("PatientMaritalStatusCode", $row['PatientMaritalStatusCode']);
+	$PatientDemographics->addChild("StateOfNigeriaOriginCode", $row['state']);
+	
+	/////////////////////////////////////////////////////////////End Patient Demographics//////////////////////////////////// 
+	
+	/////////////////////////////////////////////////////////////Start Condition//////////////////////////////////// 
+	$Condition = $IndividualReport->addChild("Condition"); 
+	$Condition->addChild("ConditionCode", $row['ConditionCode']);
+	////// add program area //////
+	$ProgramArea = $Condition->addChild("ProgramArea"); 
+	$ProgramArea->addChild("ProgramAreaCode", "HIV");
+	///////////////// add patient address //////////////////
+	$PatientAddress = $Condition->addChild("PatientAddress"); 
+	$PatientAddress->addChild("AddressTypeCode", "H");
+	$PatientAddress->addChild("WardVillage", $row['WardVillage']);
+	$PatientAddress->addChild("Town", $row['town']);
+	$PatientAddress->addChild("LGACode", $row['LGACode']);
+	$PatientAddress->addChild("StateCode", $row['state']);
+	$PatientAddress->addChild("CountryCode", "NGA");
+	$PatientAddress->addChild("PostalCode", "");
+	$PatientAddress->addChild("OtherAddressInformation", "");
+	
+	/////// add CommonQuestions ///////
+	$CommonQuestions = $Condition->addChild("CommonQuestions"); 
+	$CommonQuestions->addChild("HospitalNumber", $row['HospitalNumber']);
+	$DiagnosisFacility = $CommonQuestions->addChild("DiagnosisFacility"); 
+	$DiagnosisFacility->addChild("FacilityName", $row['diagfac']);
+	$DiagnosisFacility->addChild("FacilityID", substr($row['pepid'],0,2));
+	$DiagnosisFacility->addChild("FacilityTypeCode", "FAC");
+	if($row['DateOfFirstReport']=='0000-00-00'){
+	//$CommonQuestions->addChild("DateOfFirstReport",  $row['DateOfFirstReport']);
+	//$CommonQuestions->addChild("DiagnosisDate", $row['DateOfFirstReport']);
+	}
+	else{
+	$CommonQuestions->addChild("DateOfFirstReport",  $row['DateOfFirstReport']);
+	$CommonQuestions->addChild("DiagnosisDate", $row['DateOfFirstReport']);
+	}
+	//$CommonQuestions->addChild("DateOfLastReport", "");
+	$CommonQuestions->addChild("PatientDieFromThisIllness",  $row['PatientDeceasedIndicator']);
+	$CommonQuestions->addChild("PatientAge", $row['PatientAge']);
+	
+	/////// add ConditionSpecificQuestions ///////
+	$ConditionSpecificQuestions = $Condition->addChild("ConditionSpecificQuestions");
+	$HIVQuestions = $ConditionSpecificQuestions->addChild("HIVQuestions");
+	if($row['CareEntryPoint']==''){
+		//$HIVQuestions->addChild("CareEntryPoint", $row['CareEntryPoint']);
+	}
+	else{
+		$HIVQuestions->addChild("CareEntryPoint", $row['CareEntryPoint']);
+	}
+	if($row['FirstConfirmedHIVTestDate']=='0000-00-00'){
+	//$HIVQuestions->addChild("FirstConfirmedHIVTestDate", $row['FirstConfirmedHIVTestDate']);
+	}
+	else{
+	$HIVQuestions->addChild("FirstConfirmedHIVTestDate", $row['FirstConfirmedHIVTestDate']);
+	}
+	if ($row['FirstHIVTestMode']==''){
+		//$HIVQuestions->addChild("FirstHIVTestMode", $row['FirstHIVTestMode']);
+	}
+	else{
+		$HIVQuestions->addChild("FirstHIVTestMode", $row['FirstHIVTestMode']);
+	}
+	$HIVQuestions->addChild("WhereFirstHIVTest", $row['WhereFirstHIVTest']);
+	$HIVQuestions->addChild("PriorArt", $row['PriorArt']);
+	if($row['MedicallyEligibleDate']=='0000-00-00'||$row['MedicallyEligibleDate']==''){
+		//$HIVQuestions->addChild("MedicallyEligibleDate", $row['MedicallyEligibleDate']);
+	}
+	else{
+		$HIVQuestions->addChild("MedicallyEligibleDate", $row['MedicallyEligibleDate']);
+	}
+	if($row['ReasonMedicallyEligible']==''){
+		//$HIVQuestions->addChild("ReasonMedicallyEligible", $row['ReasonMedicallyEligible']);
+	}else{
+		$HIVQuestions->addChild("ReasonMedicallyEligible", $row['ReasonMedicallyEligible']);
+	}
+	if($row['InitialAdherenceCounselingCompletedDate']=='0000-00-00'||$row['InitialAdherenceCounselingCompletedDate']==''){
+		//$HIVQuestions->addChild("InitialAdherenceCounselingCompletedDate", $row['InitialAdherenceCounselingCompletedDate']);
+	}else{
+		$HIVQuestions->addChild("InitialAdherenceCounselingCompletedDate", $row['InitialAdherenceCounselingCompletedDate']);
+	}
+	
+	///// add first art regime //////
+	$FirstARTRegimen = $HIVQuestions->addChild("FirstARTRegimen");
+	$FirstARTRegimen->addChild("Code", $row['Code']);
+	$FirstARTRegimen->addChild("CodeDescTxt", $row['CodeDescTxt']);
+	if($row['ARTStartDate']=='0000-00-00'||$row['ARTStartDate']==''){
+		//$HIVQuestions->addChild("ARTStartDate", $row['ARTStartDate']);
+	}else{
+		$HIVQuestions->addChild("ARTStartDate", $row['ARTStartDate']);
+	}
+	if($row['WHOClinicalStageARTStart']==''||$row['WHOClinicalStageARTStart']=='0'){
+		//$HIVQuestions->addChild("WHOClinicalStageARTStart", $row['WHOClinicalStageARTStart']);
+	}else{
+		$HIVQuestions->addChild("WHOClinicalStageARTStart", $row['WHOClinicalStageARTStart']);
+	}
+	if($row['WeightAtARTStart']=='0'||$row['WeightAtARTStart']==''){
+		//$HIVQuestions->addChild("WeightAtARTStart", $row['WeightAtARTStart']);
+	}else{
+			$HIVQuestions->addChild("WeightAtARTStart", $row['WeightAtARTStart']);
+	}
+	if($row['FunctionalStatusStartART']==''){
+		//$HIVQuestions->addChild("FunctionalStatusStartART", $row['FunctionalStatusStartART']);
+	}else{
+		$HIVQuestions->addChild("FunctionalStatusStartART", $row['FunctionalStatusStartART']);
+	}
+	if($row['CD4AtStartOfART']=='0'){
+	//$HIVQuestions->addChild("CD4AtStartOfART", $row['CD4AtStartOfART']);
+	}
+	else{
+	$HIVQuestions->addChild("CD4AtStartOfART", $row['CD4AtStartOfART']);
+	}
+	$HIVQuestions->addChild("PatientHasDied", $row['PatientDeceasedIndicator']);
+	if($row['EnrolledInHIVCareDate']=='0000-00-00'){
+	//$HIVQuestions->addChild("EnrolledInHIVCareDate", $row['EnrolledInHIVCareDate']);
+	}
+	else{
+	$HIVQuestions->addChild("EnrolledInHIVCareDate", $row['EnrolledInHIVCareDate']);
+	}
+	if($row['InitialTBStatus']==''){
+		//$HIVQuestions->addChild("InitialTBStatus", $row['InitialTBStatus']);
+	}else{
+		$HIVQuestions->addChild("InitialTBStatus", $row['InitialTBStatus']);
+	}
+	
+	
+	
+	/////// add Encounters ///////
+	if($row['VisitID']==''){
+	//$Encounters = $Condition->addChild("Encounters");
+	//$HIVEncounter = $Encounters->addChild("HIVEncounter");
+	//$HIVEncounter->addChild("VisitID", $row['VisitID']);
+	//$HIVEncounter->addChild("VisitDate", $row['VisitDate']);
+	//$HIVEncounter->addChild("DurationOnArt", $row['DurationOnArt']);
+	//$HIVEncounter->addChild("Weight", $row['Weight']);
+	//$HIVEncounter->addChild("BloodPressure", $row['BloodPressure']);
+	//$HIVEncounter->addChild("PatientFamilyPlanningCode", "FP");
+	//$HIVEncounter->addChild("PatientFamilyPlanningMethodCode", $row['PatientFamilyPlanningMethodCode']);
+	//$HIVEncounter->addChild("FunctionalStatus", $row['FunctionalStatus']);
+	//$HIVEncounter->addChild("WHOClinicalStage", $row['WHOClinicalStage']);
+	//$HIVEncounter->addChild("TBStatus", $row['TBStatus']);
+	//$ARVDrugRegimen = $HIVEncounter->addChild("ARVDrugRegimen");
+	//$ARVDrugRegimen->addChild("Code", $row['Code']);
+	//$ARVDrugRegimen->addChild("CodeDescTxt", $row['CodeDescTxt']);
+	//$CotrimoxazoleDose = $HIVEncounter->addChild("CotrimoxazoleDose");
+	//$CotrimoxazoleDose->addChild("Code", $row['CodeCTX']);
+	//$CotrimoxazoleDose->addChild("CodeDescTxt", $row['CodeDescTxtCTX']);
+	//$INHDose = $HIVEncounter->addChild("INHDose");
+	//$INHDose->addChild("Code", "");
+	//$INHDose->addChild("CodeDescTxt", "");
+	//$HIVEncounter->addChild("CD4", $row['cd4value']);
+	//$HIVEncounter->addChild("CD4TestDate", $row['CD4TestDate']);
+	//$HIVEncounter->addChild("NextAppointmentDate", $row['NextAppointmentDate']);
+	}else{
+	$Encounters = $Condition->addChild("Encounters");
+	$HIVEncounter = $Encounters->addChild("HIVEncounter");
+	$HIVEncounter->addChild("VisitID", $row['VisitID']);		
+	$HIVEncounter->addChild("VisitDate", $row['VisitDate']);
+	if($row['DurationOnArt']=='0'||$row['DurationOnArt']==''){
+	//$HIVEncounter->addChild("DurationOnArt", $row['DurationOnArt']);
+	}
+	else{
+	$HIVEncounter->addChild("DurationOnArt", $row['DurationOnArt']);
+	}
+	if($row['Weight']==''){
+		//$HIVEncounter->addChild("Weight", $row['Weight']);
+	}else{
+		$HIVEncounter->addChild("Weight", $row['Weight']);
+	}
+	if($row['BloodPressure']==''){
+		//$HIVEncounter->addChild("BloodPressure", $row['BloodPressure']);
+	}else{
+		$HIVEncounter->addChild("BloodPressure", $row['BloodPressure']);
+	}
+	if($row['VisitDate']=='0000-00-00'){
+		//$HIVEncounter->addChild("PatientFamilyPlanningCode", "FP");
+		//$HIVEncounter->addChild("PatientFamilyPlanningMethodCode", $row['PatientFamilyPlanningMethodCode']);
+	}else{
+		$HIVEncounter->addChild("PatientFamilyPlanningCode", "FP");
+		$HIVEncounter->addChild("PatientFamilyPlanningMethodCode", $row['PatientFamilyPlanningMethodCode']);
+	}
+	
+	
+	if($row['FunctionalStatus']==''){
+		//$HIVEncounter->addChild("FunctionalStatus", $row['FunctionalStatus']);
+	}else{
+		$HIVEncounter->addChild("FunctionalStatus", $row['FunctionalStatus']);
+	}
+	if($row['WHOClinicalStage']==''){
+		//$HIVEncounter->addChild("WHOClinicalStage", $row['WHOClinicalStage']);
+	}else{
+		$HIVEncounter->addChild("WHOClinicalStage", $row['WHOClinicalStage']);
+	}
+	if($row['TBStatus']==''){
+		//$HIVEncounter->addChild("TBStatus", $row['TBStatus']);
+	}else{
+		$HIVEncounter->addChild("TBStatus", $row['TBStatus']);
+	}
+	
+	if($row['VisitDate']=='0000-00-00'){
+	//$ARVDrugRegimen = $HIVEncounter->addChild("ARVDrugRegimen");
+	//$ARVDrugRegimen->addChild("Code", $row['Code']);
+	//$ARVDrugRegimen->addChild("CodeDescTxt", $row['CodeDescTxt']);
+	//$CotrimoxazoleDose = $HIVEncounter->addChild("CotrimoxazoleDose");
+	//$CotrimoxazoleDose->addChild("Code", $row['CodeCTX']);
+	//$CotrimoxazoleDose->addChild("CodeDescTxt", $row['CodeDescTxtCTX']);
+	}else{
+	$ARVDrugRegimen = $HIVEncounter->addChild("ARVDrugRegimen");
+	$ARVDrugRegimen->addChild("Code", $row['Code']);
+	$ARVDrugRegimen->addChild("CodeDescTxt", $row['CodeDescTxt']);	
+	$CotrimoxazoleDose = $HIVEncounter->addChild("CotrimoxazoleDose");
+	$CotrimoxazoleDose->addChild("Code", $row['CodeCTX']);
+	$CotrimoxazoleDose->addChild("CodeDescTxt", $row['CodeDescTxtCTX']);
+	}
+
+	
+	//$INHDose = $HIVEncounter->addChild("INHDose");
+	//$INHDose->addChild("Code", "");
+	//$INHDose->addChild("CodeDescTxt", "");
+	if($row['cd4value']==''){
+		//$HIVEncounter->addChild("CD4", $row['cd4value']);
+		//$HIVEncounter->addChild("CD4TestDate", $row['VisitDate']);
+	}else{
+		$HIVEncounter->addChild("CD4", $row['cd4value']);
+		$HIVEncounter->addChild("CD4TestDate", $row['VisitDate']);
+	}
+	
+	
+	if($row['NextAppointmentDate']=='0000-00-00'||$row['NextAppointmentDate']==''){
+		//$HIVEncounter->addChild("NextAppointmentDate", $row['NextAppointmentDate']);
+	}
+	else{
+		$HIVEncounter->addChild("NextAppointmentDate", $row['NextAppointmentDate']);
+	}
+	}
+	
+	
+	/////// add LaboratoryReport ///////
+	if($row['VisitID']==''){
+	//$LaboratoryReport = $Condition->addChild("LaboratoryReport");
+	//$LaboratoryReport->addChild("VisitID", $row['VisitID']);
+	}else{
+	$LaboratoryReport = $Condition->addChild("LaboratoryReport");
+	$LaboratoryReport->addChild("VisitID", $row['VisitID']);
+		
+	}
+	if($row['VisitDate']==''){
+		//$LaboratoryReport->addChild("VisitDate", $row['VisitDate']);
+	}else{
+		$LaboratoryReport->addChild("VisitDate", $row['VisitDate']);
+	}
+	
+	if($row['LaboratoryTestIdentifier']==''){
+		//$LaboratoryReport->addChild("LaboratoryTestIdentifier", $row['LaboratoryTestIdentifier']);
+	}
+	else{
+		$LaboratoryReport->addChild("LaboratoryTestIdentifier", $row['LaboratoryTestIdentifier']);
+	}
+	if($row['CollectionDate']=='0000-00-00'||$row['CollectionDate']==''){
+		//$LaboratoryReport->addChild("CollectionDate", $row['CollectionDate']);
+	}else{
+		$LaboratoryReport->addChild("CollectionDate", $row['CollectionDate']);
+	}
+	if($row['BaselineRepeatCode']==''){
+		//$LaboratoryReport->addChild("BaselineRepeatCode", $row['BaselineRepeatCode']);
+	}else{
+		$LaboratoryReport->addChild("BaselineRepeatCode", $row['BaselineRepeatCode']);
+	}
+	if($row['ARTStatusCode']==''){
+		//$LaboratoryReport->addChild("ARTStatusCode", $row['ARTStatusCode']);
+	}else{
+		$LaboratoryReport->addChild("ARTStatusCode", $row['ARTStatusCode']);
+	}
+	
+	
+	if($row['VisitDate']==''){
+		//$LaboratoryOrderAndResult->addChild("OrderedTestDate", $row['VisitDate']);
+		//$LaboratoryOrderAndResult = $LaboratoryReport->addChild("LaboratoryOrderAndResult");
+		//$LaboratoryResultedTest = $LaboratoryOrderAndResult->addChild("LaboratoryResultedTest");
+		//$LaboratoryResultedTest->addChild("Code", "11");
+		//$LaboratoryResultedTest->addChild("CodeDescTxt", "CD4");
+		//$LaboratoryResult = $LaboratoryOrderAndResult->addChild("LaboratoryResult");
+		//$AnswerNumeric = $LaboratoryResult->addChild("AnswerNumeric");
+	}else{
+		$LaboratoryOrderAndResult = $LaboratoryReport->addChild("LaboratoryOrderAndResult");
+		$LaboratoryOrderAndResult->addChild("OrderedTestDate", $row['VisitDate']);
+		$LaboratoryResultedTest = $LaboratoryOrderAndResult->addChild("LaboratoryResultedTest");
+		$LaboratoryResultedTest->addChild("Code", "11");
+		$LaboratoryResultedTest->addChild("CodeDescTxt", "CD4");
+		$LaboratoryResult = $LaboratoryOrderAndResult->addChild("LaboratoryResult");
+		$AnswerNumeric = $LaboratoryResult->addChild("AnswerNumeric");
+	}
+	
+	
+	
+	
+	
+	
+	if($row['Value1']==''){
+		//$AnswerNumeric->addChild("Value1", $row['Value1']);
+	}else{
+		$AnswerNumeric->addChild("Value1", $row['Value1']);
+	}
+	if($row['VisitDate']==''){
+		//$LaboratoryOrderAndResult->addChild("ResultedTestDate", $row['VisitDate']);
+		//$LaboratoryReport->addChild("Clinician", $row['Clinician']);
+		//$LaboratoryReport->addChild("ReportedBy", $row['ReportedBy']);
+		//$LaboratoryReport->addChild("CheckedBy", $row['checkedby']);		
+	}else{
+		$LaboratoryOrderAndResult->addChild("ResultedTestDate", $row['VisitDate']);
+		$LaboratoryReport->addChild("Clinician", $row['Clinician']);
+		$LaboratoryReport->addChild("ReportedBy", $row['ReportedBy']);
+		$LaboratoryReport->addChild("CheckedBy", $row['checkedby']);	
+	}
+	
+	
+
+	
+	/////// add Regimen 1 ///////
+	{		include './mandate_/lidh2.php';
+		$sqla="SELECT dispensedate as PrescribedRegimenDispensedDate,CASE drugname1 
+WHEN 'AZT/3TC/EFV' THEN '10' 
+WHEN 'AZT/3TC/NVP' THEN '10' 
+WHEN 'TDF/FTC/EFV' THEN '10' 
+WHEN 'TDF/FTC/NVP' THEN '10' 
+WHEN 'TDF/3TC/EFV' THEN '10' 
+WHEN 'TDF/3TC/NVP' THEN '10' 
+WHEN 'AZT/3TC/EFV' THEN '10' 
+WHEN 'AZT/3TC/NVP' THEN '10' 
+WHEN 'ABC/3TC/EFV' THEN '10'
+WHEN 'AZT/3TC/ABC' THEN '11'
+WHEN 'AZT/3TC/TDF' THEN '11'
+WHEN 'ABC/3TC/NVP' THEN '11'
+WHEN 'AZT/3TC/ABC' THEN '11'
+WHEN 'ABC/3TC/EFV' THEN '11'
+WHEN 'ABC/3TC/EFV' THEN '11'
+WHEN 'TDF/FTC/LPV/r' THEN '20'
+WHEN 'TDF/3TC/LPV/r' THEN '20'
+WHEN 'TDF/FTC/ATV/r' THEN '20'
+WHEN 'TDF/3TC/ATV/r' THEN '20'
+WHEN 'AZT/3TC/LPV/r' THEN '20'
+WHEN 'AZT/3TC/ATV/r' THEN '20'
+WHEN 'ABC/3TC/LPV/r' THEN '20'
+WHEN 'AZT/3TC/LPV/r' THEN '20' 
+WHEN 'd4T/3TC/LPV/r' THEN '20' 
+WHEN 'ddi/3TC/NVP' THEN '20' 
+WHEN 'ABC/3TC/ddi' THEN '20' 
+WHEN 'DAR' THEN '30' 
+WHEN 'RAL' THEN '30' 
+WHEN 'ETR' THEN '30' 
+WHEN 'RTV' THEN '30' 
+ELSE '' END as PrescribedRegimenLineCode,CASE drugname1 
+WHEN 'AZT/3TC/EFV' THEN '1a' 
+WHEN 'AZT/3TC/NVP' THEN '1b' 
+WHEN 'TDF/FTC/EFV' THEN '1c' 
+WHEN 'TDF/FTC/NVP' THEN '1d' 
+WHEN 'TDF/3TC/EFV' THEN '1e' 
+WHEN 'TDF/3TC/NVP' THEN '1f' 
+WHEN 'AZT/3TC/ABC' THEN '1g' 
+WHEN 'AZT/3TC/TDF' THEN '1h' 
+WHEN 'TDF/FTC/LPV/r' THEN '2a' 
+WHEN 'TDF/3TC/LPV/r' THEN '2b' 
+WHEN 'TDF/FTC/ATV/r' THEN '2c' 
+WHEN 'TDF/3TC/ATV/r' THEN '2d' 
+WHEN 'AZT/3TC/LPV/r' THEN '2e' 
+WHEN 'AZT/3TC/ATV/r' THEN '2f' 
+WHEN 'ABC/3TC/NVP' THEN '4d' 
+WHEN 'ABC/3TC/EFV' THEN '4c' 
+WHEN 'd4T/3TC/NVP' THEN '4d'
+WHEN 'ABC/3TC/LPV/r' THEN '5a'
+WHEN 'd4T/3TC/LPV/r' THEN '5c'
+WHEN 'ddi/3TC/NVP' THEN '5d'
+WHEN 'ABC/3TC/ddi' THEN '5e'
+WHEN 'TLC' THEN '4' 
+ELSE '' END as CodePharmDrgName1,CASE drugname1 
+WHEN 'AZT/3TC/EFV' THEN 'AZT-3TC-EFV' 
+WHEN 'AZT/3TC/NVP' THEN 'AZT-3TC-NVP' 
+WHEN 'TDF/FTC/EFV' THEN 'TDF-FTC-EFV' 
+WHEN 'TDF/FTC/NVP' THEN 'TDF-FTC-NVP' 
+WHEN 'TDF/3TC/EFV' THEN 'TDF-3TC-EFV' 
+WHEN 'TDF/3TC/NVP' THEN 'TDF-3TC-NVP' 
+WHEN 'AZT/3TC/ABC' THEN 'AZT-3TC-ABC' 
+WHEN 'AZT/3TC/TDF' THEN 'AZT-3TC-TDF' 
+WHEN 'ABC/3TC/NVP' THEN 'ABC-3TC-NVP' 
+WHEN 'ABC/3TC/EFV' THEN 'ABC-3TC-EFV' 
+WHEN 'd4T/3TC/NVP' THEN 'd4T-3TC-NVP'
+WHEN 'ABC/3TC/LPV/r' THEN 'ABC-3TC-LPV/r'
+WHEN 'd4T/3TC/LPV/r' THEN 'd4T-3TC-LPV/r'
+WHEN 'ddi/3TC/NVP' THEN 'ddi-3TC-NVP'
+WHEN 'ABC/3TC/ddi' THEN 'ABC-3TC-ddi'
+WHEN 'TDF/FTC/LPV/r' THEN 'TDF-FTC-LPV/r' 
+WHEN 'TDF/3TC/LPV/r' THEN 'TDF-3TC-LPV/r' 
+WHEN 'TDF/FTC/ATV/r' THEN 'TDF-FTC-ATV/r' 
+WHEN 'TDF/3TC/ATV/r' THEN 'TDF-3TC-ATV/r' 
+WHEN 'AZT/3TC/LPV/r' THEN 'AZT-3TC-LPV/r' 
+WHEN 'AZT/3TC/ATV/r' THEN 'AZT-3TC-ATV/r' 
+ELSE '' END as CodeDescTxtPharmDrgName1 ,pharmacyid as VisitIDpharm,visitdate as VisitDatepharm,regduration1 as PrescribedRegimenDuration
+FROM pharmacy 
+where pepid='$row[pepid]' AND drugname1!=''
+order by visitdate DESC LIMIT 1";
+		$resulta=mysqli_query($con,$sqla);
+		$info1a=mysqli_fetch_assoc($resulta);
+	if($info1a['CodeDescTxtPharmDrgName1']==''){
+	//$Regimen = $Condition->addChild("Regimen");
+	//$Regimen->addChild("VisitID", $row['VisitIDpharm']);
+	//$Regimen->addChild("VisitDate", $row['VisitDatepharm']);
+	
+	//$PrescribedRegimen = $Regimen->addChild("PrescribedRegimen");
+	//$PrescribedRegimen->addChild("Code", $row['CodePharmDrgName1']);
+	//$PrescribedRegimen->addChild("CodeDescTxt", $row['CodeDescTxtPharmDrgName1']);
+	
+	//$Regimen->addChild("PrescribedRegimenTypeCode", "ART");
+	//$Regimen->addChild("PrescribedRegimenLineCode", $row['PrescribedRegimenLineCode']);
+	//$Regimen->addChild("PrescribedRegimenDuration", $row['PrescribedRegimenDuration']);
+	//$Regimen->addChild("PrescribedRegimenDispensedDate", $row['PrescribedRegimenDispensedDate']);
+	//$Regimen->addChild("DateRegimenStarted", $info1['DateRegimenStarted']);
+	//$Regimen->addChild("DateRegimenStartedDD", $info1['DateRegimenStartedDD']);
+	//$Regimen->addChild("DateRegimenStartedMM", $info1['DateRegimenStartedMM']);
+	//$Regimen->addChild("DateRegimenStartedYYYY", $info1['DateRegimenStartedYYYY']);
+	//$Regimen->addChild("PrescribedRegimenInitialIndicator", "false");
+	//$Regimen->addChild("PrescribedRegimenCurrentIndicator", "false");
+	//$Regimen->addChild("TypeOfPreviousExposureCode", "N");
+	//$Regimen->addChild("SubstitutionIndicator", "false");
+	//$Regimen->addChild("SwitchIndicator", "false");
+	}
+	else{
+		include './mandate_/lidh2.php';
+		$sql="SELECT visitdate as DateRegimenStarted,DATE_FORMAT(visitdate,'%d') as DateRegimenStartedDD,DATE_FORMAT(visitdate,'%c') as DateRegimenStartedMM,DATE_FORMAT(visitdate,'%Y') as DateRegimenStartedYYYY FROM pharmacy where pepid='$row[pepid]' AND drugname1!='' order by visitdate ASC LIMIT 1";
+		$result=mysqli_query($con,$sql);
+		$info1=mysqli_fetch_assoc($result);
+		
+	$Regimen = $Condition->addChild("Regimen");
+	$Regimen->addChild("VisitID", $info1a['VisitIDpharm']);
+	$Regimen->addChild("VisitDate", $info1a['VisitDatepharm']);
+	
+	$PrescribedRegimen = $Regimen->addChild("PrescribedRegimen");;
+	$PrescribedRegimen->addChild("Code", $info1a['CodePharmDrgName1']);
+	$PrescribedRegimen->addChild("CodeDescTxt", $info1a['CodeDescTxtPharmDrgName1']);
+	
+	$Regimen->addChild("PrescribedRegimenTypeCode", "ART");
+	$Regimen->addChild("PrescribedRegimenLineCode", $info1a['PrescribedRegimenLineCode']);
+	$Regimen->addChild("PrescribedRegimenDuration", $info1a['PrescribedRegimenDuration']);
+	$Regimen->addChild("PrescribedRegimenDispensedDate", $info1a['PrescribedRegimenDispensedDate']);
+	$Regimen->addChild("DateRegimenStarted", $info1['DateRegimenStarted']);
+	$Regimen->addChild("DateRegimenStartedDD", $info1['DateRegimenStartedDD']);
+	$Regimen->addChild("DateRegimenStartedMM", $info1['DateRegimenStartedMM']);
+	$Regimen->addChild("DateRegimenStartedYYYY", $info1['DateRegimenStartedYYYY']);
+	$Regimen->addChild("PrescribedRegimenInitialIndicator", "false");
+	$Regimen->addChild("PrescribedRegimenCurrentIndicator", "false");
+	$Regimen->addChild("TypeOfPreviousExposureCode", "N");
+	$Regimen->addChild("SubstitutionIndicator", "false");
+	$Regimen->addChild("SwitchIndicator", "false");
+	}}
+	/////// add Regimen 2 ///////
+	{	include './mandate_/lidh2.php';
+		$sqlb="SELECT pharmacyid as VisitIDCTX,visitdate as PrescribedRegimenDispensedDateCTX,CASE  
+WHEN oiqty like '%100%' AND oidrug like '%CTX%' THEN 'CTX100' 
+WHEN oiqty like '%200%' AND oidrug like '%CTX%' THEN 'CTX200' 
+WHEN oiqty like '%300%' AND oidrug like '%CTX%' THEN 'CTX300' 
+WHEN oiqty like '%480%' AND oidrug like '%CTX%' THEN 'CTX480' 
+WHEN oiqty like '%960%' AND oidrug like '%CTX%' THEN 'CTX960' 
+ELSE '' END as CodeCTXPharm,CASE  
+WHEN oiqty like '%100%' AND oidrug like '%CTX%' THEN 'Cotrimoxazole 100mg' 
+WHEN oiqty like '%200%' AND oidrug like '%CTX%' THEN 'Cotrimoxazole 200mg' 
+WHEN oiqty like '%300%' AND oidrug like '%CTX%' THEN 'Cotrimoxazole 300mg' 
+WHEN oiqty like '%480%' AND oidrug like '%CTX%' THEN 'Cotrimoxazole 480mg' 
+WHEN oiqty like '%960%' AND oidrug like '%CTX%' THEN 'Cotrimoxazole 960mg' 
+ELSE '' END as CodeDescTxtCTXPharm,CASE oiduration 
+WHEN '1 month' THEN '30' 
+WHEN '2 month' THEN '60' 
+WHEN '3 month' THEN '90' 
+WHEN '4 month' THEN '120' 
+ELSE '' END as PrescribedRegimenDurationCTXpharm
+FROM pharmacy 
+where pepid='$row[pepid]' and lower(oidrug) like '%ctx%'
+order by visitdate DESC LIMIT 1";
+		$resultb=mysqli_query($con,$sqlb);
+		$info1b=mysqli_fetch_assoc($resultb);
+	if($info1b['CodeDescTxtCTXPharm']==''){
+
+	//$Regimen = $Condition->addChild("Regimen");
+	//$Regimen->addChild("VisitID", $row['VisitIDpharm']);
+	//$Regimen->addChild("VisitDate", $row['VisitDatepharm']);
+	
+	//$PrescribedRegimen = $Regimen->addChild("PrescribedRegimen");
+	//$PrescribedRegimen->addChild("Code", $row['CodeCTX']);
+	//$PrescribedRegimen->addChild("CodeDescTxt", $row['CodeDescTxtCTX']);
+	
+	//$Regimen->addChild("PrescribedRegimenTypeCode", $row['PrescribedRegimenDurationCTXpharm']);
+	//$Regimen->addChild("PrescribedRegimenDuration", $info1['DateRegimenStarted']);
+	//$Regimen->addChild("PrescribedRegimenDispensedDate", $info1['DateRegimenStarted']);
+	//$Regimen->addChild("DateRegimenStarted", $info1['DateRegimenStarted']);
+	//$Regimen->addChild("DateRegimenStartedDD", $info1['DateRegimenStartedDD']);
+	//$Regimen->addChild("DateRegimenStartedMM", $info1['DateRegimenStartedMM']);
+	//$Regimen->addChild("DateRegimenStartedYYYY", $info1['DateRegimenStartedYYYY']);
+	//$Regimen->addChild("PrescribedRegimenInitialIndicator", "true");
+	//$Regimen->addChild("PrescribedRegimenCurrentIndicator", "true");
+	//$Regimen->addChild("SubstitutionIndicator", "false");
+	//$Regimen->addChild("SwitchIndicator", "false");
+	}
+	else{
+		include './mandate_/lidh2.php';
+		$sql="SELECT dispensedate as DateRegimenStarted,DATE_FORMAT(dispensedate,'%d') as DateRegimenStartedDD,DATE_FORMAT(dispensedate,'%c') as DateRegimenStartedMM,DATE_FORMAT(dispensedate,'%Y') as DateRegimenStartedYYYY FROM pharmacy where pepid='$row[pepid]' and lower(oidrug) like '%ctx%' order by visitdate ASC LIMIT 1";
+		$result=mysqli_query($con,$sql);
+		$info1=mysqli_fetch_assoc($result);
+		
+	$Regimen = $Condition->addChild("Regimen");
+	$Regimen->addChild("VisitID", $info1b['VisitIDCTX']);
+	$Regimen->addChild("VisitDate", $info1b['PrescribedRegimenDispensedDateCTX']);
+	
+	$PrescribedRegimen = $Regimen->addChild("PrescribedRegimen");
+	$PrescribedRegimen->addChild("Code", $info1b['CodeCTXPharm']);
+	$PrescribedRegimen->addChild("CodeDescTxt", $info1b['CodeDescTxtCTXPharm']);
+	
+	$Regimen->addChild("PrescribedRegimenTypeCode", "CTX");
+	$Regimen->addChild("PrescribedRegimenDuration", $info1b['PrescribedRegimenDurationCTXpharm']);
+	$Regimen->addChild("PrescribedRegimenDispensedDate", $info1b['PrescribedRegimenDispensedDateCTX']);
+	$Regimen->addChild("DateRegimenStarted", $info1['DateRegimenStarted']);
+	$Regimen->addChild("DateRegimenStartedDD", $info1['DateRegimenStartedDD']);
+	$Regimen->addChild("DateRegimenStartedMM", $info1['DateRegimenStartedMM']);
+	$Regimen->addChild("DateRegimenStartedYYYY", $info1['DateRegimenStartedYYYY']);
+	$Regimen->addChild("PrescribedRegimenInitialIndicator", "true");
+	$Regimen->addChild("PrescribedRegimenCurrentIndicator", "true");
+	$Regimen->addChild("SubstitutionIndicator", "false");
+	$Regimen->addChild("SwitchIndicator", "false");
+		}
+	}
+	/////// add Regimen 3 ///////
+	{include './mandate_/lidh2.php';
+		$sqlc="SELECT pharmacyid as VisitIDtb,visitdate as visitdateTB,CASE tbduration 
+WHEN '1 month' THEN '30' 
+WHEN '2 month' THEN '60' 
+WHEN '3 month' THEN '90' 
+WHEN '4 month' THEN '120' 
+ELSE '' END as PrescribedRegimenDurationTBpharm,CASE  
+WHEN tbdrug LIKE '%INH%' and tbdrug LIKE '%Rifampicin%' AND tbdrug LIKE '%PZI%' AND tbdrug LIKE '%Streptomycin Injection%' AND tbdrug LIKE '%Ethambutol%' THEN 'HRZES'
+WHEN tbdrug LIKE '%INH%' and tbdrug LIKE '%Rifampicin%' AND tbdrug LIKE '%PZI%' AND tbdrug LIKE '%Ethambutol%' THEN 'HRZE' 
+WHEN tbdrug LIKE '%INH%' and tbdrug LIKE '%Rifampicin%' AND tbdrug LIKE '%Ethambutol%' THEN 'HRE' 
+WHEN tbdrug LIKE '%INH%' and tbdrug LIKE '%Rifampicin%' AND tbdrug LIKE '%Streptomycin Injection%' THEN 'HRS' 
+WHEN tbdrug LIKE '%INH%' and tbdrug LIKE '%Rifampicin%' THEN 'HR' 
+WHEN tbdrug LIKE '%INH%' AND tbdrug LIKE '%Ethambutol%' THEN 'HE' 
+WHEN tbdrug LIKE '%Streptomycin Injection%' THEN 'S' 
+WHEN tbdrug LIKE '%PZI%' THEN 'Z' 
+WHEN tbdrug LIKE '%Ethambutol%' THEN 'E' 
+WHEN tbdrug LIKE '%Rifampicin%' THEN 'R' 
+WHEN tbdrug LIKE '%INH%' THEN 'H'  
+ELSE '' END as tbdrugcode,tbdrug as tbdrug
+FROM pharmacy 
+where pepid='$row[pepid]' and (lower(tbdrug) like '%rifampicin%' or lower(tbdrug) like '%inh%' or lower(tbdrug) like '%strept%' or lower(tbdrug) like '%etham%' or lower(tbdrug) like '%pzi%')
+order by visitdate DESC LIMIT 1";
+		$resultc=mysqli_query($con,$sqlc);
+		$info2c=mysqli_fetch_assoc($resultc);
+
+	if($info2c['tbdrugcode']==''){
+	//$Regimen = $Condition->addChild("Regimen");
+	//$Regimen->addChild("VisitID", $row['VisitIDpharm']);
+	//$Regimen->addChild("VisitDate", $row['VisitDatepharm']);
+	
+	//$PrescribedRegimen = $Regimen->addChild("PrescribedRegimen");
+	//$PrescribedRegimen->addChild("Code", $row['tbdrugcode']);
+	//$PrescribedRegimen->addChild("CodeDescTxt", $row['tbdrug']);
+	
+	//$Regimen->addChild("PrescribedRegimenTypeCode", "TB");
+	//$Regimen->addChild("PrescribedRegimenDuration", $info2['PrescribedRegimenDurationTBpharm']);
+	//$Regimen->addChild("PrescribedRegimenDispensedDate", $info2['DateRegimenStarted']);
+	//$Regimen->addChild("DateRegimenStarted", $info2['DateRegimenStarted']);
+	//$Regimen->addChild("DateRegimenStartedDD", $info2['DateRegimenStartedDD']);
+	//$Regimen->addChild("DateRegimenStartedMM", $info2['DateRegimenStartedMM']);
+	//$Regimen->addChild("DateRegimenStartedYYYY", $info2['DateRegimenStartedYYYY']);
+	//$Regimen->addChild("PrescribedRegimenInitialIndicator", "true");
+	//$Regimen->addChild("PrescribedRegimenCurrentIndicator", "true");
+	//$Regimen->addChild("SubstitutionIndicator", "false");
+	//$Regimen->addChild("SwitchIndicator", "false");
+	}
+	else{
+		include './mandate_/lidh2.php';
+		$sql="SELECT dispensedate as DateRegimenStarted,DATE_FORMAT(dispensedate,'%d') as DateRegimenStartedDD,DATE_FORMAT(dispensedate,'%c') as DateRegimenStartedMM,DATE_FORMAT(dispensedate,'%Y') as DateRegimenStartedYYYY FROM pharmacy where pepid='$row[pepid]' and (lower(tbdrug) like '%rifampicin%' or lower(tbdrug) like '%inh%' or lower(tbdrug) like '%strept%' or lower(tbdrug) like '%etham%' or lower(tbdrug) like '%pzi%') order by visitdate ASC LIMIT 1";
+		$result=mysqli_query($con,$sql);
+		$info2=mysqli_fetch_assoc($result);
+	$Regimen = $Condition->addChild("Regimen");
+	$Regimen->addChild("VisitID", $info2c['VisitIDtb']);
+	$Regimen->addChild("VisitDate", $info2c['visitdateTB']);
+	
+	$PrescribedRegimen = $Regimen->addChild("PrescribedRegimen");
+	$PrescribedRegimen->addChild("Code", $info2c['tbdrugcode']);
+	$PrescribedRegimen->addChild("CodeDescTxt", $info2c['tbdrug']);
+	
+	$Regimen->addChild("PrescribedRegimenTypeCode", "TB");
+	$Regimen->addChild("PrescribedRegimenDuration", $info2c['PrescribedRegimenDurationTBpharm']);
+	$Regimen->addChild("PrescribedRegimenDispensedDate", $info2c['visitdateTB']);
+	$Regimen->addChild("DateRegimenStarted", $info2['DateRegimenStarted']);
+	$Regimen->addChild("DateRegimenStartedDD", $info2['DateRegimenStartedDD']);
+	$Regimen->addChild("DateRegimenStartedMM", $info2['DateRegimenStartedMM']);
+	$Regimen->addChild("DateRegimenStartedYYYY", $info2['DateRegimenStartedYYYY']);
+	$Regimen->addChild("PrescribedRegimenInitialIndicator", "true");
+	$Regimen->addChild("PrescribedRegimenCurrentIndicator", "true");
+	$Regimen->addChild("SubstitutionIndicator", "false");
+	$Regimen->addChild("SwitchIndicator", "false");
+	}
+	}
+	/////////////////////////////////////////////////////////////End Condition//////////////////////////////////// 
+$filen=""; 
+$filen.="INITIAL_"; 
+$filen.=date('YmdHis')."_";
+$filen.=$row['PatientIdentifier'];
+
+////////////////////CREATE ndr FOLDER/////////////
+if (!file_exists('c:\ndr')) {
+    mkdir('c:\ndr', 0777, true);
+}
+    /*** echo the xml ***/ 
+    $Container->asXML("c:\\ndr\\".$filen.".xml"); 
+	echo $filen.' Generated...'.'<br>';
+ 
+    }
+
+    /* free result set */
+    $result->free();
+	echo 'FILE GENERATION COMPLETE';
+/* close connection */
+
+?>

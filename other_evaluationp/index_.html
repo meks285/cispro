@@ -1,0 +1,103 @@
+<?php
+
+$con=mysql_connect("localhost","root","Nu66et%%","apindb");
+mysql_select_db("apindb");
+// Check connection
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
+
+
+class MyClass{
+    public function GetUserInformation(){
+	$table = 'pmtctregistry';
+if(mysql_num_rows(mysql_query("SHOW TABLES LIKE '".$table."'"))==1){
+
+	} 
+    
+	else {
+		
+		$results = mysql_query("CREATE TABLE IF NOT EXISTS `basic_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pepid` varchar(100) DEFAULT NULL,
+  `pmtct_id` varchar(20) DEFAULT NULL,
+  `uniqueid` varchar(100) NOT NULL,
+  `hospitalunit` varchar(255) DEFAULT NULL,
+  `surname` varchar(255) DEFAULT NULL,
+  `othernames` varchar(255) DEFAULT NULL,
+  `hivdate` date DEFAULT NULL,
+  `dateofbirth` date DEFAULT NULL,
+  `phoneno` varchar(100) DEFAULT NULL,
+  `basicinfosex` varchar(10) DEFAULT NULL,
+  `facilityname` varchar(255) DEFAULT NULL,
+  `basicinfoage` varchar(10) DEFAULT NULL,
+  `first_anc_visit_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)");
+
+$info = '';
+	}
+		
+    } 
+}
+$class = new MyClass;
+$info = $class->GetUserInformation();
+echo mysql_error();
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="keywords" content="jquery,ui,easy,easyui,web">
+	<meta name="description" content="easyui help you build your web page easily!">
+	<title>CiS Pro - PMTCT Registry</title>
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/demo/demo.css">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>
+	<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.edatagrid.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#dg').edatagrid({
+				url: 'get_users.php',
+				saveUrl: 'save_user.php',
+				updateUrl: 'update_user.php',
+				destroyUrl: 'destroy_user.php'
+			});
+		});
+	</script>
+</head>
+<body>
+	<h2>PMTCT Registry</h2>
+	<div class="demo-info" style="margin-bottom:10px">
+		<div class="demo-tip icon-tip">&nbsp;</div>
+		<div>Double click the row to begin editing.</div>
+	</div>
+	
+	<table id="dg" title="PMTCT Registry List" style="width:700px;height:250px"
+			toolbar="#toolbar" pagination="true" idField="id"
+			rownumbers="true" fitColumns="true" singleSelect="true">
+		<thead>
+			<tr>
+				<th field="firstname" width="50" editor="{type:'validatebox',options:{required:true}}">First Name</th>
+				<th field="lastname" width="50" editor="{type:'validatebox',options:{required:true}}">Last Name</th>
+				<th field="hospid" width="50" editor="{type:'validatebox',options:{required:true}}">Hospital ID</th>
+				<th field="hivdate" width="50" editor="text">HIV Test Date</th>
+				<th field="pmtctarvdate" width="60" editor="{type:'validatebox',options:{required:false}}">PMTCT ARV Start Date</th>
+				<th field="pmtctid" width="50" editor="text">PMTCT ID</th>
+			<th field="eid" width="50" editor="text">EID</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="toolbar">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#dg').edatagrid('addRow')">New</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#dg').edatagrid('destroyRow')">Destroy</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#dg').edatagrid('saveRow')">Save</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#dg').edatagrid('cancelRow')">Cancel</a>
+	</div>
+	
+</body>
+</html>

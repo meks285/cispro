@@ -1,0 +1,42 @@
+<?php
+// Create your database query
+$con=mysql_connect("localhost","root","Nu66et%%");
+$db_selected = mysql_select_db('apindb', $con);
+// Set Year Variable
+$rad_year=$_POST['radyear'];
+$query = "(SELECT 'Patient ID','Hospital ID','Sex','Age','AgeMonths','ART Start Date','Last Visit Date','Months of ARV Refill','Regimen at ART Start','Regimen Line at ART Start','Current Regimen','Current Regimen Line','Pregnancy Status','Current ART Status')
+UNION (select a.pepid,a.hospitalid,a.sex,a.age,period_diff(date_format(now(), '%Y%m'), date_format(a.dob, '%Y%m')) as AgeMonths,MIN(b.visitdate) as 'ART Start Date', MAX(b.visitdate) as 'Last Visit Date',period_diff(date_format(MAX(b.visitdate), '%Y%m'), date_format(MIN(b.visitdate), '%Y%m')) as 'Months of ARV Refill',b.drugname1 as 'Regimen at ART Start',CASE WHEN b.drugname1 like '%/r%' then 2 ELSE 1 END as 'Regimen Line at ART Start',c.drugname1 as 'Current Regimen',CASE WHEN c.drugname1 like '%/r%' then 2 ELSE 1 END as 'Current Regimen Line',c.pregyn,CASE 
+WHEN lower(patientdied)='art' OR lower(patientdied)='pre-art'  THEN 'DEAD'
+WHEN lower(patienttransout)='art' OR lower(patienttransout)='pre-art'  THEN 'Transferred Out' ELSE '' END as 'Current ART Status'
+from patient a JOIN pharmacy b
+ON (a.pepid=b.pepid)
+JOIN (SELECT t1.pepid, t1.visitdate,t1.drugname1,t1.pregyn
+FROM pharmacy t1
+WHERE t1.visitdate = (SELECT t2.visitdate
+                 FROM pharmacy t2
+                 WHERE t2.pepid = t1.pepid            
+                 ORDER BY t2.visitdate DESC
+                 LIMIT 1)
+and t1.drugname1!='') c
+ON (b.pepid=c.pepid)
+WHERE b.drugname1!=''
+group by a.pepid
+having EXTRACT(YEAR from MIN(b.visitdate))='$rad_year'
+into outfile CONCAT('c:/RADET/RADET_YEAR_', CONCAT('$rad_year','.csv')) 
+FIELDS TERMINATED BY ',' 
+OPTIONALLY ENCLOSED BY '\"'
+LINES TERMINATED BY '\n')";
+
+// Execute the database query
+$result = mysql_query($query);
+$pointer_cluster='option_failure';
+if ($result){
+	header("Refresh: 0;url=RADET_Reports.php?radet_year=$rad_year&status=finite");
+	$pointer_cluster='';
+	//exit;
+	}
+	elseif($pointer_cluster=='option_failure'){
+	header("Refresh: 0;url=RADET_Reports.php?radet_year=$rad_year&fstatus=infinite");
+	exit;		
+	}
+?>

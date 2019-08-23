@@ -1,0 +1,138 @@
+<?php
+$repmonth = $_GET['reportingmonth'];
+$repmonth;
+$repyear = $_GET['reportingyear'];
+$repyear;
+
+
+		if($repmonth=='1' && $repyear==2017 ) {$rtime = strtotime('1/31/2017'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2017) {$rtime = strtotime('2/28/2017'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2017) {$rtime = strtotime('3/31/2017'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2017) {$rtime = strtotime('4/30/2017'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2017) {$rtime = strtotime('5/31/2017'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2017) {$rtime = strtotime('6/30/2017'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2017) {$rtime = strtotime('7/31/2017'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2017) {$rtime = strtotime('8/31/2017'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2017) {$rtime = strtotime('9/30/2017'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2017) {$rtime = strtotime('10/31/2017'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2017) {$rtime = strtotime('11/30/2017'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2017) {$rtime = strtotime('12/31/2017'); $rdate=date('Y-m-d',$rtime);}
+	elseif($repmonth=='1' && $repyear==2008 ) {$rtime = strtotime('1/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2008) {$rtime = strtotime('2/28/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2008) {$rtime = strtotime('3/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2008) {$rtime = strtotime('4/30/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2008) {$rtime = strtotime('5/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2008) {$rtime = strtotime('6/30/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2008) {$rtime = strtotime('7/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2008) {$rtime = strtotime('8/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2008) {$rtime = strtotime('9/30/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2008) {$rtime = strtotime('10/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2008) {$rtime = strtotime('11/30/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2008) {$rtime = strtotime('12/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2009 ) {$rtime = strtotime('1/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2009) {$rtime = strtotime('2/28/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2009) {$rtime = strtotime('3/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2009) {$rtime = strtotime('4/30/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2009) {$rtime = strtotime('5/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2009) {$rtime = strtotime('6/30/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2009) {$rtime = strtotime('7/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2009) {$rtime = strtotime('8/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2009) {$rtime = strtotime('9/30/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2009) {$rtime = strtotime('10/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2009) {$rtime = strtotime('11/30/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2009) {$rtime = strtotime('12/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2010 ) {$rtime = strtotime('1/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2010) {$rtime = strtotime('2/28/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2010) {$rtime = strtotime('3/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2010) {$rtime = strtotime('4/30/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2010) {$rtime = strtotime('5/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2010) {$rtime = strtotime('6/30/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2010) {$rtime = strtotime('7/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2010) {$rtime = strtotime('8/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2010) {$rtime = strtotime('9/30/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2010) {$rtime = strtotime('10/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2010) {$rtime = strtotime('11/30/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2010) {$rtime = strtotime('12/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2011) {$rtime = strtotime('1/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2011) {$rtime = strtotime('2/28/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2011) {$rtime = strtotime('3/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2011) {$rtime = strtotime('4/30/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2011) {$rtime = strtotime('5/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2011) {$rtime = strtotime('6/30/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2011) {$rtime = strtotime('7/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2011) {$rtime = strtotime('8/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2011) {$rtime = strtotime('9/30/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2011) {$rtime = strtotime('10/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2011) {$rtime = strtotime('11/30/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2011) {$rtime = strtotime('12/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2012 ) {$rtime = strtotime('1/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2012) {$rtime = strtotime('2/28/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2012) {$rtime = strtotime('3/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2012) {$rtime = strtotime('4/30/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2012) {$rtime = strtotime('5/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2012) {$rtime = strtotime('6/30/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2012) {$rtime = strtotime('7/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2012) {$rtime = strtotime('8/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2012) {$rtime = strtotime('9/30/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2012) {$rtime = strtotime('10/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2012) {$rtime = strtotime('11/30/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2012) {$rtime = strtotime('12/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2013 ) {$rtime = strtotime('1/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2013) {$rtime = strtotime('2/28/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2013) {$rtime = strtotime('3/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2013) {$rtime = strtotime('4/30/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2013) {$rtime = strtotime('5/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2013) {$rtime = strtotime('6/30/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2013) {$rtime = strtotime('7/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2013) {$rtime = strtotime('8/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2013) {$rtime = strtotime('9/30/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2013) {$rtime = strtotime('10/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2013) {$rtime = strtotime('11/30/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2013) {$rtime = strtotime('12/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2014) {$rtime = strtotime('1/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2014) {$rtime = strtotime('2/28/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2014) {$rtime = strtotime('3/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2014) {$rtime = strtotime('4/30/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2014) {$rtime = strtotime('5/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2014) {$rtime = strtotime('6/30/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2014) {$rtime = strtotime('7/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2014) {$rtime = strtotime('8/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2014) {$rtime = strtotime('9/30/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2014) {$rtime = strtotime('10/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2014) {$rtime = strtotime('11/30/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2014) {$rtime = strtotime('12/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2015 ) {$rtime = strtotime('1/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2015) {$rtime = strtotime('2/28/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2015) {$rtime = strtotime('3/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2015) {$rtime = strtotime('4/30/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2015) {$rtime = strtotime('5/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2015) {$rtime = strtotime('6/30/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2015) {$rtime = strtotime('7/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2015) {$rtime = strtotime('8/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2015) {$rtime = strtotime('9/30/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2015) {$rtime = strtotime('10/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2015) {$rtime = strtotime('11/30/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2015) {$rtime = strtotime('12/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2016) {$rtime = strtotime('1/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2016) {$rtime = strtotime('2/28/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2016) {$rtime = strtotime('3/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2016) {$rtime = strtotime('4/30/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2016) {$rtime = strtotime('5/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2016) {$rtime = strtotime('6/30/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2016) {$rtime = strtotime('7/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2016) {$rtime = strtotime('8/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2016) {$rtime = strtotime('9/30/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2016) {$rtime = strtotime('10/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2016) {$rtime = strtotime('11/30/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2016) {$rtime = strtotime('12/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	else {$rdate = "";}
+
+$date6 = date_create($rdate);
+date_sub($date6, date_interval_create_from_date_string('6 months'));
+$date6low= date_format($date6, 'Y-m-d');
+
+
+$datecc1 = date_create($rdate);
+date_sub($datecc1, date_interval_create_from_date_string('12 months'));
+$date12low= date_format($datecc1, 'Y-m-d');
+?>

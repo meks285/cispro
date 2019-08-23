@@ -1,0 +1,8 @@
+ROUND(DATEDIFF(enroldate , dob)/30.4) < 12
+
+ROUND(DATEDIFF(enroldate , dob)/365,1) between 1 and 14
+
+ROUND(DATEDIFF(enroldate , dob)/365,1) >= 15
+
+
+Number of persons enrolled for HIV care (PreART and ART) who commenced TB treatment============ Needs to pull TB drugs from pharmacy

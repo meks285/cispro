@@ -1,0 +1,339 @@
+<?php
+
+$con=mysql_connect("localhost","root","Nu66et%%","apindb");
+mysql_select_db("apindb");
+// Check connection
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
+
+
+class MyClassa{
+    public function GetUserInformation(){
+	$table1 = 'patient';
+	$table2 = 'laboratory';
+	$table3 = 'facility';
+	
+	$column = 'patacc_tb';
+	$column1 = 'currentlybreastf';
+	$column2 = 'otherspec';
+
+	$column4 = 'resultintepretation';
+	$column5 = 'assayedby';
+	$column6 = 'assaydate';
+	$column7 = 'approvedby';
+	$column8 = 'approvedate';
+	$column9 = 'orderdate';
+	$column10 = 'collectedby';
+	$column11 = 'collectdate';
+	$column13 = 'pcrlabname';
+	
+	$column14 = 'otherstatus';
+	$column15 = 'cliniciandate';
+	$column16 = 'pcrsampleno';
+	$column17 = 'pcrsampletype';
+	$column18 = 'pcrsamplecolldate';
+	$column19 = 'pcrsamplerecievedate';
+	$column20 = 'vl_indication';
+	$column21 = 'artstartdate';
+	$column22 = 'drugregimen';
+	$column23 = 'orderedby';
+	$column23 = 'bmi_muac';
+
+	$column24 = 'lga';
+	$column25 = 'state';
+
+	
+if(mysql_num_rows(mysql_query("SHOW TABLES LIKE '".$table1."'"))==1){
+	if(mysql_num_rows(mysql_query("SHOW COLUMNS FROM `patient` LIKE '".$column."'"))==0){
+	$results_C1 = mysql_query("ALTER TABLE patient
+	ADD COLUMN patacc_tb varchar(10) DEFAULT NULL,
+	ADD COLUMN otherspec varchar(100) DEFAULT NULL,
+	ADD COLUMN uniqueidmother varchar(30) DEFAULT NULL,
+	ADD COLUMN patienttransinfac varchar(90) DEFAULT NULL,
+	ADD COLUMN patienttransindate DATE DEFAULT NULL,
+	ADD COLUMN bmi_muac varchar(15) DEFAULT NULL,
+	ADD COLUMN other_art_start_stat varchar(25) DEFAULT NULL,
+	ADD COLUMN currentlybreastf varchar(10) DEFAULT NULL;
+	");
+	}
+}
+    
+	else {
+		
+	}
+if(mysql_num_rows(mysql_query("SHOW TABLES LIKE '".$table2."'"))==1){
+	if(mysql_num_rows(mysql_query("SHOW COLUMNS FROM `laboratory` LIKE '".$column6."'"))==0){
+	$results_C2 = mysql_query("ALTER TABLE laboratory
+	ADD COLUMN resultintepretation varchar(70) DEFAULT NULL,
+	ADD COLUMN assayedby varchar(70) DEFAULT NULL,
+	ADD COLUMN assaydate date DEFAULT NULL,
+	ADD COLUMN approvedby varchar(70) DEFAULT NULL,
+	ADD COLUMN approvedate date DEFAULT NULL,
+	ADD COLUMN orderdate date DEFAULT NULL,
+	ADD COLUMN collectedby varchar(70) DEFAULT NULL,
+	ADD COLUMN collectdate date DEFAULT NULL,
+	ADD COLUMN pcrlabname varchar(70) DEFAULT NULL,
+	ADD COLUMN otherstatus varchar(70) DEFAULT NULL,
+	ADD COLUMN cliniciandate date DEFAULT NULL,
+	ADD COLUMN pcrsampleno varchar(70) DEFAULT NULL,
+	ADD COLUMN pcrsampletype varchar(70) DEFAULT NULL,
+	ADD COLUMN pcrsamplecolldate date DEFAULT NULL,
+	ADD COLUMN pcrsamplerecievedate TIMESTAMP DEFAULT NULL,
+	ADD COLUMN vl_indication varchar(70) DEFAULT NULL,
+
+	ADD COLUMN artstartdate date DEFAULT NULL,
+	ADD COLUMN drugregimen varchar(70) DEFAULT NULL,
+	ADD COLUMN orderedby varchar(70) DEFAULT NULL;
+	");
+	}
+}
+    
+	else {
+		
+}
+if(mysql_num_rows(mysql_query("SHOW TABLES LIKE '".$table3."'"))==1){
+	if(mysql_num_rows(mysql_query("SHOW COLUMNS FROM `facility` LIKE '".$column24."'"))==0){
+	$results_C3 = mysql_query("ALTER TABLE facility
+	ADD COLUMN lga varchar(100) DEFAULT NULL,
+	ADD COLUMN facilityidprefix varchar(2) DEFAULT NULL,
+	ADD COLUMN state varchar(65) DEFAULT NULL;
+	");
+	}
+}
+    
+	else {
+		
+	}
+	$view1 = 'lab_results_pivot_test';
+	$viewcolumn1 = 'HCVAntibody';
+
+$query = mysql_query("SHOW COLUMNS FROM `lab_results_pivot_test` LIKE '".$viewcolumn1."'");
+
+if($query){
+  $numrows = mysql_num_rows($query);
+  if($numrows==0){
+$query2 = mysql_query("CREATE or replace ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `lab_results_pivot_test` AS (select `laboratory`.`pepid` AS `pepid`,`laboratory`.`cliniciandate` AS `cliniciandate`,`laboratory`.`pcrlabname` AS `pcrlabname`,`laboratory`.`pcrsampleno` AS `pcrsampleno`,`laboratory`.`pcrsampletype` AS `pcrsampletype`,`laboratory`.`pcrsamplecolldate` AS `pcrsamplecolldate`,`laboratory`.`pcrsamplerecievedate` AS `pcrsamplerecievedate`,`laboratory`.`vl_indication` AS `vl_indication`,`laboratory`.`artstartdate` AS `artstartdate`,`laboratory`.`drugregimen` AS `drugregimen`,`laboratory`.`resultstatus` AS `resultstatus`,`laboratory`.`otherstatus` AS `otherstatus`,`laboratory`.`visitdate` AS `visitdate`,`laboratory`.`reportdate` AS `reportdate`,`laboratory`.`clinicianname` AS `clinicianname`,`laboratory`.`additionaltests` AS `additionaltests`,`laboratory`.`reportedby` AS `reportedby`,`laboratory`.`checkedby` AS `checkedby`,`laboratory`.`checkdate` AS `checkdate`,`laboratory`.`labregno` AS `labregno`,`laboratory`.`baselineorrepeat` AS `baselineorrepeat`,`laboratory`.`artstatus` AS `artstatus`,(case when (`laboratory`.`tests` = 'CD4') then `laboratory`.`results` end) AS `CD4`,(case when (`laboratory`.`tests` = 'Viral Load') then `laboratory`.`results` end) AS `Viral_Load`,(case when (`laboratory`.`tests` = 'WBC') then `laboratory`.`results` end) AS `WBC`,(case when (`laboratory`.`tests` = 'HCVAntibody') then `laboratory`.`results` end) AS `HCVAntibody`,(case when (`laboratory`.`tests` = 'CD4%') then `laboratory`.`results` end) AS `CD4_per`,(case when (`laboratory`.`tests` = 'Lymphocytes') then `laboratory`.`results` end) AS `Lymphocytes`,(case when (`laboratory`.`tests` = 'Monocytes') then `laboratory`.`results` end) AS `Monocytes`,(case when (`laboratory`.`tests` = 'Polymorph') then `laboratory`.`results` end) AS `Polymorph`,(case when (`laboratory`.`tests` = 'Eosinophils') then `laboratory`.`results` end) AS `Eosinophils`,(case when (`laboratory`.`tests` = 'Basophils') then `laboratory`.`results` end) AS `Basophils`,(case when (`laboratory`.`tests` = 'Hb/PCV') then `laboratory`.`results` end) AS `HbPCV`,(case when (`laboratory`.`tests` = 'Platelets') then `laboratory`.`results` end) AS `Platelets`,(case when (`laboratory`.`tests` = 'HBsAG (*At Baseline)') then `laboratory`.`results` end) AS `HBsAG`,(case when (`laboratory`.`tests` = 'VDRL') then `laboratory`.`results` end) AS `VDRL`,(case when (`laboratory`.`tests` = 'Creatinine') then `laboratory`.`results` end) AS `Creatinine`,(case when (`laboratory`.`tests` = 'ALT/SGPT') then `laboratory`.`results` end) AS `ALT_SGPT`,(case when (`laboratory`.`tests` = 'Urinalysis: GLUCOSE') then `laboratory`.`results` end) AS `GLUCOSE`,(case when (`laboratory`.`tests` = 'Urinalysis: PROTEIN') then `laboratory`.`results` end) AS `PROTEIN`,(case when (`laboratory`.`tests` = 'Cytology: VIA/Pap Smear') then `laboratory`.`results` end) AS `VIAPap_Smear`,(case when (`laboratory`.`tests` = 'Na+') then `laboratory`.`results` end) AS `Na`,(case when (`laboratory`.`tests` = 'K+') then `laboratory`.`results` end) AS `K`,(case when (`laboratory`.`tests` = 'Cl-') then `laboratory`.`results` end) AS `Cl`,(case when (`laboratory`.`tests` = 'HCO3') then `laboratory`.`results` end) AS `HCO3`,(case when (`laboratory`.`tests` = 'BUN') then `laboratory`.`results` end) AS `BUN`,(case when (`laboratory`.`tests` = 'Fasting Glucose') then `laboratory`.`results` end) AS `Fasting_Glucose`,(case when (`laboratory`.`tests` = 'Total Bilirubin') then `laboratory`.`results` end) AS `Total_Bilirubin`,(case when (`laboratory`.`tests` = 'Amylase') then `laboratory`.`results` end) AS `Amylase`,(case when (`laboratory`.`tests` = 'Total Cholesterol') then `laboratory`.`results` end) AS `Total_Cholesterol`,(case when (`laboratory`.`tests` = 'LDL') then `laboratory`.`results` end) AS `LDL`,(case when (`laboratory`.`tests` = 'HDL') then `laboratory`.`results` end) AS `HDL`,(case when (`laboratory`.`tests` = 'AST/SGOT') then `laboratory`.`results` end) AS `AST_SGOT`,(case when (`laboratory`.`tests` = 'Triglyceride') then `laboratory`.`results` end) AS `Triglyceride`,(case when (`laboratory`.`tests` = 'Alk. Phosphatase') then `laboratory`.`results` end) AS `Alk_Phosphatase`,(case when (`laboratory`.`tests` = 'Pregnancy') then `laboratory`.`results` end) AS `Pregnancy`,(case when (`laboratory`.`tests` = 'Malaria smear') then `laboratory`.`results` end) AS `Malaria_smear` from `laboratory`)");
+  }
+  else{
+  }
+}
+else{
+  die("something failed");
+  }
+	}
+}
+$classa = new MyClassa;
+$infoa = $classa->GetUserInformation();
+echo mysql_error();
+
+
+	
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CiS Pro</title>
+<link rel="shortcut icon" href="images/favicon.png" type="image/png">
+<script src="drugcodetranslate.js"></script>
+<script type="text/javascript"></script>
+<script type="text/javascript">
+
+</script>
+<style type="text/css">
+body {
+	font-family:Arial, Helvetica, sans-serif
+}
+#availability_status {
+	font-size:11px;
+	margin-left:10px;
+}
+input.form_element {
+	width: 221px;
+	background: transparent url('bg.jpg') no-repeat;
+	color : #747862;
+	height:20px;
+	border:0;
+	padding:4px 8px;
+	margin-bottom:0px;
+}
+label {
+	width: 125px;
+	float: left;
+	text-align: left;
+	margin-right: 0.5em;
+	display: block;
+}
+.style_form {
+	margin:3px;
+}
+#content {
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+	margin-top:200px;
+}
+#submit_btn {
+	margin-left:133px;
+	height:30px;
+	width: 221px;
+}
+
+h1 {
+  margin: 0px;
+  line-height: 40px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+  text-shadow: 0 1px white;
+  background: #f3f3f3;
+  border-bottom: 1px solid #cfcfcf;
+  border-radius: 3px 3px 0 0;
+  background-image: -webkit-linear-gradient(top, whiteffd, #eef2f5);
+  background-image: -moz-linear-gradient(top, whiteffd, #eef2f5);
+  background-image: -o-linear-gradient(top, whiteffd, #eef2f5);
+  background-image: linear-gradient(to bottom, whiteffd, #eef2f5);
+  -webkit-box-shadow: 0 1px whitesmoke;
+  box-shadow: 0 1px whitesmoke;
+}
+
+#footer {
+   position:absolute;
+   bottom:0;
+   width:99.1%;
+   font-size:9px;
+}
+
+button.gray, a.gray, input[type=submit].gray {
+    padding: 10px 10px;
+    -webkit-border-radius: 2px 2px;
+    border: solid 1px #dadada;
+    background: #f4f4f4; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f4f4f4 0%, #f1f1f1 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#f1f1f1)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #f4f4f4 0%,#f1f1f1 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #f4f4f4 0%,#f1f1f1 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #f4f4f4 0%,#f1f1f1 100%); /* IE10+ */
+    background: linear-gradient(top,  #f4f4f4 0%,#f1f1f1 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f4f4', endColorstr='#f1f1f1',GradientType=0 ); /* IE6-9 */
+    color: #555;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    font-weight:bold;
+    font-family:Arial, Helvetica, sans-serif;
+    text-shadow: 0px 1px 1px rgba(255,255,255,1);
+    line-height: 1;
+    font-size:11px;
+}
+ 
+.gray:hover { 
+    border:1px solid #c6c6c4; 
+    background: background: #f8f8f8; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f8f8f8 0%, #f1f1f1 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#f1f1f1)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #f8f8f8 0%,#f1f1f1 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #f8f8f8 0%,#f1f1f1 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #f8f8f8 0%,#f1f1f1 100%); /* IE10+ */
+    background: linear-gradient(top,  #f8f8f8 0%,#f1f1f1 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8f8f8', endColorstr='#f1f1f1',GradientType=0 ); /* IE6-9 */
+    color: #222; 
+    -webkit-box-shadow: 0px 1px 1px 0px rgba(10, 10, 10, 0.4);
+    -moz-box-shadow: 0px 1px 1px 0px rgba(10, 10, 10, 0.4);
+    box-shadow: 0px 1px 1px 0px rgba(10, 10, 10, 0.4);
+}
+         
+.gray:active { 
+    border:1px solid #c6c6c4; 
+    color: #222;
+    -webkit-box-shadow: inset 0 0 2px 4px #f1f1f1, 0 1px 0 0 #eeeeee;
+    -moz-box-shadow: inset 0 0 2px 4px #f1f1f1, 0 1px 0 0 #eeeeee;
+    box-shadow: inset 0 0 2px 4px #f1f1f1, 0 1px 0 0 #eeeeee;
+}
+#copyright{
+    clear: both;
+    text-align: right;
+    font-size: 80%;
+    color: #666666;
+}
+
+#copyright-apin{
+    clear: both;
+    text-align: right;
+    font-size: 80%;
+    color: #666666;
+    padding-top: 1px;
+}
+
+#copyright-apin span {
+	vertical-align: top;
+}
+</style>
+</head>
+<?php
+$con=mysql_connect("localhost","root","Nu66et%%","apindb");
+mysql_select_db("apindb");
+// Check connection
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
+
+
+class MyClass{
+    public function GetUserInformation(){
+	$table = 'facility';
+if(mysql_num_rows(mysql_query("SHOW TABLES LIKE '".$table."'"))==1){
+	
+	$results = mysql_query("SELECT facilityname,facilityidprefix,state,lga from facility");
+	$info = mysql_fetch_assoc($results);
+	return $info;
+	} 
+    
+	else {
+		
+		$results = mysql_query("CREATE TABLE facility(id INT(1) UNSIGNED AUTO_INCREMENT PRIMARY KEY,facilityname VARCHAR(30) NOT NULL)");
+		$info = 'No Facility Set';
+	}
+		
+    } 
+}
+$class = new MyClass;
+$info = $class->GetUserInformation();
+echo mysql_error();
+
+?>
+<h1 align="center">Clinical Information System || <?php
+
+if (!empty($info['facilityname'])&&!empty($info['lga'])&&!empty($info['state'])){
+echo ucwords($info['facilityname']); 
+}
+else{
+echo '<a href="#" onclick="window.open(\'./setfacility.php\',\'patient ID\',\'width=300,height=125\')">[UPDATE Facility Information (Click)]</a>&nbsp; &nbsp; &nbsp; &nbsp;'; 
+}
+
+?></h1>
+
+<p />
+<body >
+<div id="content">
+<IMG STYLE="position:absolute; TOP:60px; LEFT:2px; WIDTH:285px; HEIGHT:140px" src="images/header1.png">
+<IMG STYLE="position:absolute; TOP:60px; RIGHT:2px; WIDTH:190px; HEIGHT:140px" src="images/coa.png">
+<table width="300" border="0" align="center" cellpadding="0" cellspacing="1" style="position:inherit; top:200px; left:500" >
+<tr>
+<td width="298">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+  <a href="./login.php" style="font-weight:bold; font-size:14px">            <center><img style="border:0;" src="images/loginbtn.PNG" alt="[LOGIN]" width="200" height="100" /></center></a></td>
+</tr>
+</table>
+</div>
+<div id="footer">
+<div id="copyright-apin"><a href="./cis_upgrades.html"><img src="images/apin_label.png" alt="APIN" width="39" height="15" /></a>&nbsp;&nbsp;<span>Version:2.5.0.0.0</span></div>
+<div id="copyright-apin"><a href="./cis_upgrades.html"><img src="images/apin_label.png" alt="APIN" width="39" height="15" /></a>&nbsp;&nbsp;<span>GON Standard: 2016</span></div>
+<div id="copyright-apin"><a href="http://www.apin.org.ng/"><img src="images/apin_label.png" alt="APIN" width="39" height="15" /></a>&nbsp;&nbsp;<span>&copy; 2014, AIDS Prevention Initiative in Nigeria, Ltd./Gte (APIN)</span></div>
+</div>
+</body>
+</html>

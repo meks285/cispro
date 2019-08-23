@@ -1,0 +1,137 @@
+<title>Processing_Insert_main</title>
+</head>
+
+<body>
+
+<?php
+// =============== code for Connection_SQLi ==============================      
+
+include '../mandate_/lidh.php';
+//check connection
+if(mysqli_connect_errno())
+{
+echo "Cannot connect to mysqli:" . mysqli_connect_error();
+}
+
+//$_SESSION=$_POST;
+
+if(isset($_POST['pepid'])) {$pepid=$_POST['pepid'];}else {$pepid="";}
+if(isset($_POST['pcurrmeds'])) {$pcurrmeds=$_POST['pcurrmeds'];}else {$pcurrmeds="";}
+if(isset($_POST['ppreviousarvpmtct'])) {$ppreviousarvpmtct=$_POST['ppreviousarvpmtct'];}else {$ppreviousarvpmtct="";}
+if(isset($_POST['whostage'])) {$whostage=$_POST['whostage'];}else {$whostage="";}
+//if(isset($_POST['whostagecriteria'])) {$whostagecriteria=$_POST['whostagecriteria'];}else {$whostagecriteria="";}
+//if(isset($_POST['currentmedications'])) {$currentmedications=$_POST['currentmedications'];}else {$currentmedications="";}
+if(isset($_POST['lastvl'])) {$lastvl=$_POST['lastvl'];}else {$lastvl="";}
+if(isset($_POST['lastvldate'])) {$lastvldate=$_POST['lastvldate'];}else {$lastvldate="";}
+if(isset($_POST['lastcd4date'])) {$lastcd4date=$_POST['lastcd4date'];}else {$lastcd4date="";}
+if(isset($_POST['lastcd4'])) {$lastcd4=$_POST['lastcd4'];}else {$lastcd4="";}
+if(isset($_POST['dateeligible'])) {$dateeligible=$_POST['dateeligible'];}else {$dateeligible="";}
+if(isset($_POST['dateartstart'])) {$dateartstart=$_POST['dateartstart'];}else {$dateartstart="";}
+if(isset($_POST['cd4atart'])) {$cd4atart=$_POST['cd4atart'];}else {$cd4atart="";}
+if(isset($_POST['uniqueid'])) {$uniqueid=$_POST['uniqueid'];}else {$uniqueid="";}
+if(isset($_POST['age'])) {$age=$_POST['age'];}else {$age="";}
+if(isset($_POST['enroldate'])) {$enroldate=$_POST['enroldate'];}else {$enroldate="";}
+if(isset($_POST['hivposdate'])) {$hivposdate=$_POST['hivposdate'];}else {$hivposdate="";}
+if(isset($_POST['sex'])) {$sex=$_POST['sex'];}else {$sex="";}
+if(isset($_POST['dob'])) {$dob=$_POST['dob'];}else {$dob="";}
+if(isset($_POST['surname'])) {$surname=$_POST['surname'];}else {$surname="";}
+if(isset($_POST['othernames'])) {$othernames=$_POST['othernames'];}else {$othernames="";}
+
+if(isset($_POST['dur_fever'])) {$dur_fever=$_POST['dur_fever'];}else {$dur_fever="";}
+if(isset($_POST['dur_shortbreath'])) {$dur_shortbreath=$_POST['dur_shortbreath'];}else {$dur_shortbreath="";}
+if(isset($_POST['dur_nausea'])) {$dur_nausea=$_POST['dur_nausea'];}else {$dur_nausea="";}
+if(isset($_POST['dur_itch'])) {$dur_itch=$_POST['dur_itch'];}else {$dur_itch="";}
+if(isset($_POST['dur_visimp'])) {$dur_visimp=$_POST['dur_visimp'];}else {$dur_visimp="";}
+if(isset($_POST['dur_nsweats'])) {$dur_nsweats=$_POST['dur_nsweats'];}else {$dur_nsweats="";}
+if(isset($_POST['dur_diarh'])) {$dur_diarh=$_POST['dur_diarh'];}else {$dur_diarh="";}
+if(isset($_POST['dur_painswall'])) {$dur_painswall=$_POST['dur_painswall'];}else {$dur_painswall="";}
+if(isset($_POST['dur_weigthl'])) {$dur_weigthl=$_POST['dur_weigthl'];}else {$dur_weigthl="";}
+if(isset($_POST['dur_gendis'])) {$dur_gendis=$_POST['dur_gendis'];}else {$dur_gendis="";}
+if(isset($_POST['dur_numb'])) {$dur_numb=$_POST['dur_numb'];}else {$dur_numb="";}
+if(isset($_POST['dur_cough'])) {$dur_cough=$_POST['dur_cough'];}else {$dur_cough="";}
+if(isset($_POST['dur_genitch'])) {$dur_genitch=$_POST['dur_genitch'];}else {$dur_genitch="";}
+if(isset($_POST['dur_otherpain'])) {$dur_otherpain=$_POST['dur_otherpain'];}else {$dur_otherpain="";}
+if(isset($_POST['dur_head'])) {$dur_head=$_POST['dur_head'];}else {$dur_head="";}
+if(isset($_POST['dur_gensore'])) {$dur_gensore=$_POST['dur_gensore'];}else {$dur_gensore="";}
+if(isset($_POST['dur_rash'])) {$dur_rash=$_POST['dur_rash'];}else {$dur_rash="";}
+if(isset($_POST['currentmedications'])) {
+$currentmedications = implode(", ", $_POST['currentmedications']);
+} else {
+$currentmedications = "";
+}
+
+if(isset($_POST['whostagecriteria'])) {
+$whostagecriteria = implode(", ", $_POST['whostagecriteria']);
+} else {
+$whostagecriteria = "";
+}
+if(isset($_POST['symptomsreview'])) {
+$symptomsreview = implode(", ", $_POST['symptomsreview']);
+} else {
+$symptomsreview = "";
+}
+//$pepid = $_SESSION['pepid'];
+// =============== code for Submit_input type ================================
+
+    if(!mysqli_query($con,"UPDATE patient
+SET pcurrmeds='$pcurrmeds',
+ppreviousarvpmtct='$ppreviousarvpmtct',
+whostage='$whostage',
+whostagecriteria='$whostagecriteria',
+currentmedications='$currentmedications',
+lastvl='$lastvl',
+lastvldate='$lastvldate',
+lastcd4date='$lastcd4date',
+lastcd4='$lastcd4',
+dateeligible='$dateeligible',
+symptomsreview='$symptomsreview',
+dateartstart='$dateartstart',
+cd4atart='$cd4atart',
+uniqueid='$uniqueid',
+age='$age',
+enroldate='$enroldate',
+hivposdate='$hivposdate',
+sex='$sex',
+dob='$dob',
+surname='$surname',
+othernames='$othernames',
+dur_fever='$dur_fever',
+dur_shortbreath='$dur_shortbreath',
+dur_nausea='$dur_nausea',
+dur_itch='$dur_itch',
+dur_visimp='$dur_visimp',
+dur_nsweats='$dur_nsweats',
+dur_diarh='$dur_diarh',
+dur_painswall='$dur_painswall',
+dur_weigthl='$dur_weigthl',
+dur_gendis='$dur_gendis',
+dur_numb='$dur_numb',
+dur_cough='$dur_cough',
+dur_genitch='$dur_genitch',
+dur_otherpain='$dur_otherpain',
+dur_head='$dur_head',
+dur_gensore='$dur_gensore',
+dur_rash='$dur_rash' WHERE pepid='$pepid'"))
+
+    {
+        echo "Not Recorded".mysqli_error($con);
+    }
+
+if ( mysqli_affected_rows($con) >= 1 )
+{
+	header("refresh:3;./critical_fields_validate.php");  
+//echo "Success: " . mysqli_affected_rows($con)." Row(s),Inserted";
+echo "<p style='text-align: center;'><span style='font-size: large; font-family: georgia,palatino; color: #003366;'> CRITICAL FIELDS UPDATED </br> Continuing...</span></p> </br> ";
+}
+else {
+	$link_address = 'javascript:history.go(-1)';
+//echo "Failure: " . mysqli_affected_rows($con)." Row(s),Inserted";
+echo "<p style='text-align: center;'><span style='font-size: large; font-family: georgia,palatino; color: RED;'> CRITICAL FIELDS could not be saved </br> Please try again </br> <a href='".$link_address."'>BACK</a> </span></p> </br> ";
+}
+
+
+     //============================================================
+
+   ?>
+   </body>
+   </html>

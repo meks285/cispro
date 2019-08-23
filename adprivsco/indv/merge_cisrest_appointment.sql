@@ -1,0 +1,10 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+LOAD DATA LOCAL INFILE 'C:\\CIS_PRO_FILES\\MERGE_CIS\\indv\\appointment.csv' 
+INTO TABLE apindb.appointment
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+(pepid, visitdate, nextapptdate, purpose);
+
+SET FOREIGN_KEY_CHECKS=1;

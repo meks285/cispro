@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, td, th {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+th {text-align: left;}
+</style>
+</head>
+<body>
+
+<?php
+$q = $_GET['q'];
+$b = intval($_GET['b']);
+
+$con = mysqli_connect('127.0.0.1','appsapin','9001Memday','appsapin_apinorg_db');
+if (!$con) {
+    die('Could not connect: ' . mysqli_error($con));
+}
+
+mysqli_select_db($con,"appsapin_apinorg_db");
+$sql="SELECT lcda_tba from lcda_tba_list WHERE lga='".$q."' order by lcda_tba asc";
+$result = mysqli_query($con,$sql);
+
+echo "<select name='lcda_tba' id='textbox'>";
+while($row = mysqli_fetch_array($result))
+{
+    echo "<option value='".$row['lcda_tba']."'>".$row['lcda_tba']."</option>";
+}
+echo "</select>";
+mysqli_close($con);
+?>
+</body>
+</html>

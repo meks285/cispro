@@ -1,0 +1,942 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<script src="../jquery-1.11.1.min.js" type="text/javascript"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CQI</title>
+<h1 align="center"> Clinical Quality Indicators	- Adult													
+</h1>
+</head>
+<style type="text/css">
+body{
+font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+font-size:11px;
+}
+p, h2, form, button{border:0; margin:0; padding:0;}
+.spacer{clear:both; height:1px;}
+/* ----------- My Form ----------- */
+.myform{
+margin:0 auto;
+width:850px;
+padding:14px;
+font-family: Tahoma, Geneva, sans-serif;
+font-size: 14px;
+font-style: normal;
+font-weight: bold;
+color: #000;
+text-decoration: none;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+}
+li input
+{
+    position: absolute;
+    margin-left: -40px;
+    margin-top: 5px;
+}
+.sidebar {
+   width: 170px;
+   height: 150px;
+   position: fixed;
+   left: 0px;
+   top: 300px;
+   font-family: Tahoma, Geneva, sans-serif;
+   font-style: italic;
+   text-decoration: none;
+   border: 1px solid #cfcfcf;
+   background: #f3f3f3;
+   border-bottom: 1px solid #cfcfcf;
+   border-radius: 3px 3px 0 0;
+   background-image: -webkit-linear-gradient(top, whiteffd, #eef2f5);
+   background-image: -moz-linear-gradient(top, whiteffd, #eef2f5);
+   background-image: -o-linear-gradient(top, whiteffd, #eef2f5);
+   background-image: linear-gradient(to bottom, whiteffd, #eef2f5);
+   -webkit-box-shadow: 0 1px whitesmoke;
+   box-shadow: 0 1px whitesmoke;
+}
+.sidebar1{
+	width: 170px;
+   height: 50px;
+   position: fixed;
+   left: 0px;
+   font-family: Tahoma, Geneva, sans-serif;
+   font-style: italic;
+   text-decoration: none;
+   border: 1px solid #cfcfcf;
+   background: #f3f3f3;
+   border-bottom: 1px solid #cfcfcf;
+   border-radius: 3px 3px 0 0;
+   background-image: -webkit-linear-gradient(top, whiteffd, #eef2f5);
+   background-image: -moz-linear-gradient(top, whiteffd, #eef2f5);
+   background-image: -o-linear-gradient(top, whiteffd, #eef2f5);
+   background-image: linear-gradient(to bottom, whiteffd, #eef2f5);
+   -webkit-box-shadow: 0 1px whitesmoke;
+   box-shadow: 0 1px whitesmoke;
+	}
+h1 {
+  margin: 0px;
+  line-height: 40px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+  text-shadow: 0 1px white;
+  background: #f3f3f3;
+  border-bottom: 1px solid #cfcfcf;
+  border-radius: 3px 3px 0 0;
+  background-image: -webkit-linear-gradient(top, whiteffd, #eef2f5);
+  background-image: -moz-linear-gradient(top, whiteffd, #eef2f5);
+  background-image: -o-linear-gradient(top, whiteffd, #eef2f5);
+  background-image: linear-gradient(to bottom, whiteffd, #eef2f5);
+  -webkit-box-shadow: 0 1px whitesmoke;
+  box-shadow: 0 1px whitesmoke;
+}
+
+/* ----------- stylized ----------- */
+#stylized{
+border:solid 1px #b7ddf2;
+background:# FFF;
+}
+#stylized h1 {
+font-size:14px;
+font-weight:bold;
+margin-bottom:8px;
+}
+#stylized p{
+font-size:11px;
+color:#666666;
+margin-bottom:20px;
+border-bottom:solid 1px #b7ddf2;
+padding-bottom:10px;
+}
+#stylized label{
+display:block;
+font-weight:bold;
+text-align:right;
+width:140px;
+float:left;
+color:#666666;
+}
+#stylized .small{
+color:#666666;
+display:block;
+font-size:11px;
+font-weight:normal;
+text-align:right;
+width:140px;
+}
+input{
+float:left;
+font-size:12px;
+padding:4px 2px;
+border:solid 1px #aacfe4;
+width:200px;
+margin:2px 0 20px 10px;
+}
+#stylized button{
+clear:both;
+margin-left:150px;
+width:125px;
+height:31px;
+background:#666666 url(img/button.png) no-repeat;
+text-align:center;
+line-height:31px;
+color:#FFFFFF;
+font-size:11px;
+font-weight:bold;
+}
+table
+{
+	width:70%;
+border-collapse:collapse;
+}
+ 
+th
+{
+	font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica,
+	sans-serif;
+	color: #6D929B;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+	height:50px;
+border:1px solid black;
+}
+td {
+	font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica,sans-serif;
+}
+</style>
+<body>
+<?php 
+session_start();
+ini_set('max_execution_time', 300);
+ob_start();
+$_SESSION=$_GET;
+$con=mysql_connect("localhost","root","Nu66et%%","apindb");
+mysql_select_db("apindb");
+// Check connection
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
+
+$fac="select facilityname from facility;";
+$resultfac=mysql_query($fac);
+$infac = mysql_fetch_assoc($resultfac); 
+
+
+// Check Adult/Pediatric string
+if ($_GET['summ']=='Adult'){
+	
+$repmonth = $_GET['reportingmonth'];
+$repmonth;
+$repyear = $_GET['reportingyear'];
+$repyear; 
+		if($repmonth=='1' && $repyear==2007 ) {$rtime = strtotime('1/31/2007'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2007) {$rtime = strtotime('2/28/2007'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2007) {$rtime = strtotime('3/31/2007'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2007) {$rtime = strtotime('4/30/2007'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2007) {$rtime = strtotime('5/31/2007'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2007) {$rtime = strtotime('6/30/2007'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2007) {$rtime = strtotime('7/31/2007'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2007) {$rtime = strtotime('8/31/2007'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2007) {$rtime = strtotime('9/30/2007'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2007) {$rtime = strtotime('10/31/2007'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2007) {$rtime = strtotime('11/30/2007'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2007) {$rtime = strtotime('12/31/2007'); $rdate=date('Y-m-d',$rtime);}
+	elseif($repmonth=='1' && $repyear==2008 ) {$rtime = strtotime('1/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2008) {$rtime = strtotime('2/28/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2008) {$rtime = strtotime('3/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2008) {$rtime = strtotime('4/30/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2008) {$rtime = strtotime('5/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2008) {$rtime = strtotime('6/30/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2008) {$rtime = strtotime('7/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2008) {$rtime = strtotime('8/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2008) {$rtime = strtotime('9/30/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2008) {$rtime = strtotime('10/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2008) {$rtime = strtotime('11/30/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2008) {$rtime = strtotime('12/31/2008'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2009 ) {$rtime = strtotime('1/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2009) {$rtime = strtotime('2/28/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2009) {$rtime = strtotime('3/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2009) {$rtime = strtotime('4/30/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2009) {$rtime = strtotime('5/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2009) {$rtime = strtotime('6/30/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2009) {$rtime = strtotime('7/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2009) {$rtime = strtotime('8/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2009) {$rtime = strtotime('9/30/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2009) {$rtime = strtotime('10/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2009) {$rtime = strtotime('11/30/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2009) {$rtime = strtotime('12/31/2009'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2010 ) {$rtime = strtotime('1/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2010) {$rtime = strtotime('2/28/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2010) {$rtime = strtotime('3/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2010) {$rtime = strtotime('4/30/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2010) {$rtime = strtotime('5/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2010) {$rtime = strtotime('6/30/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2010) {$rtime = strtotime('7/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2010) {$rtime = strtotime('8/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2010) {$rtime = strtotime('9/30/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2010) {$rtime = strtotime('10/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2010) {$rtime = strtotime('11/30/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2010) {$rtime = strtotime('12/31/2010'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2011) {$rtime = strtotime('1/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2011) {$rtime = strtotime('2/28/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2011) {$rtime = strtotime('3/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2011) {$rtime = strtotime('4/30/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2011) {$rtime = strtotime('5/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2011) {$rtime = strtotime('6/30/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2011) {$rtime = strtotime('7/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2011) {$rtime = strtotime('8/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2011) {$rtime = strtotime('9/30/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2011) {$rtime = strtotime('10/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2011) {$rtime = strtotime('11/30/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2011) {$rtime = strtotime('12/31/2011'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2012 ) {$rtime = strtotime('1/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2012) {$rtime = strtotime('2/28/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2012) {$rtime = strtotime('3/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2012) {$rtime = strtotime('4/30/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2012) {$rtime = strtotime('5/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2012) {$rtime = strtotime('6/30/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2012) {$rtime = strtotime('7/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2012) {$rtime = strtotime('8/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2012) {$rtime = strtotime('9/30/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2012) {$rtime = strtotime('10/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2012) {$rtime = strtotime('11/30/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2012) {$rtime = strtotime('12/31/2012'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2013 ) {$rtime = strtotime('1/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2013) {$rtime = strtotime('2/28/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2013) {$rtime = strtotime('3/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2013) {$rtime = strtotime('4/30/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2013) {$rtime = strtotime('5/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2013) {$rtime = strtotime('6/30/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2013) {$rtime = strtotime('7/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2013) {$rtime = strtotime('8/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2013) {$rtime = strtotime('9/30/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2013) {$rtime = strtotime('10/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2013) {$rtime = strtotime('11/30/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2013) {$rtime = strtotime('12/31/2013'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2014) {$rtime = strtotime('1/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2014) {$rtime = strtotime('2/28/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2014) {$rtime = strtotime('3/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2014) {$rtime = strtotime('4/30/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2014) {$rtime = strtotime('5/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2014) {$rtime = strtotime('6/30/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2014) {$rtime = strtotime('7/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2014) {$rtime = strtotime('8/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2014) {$rtime = strtotime('9/30/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2014) {$rtime = strtotime('10/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2014) {$rtime = strtotime('11/30/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2014) {$rtime = strtotime('12/31/2014'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2015 ) {$rtime = strtotime('1/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2015) {$rtime = strtotime('2/28/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2015) {$rtime = strtotime('3/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2015) {$rtime = strtotime('4/30/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2015) {$rtime = strtotime('5/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2015) {$rtime = strtotime('6/30/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2015) {$rtime = strtotime('7/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2015) {$rtime = strtotime('8/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2015) {$rtime = strtotime('9/30/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2015) {$rtime = strtotime('10/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2015) {$rtime = strtotime('11/30/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2015) {$rtime = strtotime('12/31/2015'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='1' && $repyear==2016) {$rtime = strtotime('1/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='2' && $repyear==2016) {$rtime = strtotime('2/28/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='3' && $repyear==2016) {$rtime = strtotime('3/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='4' && $repyear==2016) {$rtime = strtotime('4/30/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='5' && $repyear==2016) {$rtime = strtotime('5/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='6' && $repyear==2016) {$rtime = strtotime('6/30/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='7' && $repyear==2016) {$rtime = strtotime('7/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='8' && $repyear==2016) {$rtime = strtotime('8/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='9' && $repyear==2016) {$rtime = strtotime('9/30/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='10' && $repyear==2016) {$rtime = strtotime('10/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='11' && $repyear==2016) {$rtime = strtotime('11/30/2016'); $rdate=date('Y-m-d',$rtime);} 
+	elseif($repmonth=='12' && $repyear==2016) {$rtime = strtotime('12/31/2016'); $rdate=date('Y-m-d',$rtime);} 
+	else {$rdate = "";}
+	
+	//ART 1
+if (!empty($rdate)){
+	$indicator='ART 1';
+	if ($indicator=='ART 1'){
+		ob_start();
+		echo 'Executing ART 1... Pls Wait.';	
+$art1NUM="select distinct t.pepid
+from
+  pharmacy t JOIN patient p
+ON (t.pepid=p.pepid)
+WHERE lower(visittype)='initial' 
+AND lower(patienttype)='art' 
+AND ROUND(DATEDIFF(t.dispensedate , p.dob)/365) > 15 
+AND  t.dispensedate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 6 MONTH)), INTERVAL 1 DAY) and
+t.dispensedate <= DATE_SUB('$rdate', INTERVAL 1 DAY)";
+$resultart1NUM=mysql_query($art1NUM);
+$cntart1NUM=mysql_num_rows($resultart1NUM);
+	
+$art1DEN="select distinct t.pepid
+from laboratory t join patient p
+on (t.pepid=p.pepid)
+where lower(t.tests)='cd4' and t.results <= 500 AND lower(t.artstatus)='non-art'
+AND ROUND(DATEDIFF(t.visitdate , p.dob)/365) > 15
+AND t.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 6 MONTH)), INTERVAL 1 DAY) 
+AND t.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY)";
+$resultart1DEN=mysql_query($art1DEN);
+$cntart1DEN=mysql_num_rows($resultart1DEN);
+ob_end_clean();
+	$indicator='ART 2';
+	if ($indicator=='ART 2'){
+		echo 'Executing ART 2... Pls Wait.';	
+		
+			//ART 2
+$art2NUM="SELECT la.pepid
+FROM laboratory la JOIN (SELECT pepid, visitdate,results FROM laboratory where tests='CD4') lb 
+ON ( la.pepid = lb.pepid )
+JOIN patient p
+ON (p.pepid=lb.pepid)
+AND la.tests =  'CD4'
+AND la.baselineorrepeat =  'Baseline'
+AND lb.visitdate between date_add(date_add(LAST_DAY(la.visitdate),interval 6 month),interval -1 MONTH) and DATE_ADD(LAST_DAY(la.visitdate), INTERVAL 6 MONTH) 
+AND lb.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 1 MONTH)), INTERVAL 1 DAY) and lb.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY)
+AND (lb.results-la.results) >=50
+AND ROUND(DATEDIFF(lb.visitdate , p.dob)/365) > 15";
+$resultart2NUM=mysql_query($art2NUM);
+$cntart2NUM=mysql_num_rows($resultart2NUM);
+
+$art2DEN="SELECT la.pepid
+FROM laboratory la JOIN (SELECT pepid, visitdate,results FROM laboratory where tests='CD4') lb 
+ON ( la.pepid = lb.pepid )
+JOIN patient p
+ON (p.pepid=lb.pepid)
+AND la.tests =  'CD4'
+AND la.baselineorrepeat =  'Baseline'
+AND lb.visitdate between date_add(date_add(LAST_DAY(la.visitdate),interval 6 month),interval -1 MONTH) and DATE_ADD(LAST_DAY(la.visitdate), INTERVAL 6 MONTH) 
+AND lb.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 1 MONTH)), INTERVAL 1 DAY) and lb.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY)
+AND ROUND(DATEDIFF(lb.visitdate , p.dob)/365) > 15";
+$resultart2DEN=mysql_query($art2DEN);
+$cntart2DEN=mysql_num_rows($resultart2DEN);
+ob_end_clean();	
+		$indicator='ART 3';
+if ($indicator=='ART 3'){
+	ob_start();
+		echo 'Executing ART 3... Pls Wait.';	
+
+// ART 3
+
+$art3NUM="SELECT la.pepid
+FROM laboratory la JOIN (SELECT pepid, visitdate,results FROM laboratory where tests='Viral Load') lb 
+ON ( la.pepid = lb.pepid )
+JOIN patient p
+ON (p.pepid=lb.pepid)
+AND la.tests =  'Viral Load'
+AND la.baselineorrepeat =  'Baseline'
+AND lb.visitdate between date_add(date_add(LAST_DAY(la.visitdate),interval 6 month),interval -1 MONTH) and DATE_ADD(LAST_DAY(la.visitdate), INTERVAL 6 MONTH) 
+AND lb.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 1 MONTH)), INTERVAL 1 DAY) and lb.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY)
+AND lb.results >=1000
+AND ROUND(DATEDIFF(lb.visitdate , p.dob)/365) > 15";
+$resultart3NUM=mysql_query($art3NUM);
+$cntart3NUM=mysql_num_rows($resultart3NUM);
+
+
+$art3DEN="SELECT la.pepid
+FROM laboratory la JOIN (SELECT pepid, visitdate,results FROM laboratory where tests='Viral Load') lb 
+ON ( la.pepid = lb.pepid )
+JOIN patient p
+ON (p.pepid=lb.pepid)
+AND la.tests =  'Viral Load'
+AND la.baselineorrepeat =  'Baseline'
+AND lb.visitdate between date_add(date_add(LAST_DAY(la.visitdate),interval 6 month),interval -1 MONTH) and DATE_ADD(LAST_DAY(la.visitdate), INTERVAL 6 MONTH) 
+AND lb.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 1 MONTH)), INTERVAL 1 DAY) and lb.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY)
+AND ROUND(DATEDIFF(lb.visitdate , p.dob)/365) > 15";
+$resultart3DEN=mysql_query($art3DEN);
+$cntart3DEN=mysql_num_rows($resultart3DEN);
+		ob_end_clean();	
+		$indicator='CC 1';
+	if ($indicator=='CC 1'){
+ob_start();
+		echo 'Executing CLINICAL CARE 1... Pls Wait.';	
+		
+		// CLINICAL CARE 1
+
+$cc1NUM="select distinct c.pepid
+FROM clinicaleval c JOIN patient p
+ON (c.pepid=p.pepid)
+where ROUND(DATEDIFF(c.visitdate , p.dob)/365) > 15 AND
+  c.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 6 MONTH)), INTERVAL 1 DAY) and
+c.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY);";
+$resultcc1NUM=mysql_query($cc1NUM);
+$cntcc1NUM=mysql_num_rows($resultcc1NUM);
+
+
+$cc1DEN="select distinct c.pepid
+FROM clinicaleval c JOIN patient p
+ON (c.pepid=p.pepid)
+where ROUND(DATEDIFF(c.visitdate , p.dob)/365) > 15 AND
+  c.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 1 MONTH)), INTERVAL 1 DAY) and
+c.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY);";
+$resultcc1DEN=mysql_query($cc1DEN);
+$cntcc1DEN=mysql_num_rows($resultcc1DEN);
+ob_end_clean();	
+		$indicator='CC 2';
+	if ($indicator=='CC 2'){
+ob_start();
+		echo 'Executing CLINICAL CARE 2... Pls Wait.';	
+
+// CLINICAL CARE 2
+$cc2NUM="select distinct c.pepid
+FROM clinicaleval c JOIN patient p
+ON (c.pepid=p.pepid)
+WHERE (c.whostage>0 and c.whostage !='') AND ROUND(DATEDIFF(c.visitdate , p.dob)/365) > 15 AND
+  c.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 6 MONTH)), INTERVAL 1 DAY) and
+c.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY);";
+$resultcc2NUM=mysql_query($cc2NUM);
+$cntcc2NUM=mysql_num_rows($resultcc2NUM);
+
+$cc2DEN="select distinct c.pepid
+FROM clinicaleval c JOIN patient p
+ON (c.pepid=p.pepid)
+where ROUND(DATEDIFF(c.visitdate , p.dob)/365) > 15 AND
+  c.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 6 MONTH)), INTERVAL 1 DAY) and
+c.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY);";
+$resultcc2DEN=mysql_query($cc2DEN);
+$cntcc2DEN=mysql_num_rows($resultcc2DEN);
+ob_end_clean();	
+		$indicator='CC 3';
+
+if ($indicator=='CC 3'){
+ob_start();
+		echo 'Executing CLINICAL CARE 3... Pls Wait.';	
+
+
+// CLINICAL CARE 3
+
+$cc3NUM="SELECT distinct la.pepid
+FROM clinicaleval la JOIN patient p
+ON(p.pepid=la.pepid)
+WHERE (p.pepid = (SELECT distinct cl.pepid
+		FROM laboratory cl
+		WHERE (p.pepid = cl.pepid) and  lower(cl.tests)='cd4' and cl.results < 350
+		AND cl.visitdate BETWEEN date_add(date_add(LAST_DAY('$rdate'),interval 1 DAY),interval -1 MONTH) AND LAST_DAY('$rdate'))
+OR (lower(la.tbstatus) LIKE '%inh%' OR lower(la.tbstatus) LIKE '%tb rx%' OR lower(la.tbstatus) LIKE '%susp%'))
+AND p.pepid   = (SELECT distinct l1.pepid
+		FROM pharmacy l1
+		where (p.pepid = l1.pepid) and (lower(otherdrugs) LIKE '%co-trim%' OR lower(otherdrugs) LIKE '%cotrim%') OR (lower(otherdrugs1) LIKE '%co-trim%' OR lower(otherdrugs1) LIKE '%cotrim%') OR (lower(otherdrugs2) LIKE '%co-trim%' OR lower(otherdrugs2) LIKE '%cotrim%')
+		AND l1.visitdate BETWEEN date_add(date_add(LAST_DAY('$rdate'),interval 1 DAY),interval -1 MONTH) AND LAST_DAY('$rdate'))
+AND la.visitdate BETWEEN date_add(date_add(LAST_DAY('$rdate'),interval 1 DAY),interval -1 MONTH) AND LAST_DAY('$rdate')  AND ROUND(DATEDIFF(la.visitdate , p.dob)/365) > 15";
+$resultcc3NUM=mysql_query($cc3NUM);
+$cntcc3NUM=mysql_num_rows($resultcc3NUM);
+
+$cc3DEN="SELECT distinct la.pepid
+FROM clinicaleval la JOIN patient p
+ON(p.pepid=la.pepid)
+WHERE (p.pepid = (SELECT distinct cl.pepid
+		FROM laboratory cl
+		WHERE (p.pepid = cl.pepid) and  lower(cl.tests)='cd4' and cl.results < 350
+		AND cl.visitdate BETWEEN date_add(date_add(LAST_DAY('$rdate'),interval 1 DAY),interval -1 MONTH) AND LAST_DAY('$rdate'))
+OR (lower(la.tbstatus) LIKE '%inh%' OR lower(la.tbstatus) LIKE '%tb rx%' OR lower(la.tbstatus) LIKE '%susp%'))
+AND la.visitdate BETWEEN date_add(date_add(LAST_DAY('$rdate'),interval 1 DAY),interval -1 MONTH) AND LAST_DAY('$rdate')  AND ROUND(DATEDIFF(la.visitdate , p.dob)/365) > 15";
+$resultcc3DEN=mysql_query($cc3DEN);
+$cntcc3DEN=mysql_num_rows($resultcc3DEN);
+ob_end_clean();	
+
+		$indicator='CC 4';
+if ($indicator=='CC 4'){
+ob_start();
+		echo 'Executing CLINICAL CARE 4... Pls Wait.';	
+
+
+// CLINICAL CARE 4
+
+$cc4NUM="select distinct c.pepid
+FROM clinicaleval c JOIN patient p
+ON (c.pepid=p.pepid)
+WHERE (lower(c.tbstatus) LIKE '%signs%' OR lower(c.tbstatus) LIKE '%suspected%' OR lower(c.tbstatus) LIKE '%inh%' OR lower(c.tbstatus) LIKE '%positive%' OR lower(c.tbstatus) LIKE '%on tb%')  AND ROUND(DATEDIFF(c.visitdate , p.dob)/365) > 15 AND
+  c.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 6 MONTH)), INTERVAL 1 DAY) and
+c.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY)";
+$resultcc4NUM=mysql_query($cc4NUM);
+$cntcc4NUM=mysql_num_rows($resultcc4NUM);
+
+$cc4DEN="select distinct c.pepid
+FROM clinicaleval c JOIN patient p
+ON (c.pepid=p.pepid)
+where ROUND(DATEDIFF(c.visitdate , p.dob)/365) > 15 AND
+  c.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 6 MONTH)), INTERVAL 1 DAY) and
+c.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY)";
+$resultcc4DEN=mysql_query($cc4DEN);
+$cntcc4DEN=mysql_num_rows($resultcc4DEN);
+
+ob_end_clean();		
+			$indicator='LAB 1';
+if ($indicator=='LAB 1'){
+ob_start();
+		echo 'Executing LAB 1... Pls Wait.';	
+
+							
+// LAB 1
+$lab1NUM="select distinct c.pepid
+FROM laboratory c JOIN patient p
+ON (c.pepid=p.pepid)
+WHERE (c.baselineorrepeat='Baseline' and c.tests ='CD4') AND ROUND(DATEDIFF(p.enroldate , p.dob)/365) > 15 AND
+  p.enroldate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 6 MONTH)), INTERVAL 1 DAY) and
+p.enroldate <= DATE_SUB('$rdate', INTERVAL 1 DAY)";
+$resultlab1NUM=mysql_query($lab1NUM);
+$cntcclab1NUM=mysql_num_rows($resultlab1NUM);
+
+$lab1DEN="select distinct c.pepid
+FROM laboratory c JOIN patient p
+ON (c.pepid=p.pepid)
+WHERE ROUND(DATEDIFF(p.enroldate , p.dob)/365) > 15 AND
+  p.enroldate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 6 MONTH)), INTERVAL 1 DAY) and
+p.enroldate <= DATE_SUB('$rdate', INTERVAL 1 DAY)";
+$resultlab1DEN=mysql_query($lab1DEN);
+$cntcclab1DEN=mysql_num_rows($resultlab1DEN);
+ob_end_clean();	
+			$indicator='LAB 2';
+if ($indicator=='LAB 2'){
+ob_start();
+		echo 'Executing LAB 2... Pls Wait.';	
+
+							
+	// LAB 2
+$lab2NUM="select distinct c.pepid
+FROM laboratory c JOIN patient p
+ON (c.pepid=p.pepid)
+WHERE c.tests ='CD4' AND ROUND(DATEDIFF(c.visitdate , p.dob)/365) > 15 AND
+  c.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 1 MONTH)), INTERVAL 1 DAY) and
+c.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY);";
+$resultlab2NUM=mysql_query($lab2NUM);
+$cntcclab2NUM=mysql_num_rows($resultlab2NUM);
+
+$lab2DEN="select distinct c.pepid
+FROM laboratory c JOIN patient p
+ON (c.pepid=p.pepid)
+WHERE c.tests ='CD4' AND ROUND(DATEDIFF(c.visitdate , p.dob)/365) > 15 AND
+  c.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB(DATE_ADD( '$rdate', INTERVAL -6 month ), INTERVAL 1 MONTH)), INTERVAL 1 DAY) and
+c.visitdate <= DATE_SUB(DATE_ADD( '$rdate', INTERVAL -6 month ), INTERVAL 1 DAY)";
+$resultlab2DEN=mysql_query($lab2DEN);
+$cntcclab2DEN=mysql_num_rows($resultlab2DEN);
+ob_end_clean();								
+				$indicator='LAB 3';
+	if ($indicator=='LAB 3'){
+ob_start();
+		echo 'Executing LAB 3... Pls Wait.';	
+
+
+// LAB 3
+$lab3NUM="SELECT distinct t1.pepid
+FROM pharmacy t1 JOIN laboratory l1
+ON (t1.pepid=l1.pepid)
+JOIN patient p
+ON(p.pepid=l1.pepid)
+WHERE lower(t1.visittype)='initial' and lower(t1.patienttype)='art' 
+AND lower(l1.tests)='viral load'
+and ROUND(DATEDIFF(l1.visitdate , p.dob)/365) > 15 
+AND (l1.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB(DATE_ADD( t1.visitdate, INTERVAL 6 month ), INTERVAL 1 MONTH)), INTERVAL 1 DAY) and
+l1.visitdate <= DATE_SUB(DATE_ADD( t1.visitdate, INTERVAL 6 month ), INTERVAL 1 DAY))
+AND l1.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 1 MONTH)), INTERVAL 1 DAY) and
+l1.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY)";
+$resultlab3NUM=mysql_query($lab3NUM);
+$cntcclab3NUM=mysql_num_rows($resultlab3NUM);
+
+$lab3DEN="SELECT distinct t1.pepid
+FROM pharmacy t1 JOIN patient p
+ON(p.pepid=t1.pepid)
+WHERE lower(t1.visittype)='initial' and lower(t1.patienttype)='art'
+AND t1.visitdate >= DATE_ADD(LAST_DAY(DATE_SUB('$rdate', INTERVAL 6 MONTH)), INTERVAL 1 DAY) and
+t1.visitdate <= DATE_SUB('$rdate', INTERVAL 1 DAY);";
+$resultlab3DEN=mysql_query($lab3DEN);
+$cntcclab3DEN=mysql_num_rows($resultlab3DEN);
+ob_end_clean();	
+				$indicator='LAB 4';
+if ($indicator=='LAB 4'){
+ob_start();
+		echo 'Executing LAB 4... Pls Wait.';	
+
+// LAB 4
+$lab4NUM="SELECT distinct a.pepid
+from laboratory a JOIN (select pepid, MAX(visitdate) as datev from laboratory where lower(tests)='viral load' 
+group by pepid) b
+ON (a.pepid=b.pepid)
+JOIN patient p
+ON (p.pepid=b.pepid)
+AND lower(tests)='viral load' 
+AND PERIOD_DIFF(DATE_FORMAT(b.datev,'%Y%m'),DATE_FORMAT(a.visitdate,'%Y%m'))=12
+and  ROUND(DATEDIFF(b.datev , p.dob)/365) > 15";
+$resultlab4NUM=mysql_query($lab4NUM);
+$cntcclab4NUM=mysql_num_rows($resultlab4NUM);
+
+$lab4DEN="SELECT distinct a.pepid
+from laboratory a JOIN (select pepid, MAX(visitdate) as datev,DATE_ADD(LAST_DAY(DATE_SUB(MAX(visitdate), INTERVAL -1 YEAR)), INTERVAL 1 MONTH) as due_date
+                        from laboratory 
+                        where lower(tests)='viral load' 
+						group by pepid) b
+ON (a.pepid=b.pepid)
+JOIN patient p
+ON (p.pepid=b.pepid)
+AND lower(a.tests)='viral load' 
+AND  B.DUE_DATE BETWEEN date_add(date_add(LAST_DAY('$rdate'),interval 1 DAY),interval -1 MONTH) AND LAST_DAY('$rdate')
+and  ROUND(DATEDIFF(b.due_date , p.dob)/365) > 15";
+$resultlab4DEN=mysql_query($lab4DEN);
+$cntcclab4DEN=mysql_num_rows($resultlab4DEN);
+
+ob_end_clean();	
+	$indicator='LAB 5';
+	
+	}
+	}
+
+								}
+							}
+
+						}
+
+				}
+				    }
+
+			}
+
+	}		
+	
+	}
+
+	}
+	
+}
+else{
+	echo 'Date not correctly Initialised';
+	}
+
+
+
+
+
+
+}
+else {
+$repmonth = $_GET['reportingmonth'];
+$repmonth;
+$repyear = $_GET['reportingyear'];
+$repyear;
+		header("Location: CQIped.php?reportingmonth=".$repmonth."&reportingyear=".$repyear."");
+		//die();	
+	}
+?>
+
+<a href="javascript:history.go(-1)">[BACK]</a>
+
+<form name="form" id="formId"  method="POST" >
+<div id="stylized">
+<fieldset>
+<legend style="font-weight:bold; font-size:11px"></legend>
+<label for="cboname">Facility Name
+</label>
+<input type="text" name="facname" id="facname"  value="<?php echo $infac['facilityname']?>" />
+
+<label>Facility Code
+</label>
+<input type="text" name="faccode" id="faccode"  value=""  /> 
+
+
+<label>Date Prepared
+</label>
+<input type="text" name="reportdate" id="reportdate" readonly  value="<?php echo date("d/M/Y")?>" />
+
+</fieldset>
+<fieldset>
+<label>Reporting Month
+</label>
+<input type="text" name="reportingmonth" id="reportingmonth" readonly value="<?php if ($_GET['reportingmonth']==1){echo 'January';}
+elseif ($_GET['reportingmonth']==2){echo 'February';}
+elseif ($_GET['reportingmonth']==3){echo 'March';}
+elseif ($_GET['reportingmonth']==4){echo 'April';}
+elseif ($_GET['reportingmonth']==5){echo 'May';}
+elseif ($_GET['reportingmonth']==6){echo 'June';}
+elseif ($_GET['reportingmonth']==7){echo 'July';}
+elseif ($_GET['reportingmonth']==8){echo 'August';}
+elseif ($_GET['reportingmonth']==9){echo 'September';}
+elseif ($_GET['reportingmonth']==10){echo 'October';}
+elseif ($_GET['reportingmonth']==11){echo 'November';}
+elseif ($_GET['reportingmonth']==12){echo 'December';} ?>"   />
+
+<label>Reporting Year: 
+</label>
+<?php echo $_GET['reportingyear']; ?>
+
+</fieldset>
+</div>
+   <table align="center" style="background-color:#FFF; width: 75%; alignment-adjust:central" cellpadding="0" cellspacing="0" border="1">
+   <tr>
+      <th><font color="black" style="transform-style:flat">Type:</font></th>
+      <th><font color="black">Description:</font></th>
+      <th><font color="black">Numerator:</font>
+      <th><font color="black">Denominator:</font></th>
+      <th><font color="black">PERCENTAGE:</font></th>
+       </tr>
+ <tr>
+           <th align="left"><font color="black">ART 1</font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">
+        Percentage of eligible adults that initiated ART over the last 6 months (CD4)</div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntart1NUM; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;font-size:24px; font-style:normal;"><?php echo $cntart1DEN; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;font-size:24px; font-style:normal;"><?php if ($cntart1NUM>0 && $cntart1DEN>0){
+$cntart1p = ROUND(($cntart1NUM)/($cntart1DEN)*100,2).'%';
+echo $cntart1p;
+}
+else {
+	echo "NaN";
+	}
+	?></div></div></td>
+        </tr>
+        
+          <tr>
+        <th align="left"><font color="black">
+        ART 2</font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">Percentage of new ART adults with ≥50 cell/mL increase in CD4 count after 6 months on ART.</div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntart2NUM; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntart2DEN; ?></div></div></td>
+        
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php if ($cntart2NUM>0 && $cntart2DEN>0){
+$cntart2p = ROUND(($cntart2NUM)/($cntart2DEN)*100,2).'%';
+echo $cntart2p;
+}
+else {
+	echo "NaN";
+	}
+	?></div></div></td>
+        </tr>
+        
+        <tr>
+        <th align="left"><font color="black">
+ART 3</font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">Percentage of adults initiating ART with detectable viral load after 6 months on ART.</div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntart3NUM; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntart3DEN; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php if ($cntart3NUM>0 && $cntart3DEN>0){
+$cntart3p = ROUND(($cntart3NUM)/($cntart3DEN)*100,2).'%';
+echo $cntart3p;
+}
+else {
+	echo "NaN";
+	}
+	?></div></div></td>
+        </tr>
+        
+        <tr>
+        <th align="left"><font color="black">
+CLINICAL CARE 1 </font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">Percentage of adults with at least one (1) clinical visit in the last 6 months
+</div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcc1NUM; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcc1DEN; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php if ($cntcc1NUM>0 && $cntcc1DEN>0){
+$cntcc1p = ROUND(($cntcc1NUM)/($cntcc1DEN)*100,2).'%';
+echo $cntcc1p;
+}
+else {
+	echo "NaN";
+	}
+	?></div></div></td>
+        <tr>
+        <th align="right"><font color="black">
+CLINICAL CARE 2</font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">Percentage of adults in HIV Care who received WHO Clinical Staging at least once in the last 6 months
+</div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcc2NUM; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcc2DEN; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php if ($cntcc2NUM>0 && $cntcc2DEN>0){
+$cntcc2p = ROUND(($cntcc2NUM)/($cntcc2DEN)*100,2).'%';
+echo $cntcc2p;
+}
+else {
+	echo "NaN";
+	}
+	?></div></div></td>
+        </tr>
+        <tr>
+        <th align="right"><font color="black">
+CLINICAL CARE 3
+</font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">Percentage of HIV-positive adults receiving cotrimoxazole prophylaxis
+</div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcc3NUM; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcc3DEN; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php if ($cntcc3NUM>0 && $cntcc3DEN>0){
+$cntcc3p = ROUND(($cntcc3NUM)/($cntcc3DEN)*100,2).'%';
+echo $cntcc3p;
+}
+else {
+	echo "NaN";
+	}
+	?></div></div></td>
+
+        </tr>
+        
+        <tr>
+        <th align="left"><font color="black">
+CLINICAL CARE 4
+</font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">Percentage of eligible adults who received a TB clinical symptom assessment in the last 6 months.
+</div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcc4NUM; ?></div></div></td>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcc4DEN; ?></div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php if ($cntcc4NUM>0 && $cntcc4DEN>0){
+$cntcc4p = ROUND(($cntcc4NUM)/($cntcc4DEN)*100,2).'%';
+echo $cntcc4p;
+}
+else {
+	echo "NaN";
+	}
+	?></div></div></td>
+        </tr>
+        
+        <tr>
+        <th align="left"><font color="black">
+LAB 1</font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">Percentage of newly enrolled adults in the last six (6) months with baseline CD4 count 
+</div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcclab1NUM; ?></div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcclab1DEN; ?></div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php if ($cntcclab1NUM>0 && $cntcclab1DEN>0){
+$cntcclab1p = ROUND(($cntcclab1NUM)/($cntcclab1DEN)*100,2).'%';
+echo $cntcclab1p;
+}
+else {
+	echo "NaN";
+	}
+	?></div></div></td>
+
+        </tr>
+        <tr>
+        <th align="left"><font color="black">
+LAB 2</font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">Percentage of adults who had a CD4 count in the last six (6) months.
+</div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcclab2NUM; ?></div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcclab2DEN; ?></div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php if ($cntcclab2NUM>0 && $cntcclab2DEN>0){
+$cntcclab2p = ROUND(($cntcclab2NUM)/($cntcclab2DEN)*100,2).'%';
+echo $cntcclab2p;
+}
+else {
+	echo "NaN";
+	}
+	?></div></div></td>
+        </tr>
+        
+        <tr>
+        <th align="left"><font color="black">
+LAB 3
+</font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">Percentage of adults who had a viral load test 6 months from initiation on ART</div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcclab3NUM; ?></div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcclab3DEN; ?></div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php if ($cntcclab3NUM>0 && $cntcclab3DEN>0){
+$cntcclab3p = ROUND(($cntcclab3NUM)/($cntcclab3DEN)*100,2).'%';
+echo $cntcclab3p;
+}
+else {
+	echo "NaN";
+	}
+	?></div></div></td>
+        </tr>
+        <tr>
+        <th align="left"><font color="black">
+LAB 4
+</font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">Percentage of adults who had a viral load test one year from the last viral load test
+</div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcclab4NUM; ?></div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php echo $cntcclab4DEN; ?></div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php if ($cntcclab4NUM>0 && $cntcclab4DEN>0){
+$cntcclab4p = ROUND(($cntcclab4NUM)/($cntcclab4DEN)*100,2).'%';
+echo $cntcclab4p;
+}
+else {
+	echo "NaN";
+	}
+	?></div></div></td>
+        </tr>
+        <tr>
+       <th align="left"><font color="black">
+LAB 5
+</font></th>
+        <td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px;">Percentage of adults (monthly cohort) who had detectable viral load 6 months after initiation on ART and had a repeat viral load test 3 months after that
+</div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php //echo $cntcclab5NUM; ?></div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"><?php //echo $cntcclab5DEN; ?></div></div></td>
+<td style="background-color:#FFF; padding: 3px;"><div style="margin-right: 3px;"><div style="padding-right: 3px; font-size:24px; font-style:normal;"></div></div></td>
+        </tr>
+</table>​
+<label>
+</label>
+
+</form>
+<script src="../jquery-1.11.1.min.js" type="text/javascript"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="shortcut icon" href="images/favicon.png" type="image/png">
+<script src="drugcodetranslate.js"></script>
+<script src="js/jquery-1.3.2.js"></script>
+<script src="js/jquery.maskedinput.js"></script>
+<script type="text/javascript">
+jQuery(function($){
+   $("#pepid").mask("aa-99-9999",{placeholder:" "});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function()//When the dom is ready 
+{
+$("#pepid").change(function() 
+{ //if theres a change in the PEPID textbox
+
+var pepid = $("#pepid").val();//Get the value in the pepid drugcode textbox
+if(pepid.length > 0)//if the lenght greater than 0 characters
+{
+$("#availability_status").html('<img src="images/loader.gif" align="absmiddle">&nbsp;Checking for patient...');
+//Add a loading image in the span id="availability_status"
+
+$.ajax({  //Make the Ajax Request
+    type: "POST",  
+    url: "patient_exists.php",  //file name
+    data: "pepid="+ pepid,  //data
+    success: function(server_response){  
+   
+   $("#availability_status").ajaxComplete(function(event, request){ 
+
+	if(server_response == '0')//if ajax_check_drugcode.php return value "0"
+	{ 
+	$("#availability_status").html('<img src="images/available.png" align="absmiddle"> <font color="Green"> Patient ID not in use </font>  ');
+	//add this image to the span with id "availability_status"
+	 $("#pepid").val(pepid);
+	}  
+	else  if(server_response == '1')//if it returns "1"
+	{  
+	 $("#availability_status").html('<img src="images/not_available.png" align="absmiddle"> <font color="Red">This ID has been used</font>');
+	 $("#pepid").val("");
+	}  
+   
+   });
+   } 
+   
+  }); 
+
+}
+else
+{
+
+$("#availability_status").html('<font color="#cc0000">ID too short</font>');
+//if in case the drugcode is less than or equal 3 characters only 
+}
+
+
+
+return false;
+});
+
+});
+</script>
+
+<style type="text/css">
+body{
+font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+font-size:11px;
+}
+p, h1, form, button{border:0; margin:0; padding:0;}
+.spacer{clear:both; height:1px;}
+/* ----------- My Form ----------- */
+.myform{
+margin:0 auto;
+width:850px;
+padding:14px;
+background: -webkit-gradient(linear, bottom, left 175px, from(#CCCCCC), to(#EEEEEE));
+background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+font-family: Tahoma, Geneva, sans-serif;
+font-size: 14px;
+font-style: normal;
+font-weight: normal;
+color: #000;
+text-decoration: none;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+
+border-radius: 10px;
+padding:10px;
+border: 1px solid #999;
+border: inset 1px solid #333;
+-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+.tops{
+   top: 8px;
+   position: fixed;
+   width:1335px;
+	}
+/* ----------- stylized ----------- */
+#stylized{
+border:solid 1px #b7ddf2;
+background:# FFF;
+}
+#stylized h1 {
+font-size:14px;
+font-weight:bold;
+margin-bottom:8px;
+}
+#stylized p{
+font-size:11px;
+color:#666666;
+margin-bottom:20px;
+border-bottom:solid 1px #b7ddf2;
+padding-bottom:10px;
+}
+#stylized label{
+display:block;
+font-weight:bold;
+text-align:right;
+width:100px;
+float:left;
+font-size:10px;
+color:#666666;
+}
+#stylized option{
+display:block;
+font-weight:bold;
+text-align:right;
+width:140px;
+float:left;
+}
+#stylized .small{
+color:#666666;
+display:block;
+font-size:10px;
+font-weight:normal;
+text-align:left;
+}
+#stylized input{
+float:left;
+font-size:12px;
+padding:4px 2px;
+border:solid 1px #aacfe4;
+margin:2px 0 20px 10px;
+text-align:left;
+}
+#stylized button{
+clear:both;
+margin-left:150px;
+width:125px;
+height:31px;
+background:#666666 url(img/button.png) no-repeat;
+text-align:center;
+line-height:31px;
+color:#FFFFFF;
+font-size:11px;
+font-weight:bold;
+}
+#stylized .radio-toolbar input[type="radio"] {
+font-weight:normal;
+text-align:right;
+float:left;
+padding-right:0px;
+width:20px;
+}
+#stylized .radio-toolbar label {
+display:block;
+font-weight:normal;
+text-align:right;
+float:left;
+padding-right:0px;
+position:absolute;
+margin:1px 0 0px 10px;
+}
+#stylized .radio-toolbar input{
+float:left;
+padding-right:50px;
+margin:1px 0 0px 10px;
+position:inherit;
+}
+#stylized .checkbox-toolbar input[type="checkbox"] {
+font-weight:bold;
+text-align:right;
+float:left;
+padding-right:0px;
+width:20px;
+}
+#stylized .checkbox-toolbar label {
+display:block;
+font-weight:bold;
+text-align:right;
+float:left;
+padding-right:0px;
+position:absolute;
+margin:1px 0 0px 10px;
+}
+#stylized .checkbox-toolbar input{
+float:left;
+padding-right:50px;
+margin:1px 0 0px 10px;
+position:inherit;
+}
+
+
+</style>
+<script type="text/javascript">
+function adtpepid(){
+	var pepid = document.getElementById('pepid').value;
+	var pepid = pepid.toUpperCase();
+	if (pepid.length!=10){
+				document.getElementById('doblabel2').innerHTML = "Patient ID Error: Wrong Length";
+				document.getElementById('pepid').value = "";
+		}
+		else if((pepid.indexOf("/") != -1)||(pepid.indexOf(" ") != -1)||(pepid.indexOf("*") != -1)||(pepid.indexOf("&") != -1)||(pepid.indexOf("?") != -1)||(pepid.indexOf("%") != -1)||(pepid.indexOf("$") != -1)||(pepid.indexOf("^") != -1)||(pepid.indexOf("(") != -1)||(pepid.indexOf(")") != -1)){
+				document.getElementById('doblabel2').innerHTML = "Patient ID Error: Invalid Character";
+				document.getElementById('pepid').value = "";
+			}
+			else{
+						document.getElementById('doblabel2').innerHTML = "";
+				}
+	}
+
+function validateAge()
+{
+var today = new Date();
+var del_date = new Date(document.getElementById('dob').value);
+var del_date = del_date.getFullYear();
+var td1 = today.getFullYear();
+var intAge = td1 - del_date;
+var str1="Age: "
+var strAge= str1+(td1 - del_date)+"Yrs ";
+document.getElementById('doblabel').innerHTML = str1+(td1 - del_date)+"Yrs";
+if ((intAge < 15)||(intAge > 150)){
+	document.getElementById('doblabel2').innerHTML = "Invalid ADULT age";
+	document.getElementById('dob').value = "";
+	}
+	else{
+		document.getElementById('doblabel2').innerHTML = "";
+		}
+}
+
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CiS Pro - New adult</title>
+<div class="tops">
+<h1 style="background-color:#0F0;font-weight: 600;    font-family: 'Titillium Web', sans-serif;  position: relative;   font-size: 32px; line-height: 15px; padding: 15px 15px 15px 15%;    color: #355681;    box-shadow:         inset 0 0 0 1px rgba(53,86,129, 0.4),         inset 0 0 5px rgba(53,86,129, 0.5),        inset -285px 0 35px white;    border-radius: 0 10px 0 10px;    background: #fff url(./images/bartoszkosowski.jpg) no-repeat center left;">New Patient - Adult&nbsp;&nbsp;&nbsp;</h1>
+<a href="javascript:history.go(-1)">[BACK]</a>
+</div>
+<script type="text/javascript"> 
+
+function stopRKey(evt) { 
+  var evt = (evt) ? evt : ((event) ? event : null); 
+  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+  if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
+} 
+
+document.onkeypress = stopRKey; 
+
+</script>
+
+</head>
+<br />
+<br />
+<br />
+<br />
+<body onload="if(document.referrer=='') self.location='./index.php';">
+
+<div id="stylized" class="myform">
+<form id="form" name="form" method="POST" onkeypress="return event.keyCode != 13;" action="insert.php" >
+<fieldset style="height:20px; border:none">
+<div style="width: 100%; display: table;">
+    <div style="display: table-row">
+        <div style="width: 300px; display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+<span class="small" style="font-weight:bold">1. Visit Date</span>
+</label>
+<input type="date" name="visitdate" id="visitdate" required="required" placeholder="YYYY-MM-DD" value="<?php if(isset($_GET["visitdate"])) echo $_GET["visitdate"]; ?>" style="width:120px; height:10px; float:left"/>
+        </fieldset>
+         </div>
+        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+        <label for="hivposdate">
+<span class="small" style="font-weight:bold"> 2. Date HIV confirmed</span>
+</label>
+<input type="date" name="hivposdate" id="hivposdate" placeholder="YYYY-MM-DD" value="<?php if(isset($_GET["visitdate"])) echo $_GET["visitdate"]; ?>" required style="width:120px; height:10px;"/>
+
+        </fieldset>
+         </div>
+    </div>
+</div>
+</fieldset>
+<br />
+<fieldset style="width:822px; height:20px; border:none">
+<div style="width: 100%; display: table;">
+    <div style="display: table-row">
+        <div style="width: 300px; display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+<span class="small" style="font-weight:bold">3. Patient Surname</span>
+</label>
+<input type="text" name="surname" id="surname" required="required" placeholder="Required" style="width:120px; height:10px;"/>
+      </fieldset>
+         </div>
+        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+       <label>
+<span class="small" style="font-weight:bold">4. Other names</span>
+</label>
+<input type="text" name="othernames" id="othernames" required="required" placeholder="Required" style="width:120px; height:10px;"/>
+<input type="hidden" name="username" id="username"  value="<?php if(isset($_GET["username"])) echo $_GET["username"]; ?>" style="width:120px; height:10px;"/>
+
+
+<input type="hidden" name="v_load" id="v_load"  value="<?php if(isset($_GET["v_load"])) echo $_GET["v_load"]; ?>" style="width:120px; height:10px;"/>
+<input type="hidden" name="lab_date" id="lab_date"  value="<?php if(isset($_GET["lab_date"])) echo $_GET["lab_date"]; ?>" style="width:120px; height:10px;"/>
+<input type="hidden" name="pregyn" id="pregyn"  value="<?php if(isset($_GET["pregyn"])) echo $_GET["pregyn"]; ?>" style="width:120px; height:10px;"/>
+
+
+<input type="hidden" name="ARTStartDate" id="ARTStartDate"  value="<?php if(isset($_GET["ARTStartDate"])) echo $_GET["ARTStartDate"]; ?>" style="width:120px; height:10px;"/>
+<input type="hidden" name="RegimenatARTStart" id="RegimenatARTStart"  value="<?php if(isset($_GET["RegimenatARTStart"])) echo $_GET["RegimenatARTStart"]; ?>" style="width:120px; height:10px;"/>
+<input type="hidden" name="LastVisitDate" id="LastVisitDate"  value="<?php if(isset($_GET["LastVisitDate"])) echo $_GET["LastVisitDate"]; ?>" style="width:120px; height:10px;"/>
+<input type="hidden" name="CurrentRegimen" id="CurrentRegimen"  value="<?php if(isset($_GET["CurrentRegimen"])) echo $_GET["CurrentRegimen"]; ?>" style="width:120px; height:10px;"/>
+
+        </fieldset>
+         </div>
+        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<span id="availability_status"></span>
+
+        </fieldset>
+         </div>
+    </div>
+</div>
+</fieldset>
+<br />
+<fieldset style="width:822px; height:30px; border:none">
+<div style="width: 100%; display: table;">
+    <div style="display: table-row">
+        <div style="width: 300px; display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+<span class="small" style="font-weight:bold">5. Unique ID</span>
+</label>
+<input type="text" name="uniqueid" id="uniqueid" placeholder="   -    -    " style="width:120px; height:10px;" />
+      </fieldset>
+         </div>
+        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+<span class="small" style="font-weight:bold">Hospital (unit) No</span>
+</label>
+<input type="text" name="hospitalno" id="hospitalno" style="width:120px;height:10px;" />
+
+        </fieldset>
+         </div>        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+<span class="small" style="font-weight:bold">Patient ID</span>
+</label>
+<input type="text" name="pepid" id="pepid" required="required" maxlength="10" placeholder="Required" onchange="adtpepid()" value="<?php if(isset($_GET["pepid"])) echo $_GET["pepid"]; ?>" style="width:120px; height:10px;font-weight:bold" />
+
+        </fieldset>
+         </div>
+    </div>
+</div>
+</fieldset>
+<fieldset style="width:822px; height:30px; border:none">
+<div style="width: 100%; display: table;">
+    <div style="display: table-row">
+        <div style="width: 300px; display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+        
+<label><span class="small" style="font-weight:bold">7. Sex</span></label>
+<table>
+<tr>
+<td><input type="radio" name="sex" id="sexmale" value="male" required="required" <?php error_reporting(E_ERROR); if (($_GET["sex"])=="M"||($_GET["sex"])=="male") { echo 'checked'; } else{} ?> onchange="anccheck()" />Male</td>
+<td><input type="radio" name="sex" value="Female" required="required" <?php error_reporting(E_ERROR); if (($_GET["sex"])=="F"||($_GET["sex"])=="Female") { echo 'checked'; } else{} ?> onchange="anccheck()"/>Female</td>
+</tr>
+</table>
+
+      </fieldset>
+         </div>
+        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+        
+<label>
+<span class="small" style="font-weight:bold">8. LGA</span>
+</label>
+<input type="text" name="lga" id="lga" style="width:120px;height:10px;"/>
+
+        </fieldset>
+         </div>        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+        
+<label>
+<span class="small" style="font-weight:bold">9. Facility Name</span>
+</label>
+<input type="text" name="facilityname" id="facilityname" style="width:120px;height:10px;"/>
+
+        </fieldset>
+         </div>
+    </div>
+</div>
+</fieldset>
+<fieldset style="width:822px; height:35px;">
+<div style="width: 100%; display: table;">
+    <div style="display: table-row">
+        <div style="width: 300px; display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+        
+<label>
+<span class="small" style="font-weight:bold">10. ANC No.</span>
+</label>
+<input type="text" name="ancno" id="ancno" style="width:120px;height:10px;"/>
+
+      </fieldset>
+         </div>
+        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+        
+<label>
+<span class="small" style="font-weight:bold">11. Date of Birth</span>
+</label>
+<input type="date" name="dob" id="dob" required="required" value="<?php if(isset($_GET["dob"])) echo $_GET["dob"]; ?>" placeholder="Required" onChange="validateAge()" style="width:118px;height:10px;"/> 
+
+        </fieldset>
+         </div>        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+        
+<label id="doblabel" style="color:#00BF00; font-style:italic;"></label>
+<label id="doblabel2" style="color:#F00; font-style:italic;"></label>
+
+        </fieldset>
+         </div>
+    </div>
+</div>
+</fieldset>
+<fieldset>
+<div style="width: 100%; display: table;">
+    <div style="display: table-row">
+<div style="width: 300px; display: table-cell;"> 
+<fieldset style="width:300">
+<legend style="font-weight:bold; font-size:11px">13. Marital Status:</legend>
+<label></label>
+<div class="radio-toolbar">
+<table>
+<tr>
+<td><input type="radio" name="maritalstatus" value="Single" />Single</td>
+<td><input type="radio" name="maritalstatus" value="Widowed" />Widowed</td>
+</tr>
+<tr>
+<td><input type="radio" name="maritalstatus" value="Married" />Married</td>
+<td><input type="radio" name="maritalstatus" value="Separated" />Separated</td>
+</tr>
+<tr>
+<td><input type="radio" name="maritalstatus" value="Divorced" />Divorced</td>
+</tr>
+</table>
+</div>
+</fieldset>
+         </div>
+        <div style="display: table-cell;"> 
+<fieldset style="width:275px">
+<legend style="font-weight:bold; font-size:11px;">14. Educational Level:</legend>
+<div class="radio-toolbar"> 
+<label></label>
+<table>
+<tr>
+<td><input type="radio" name="educationallevel" value="None"/>None</td>
+<td><input type="radio" name="educationallevel" value="Quranic" />Quranic</td>
+</tr>
+<tr>
+<td><input type="radio" name="educationallevel" value="Primary" />Primary</td>
+<td><input type="radio" name="educationallevel" value="Junior Secondary" />Junior Secondary</td>
+</tr>
+<tr>
+<td><input type="radio" name="educationallevel" value="Senior Secondary" />Senior Secondary</td>
+<td><input type="radio" name="educationallevel" value="Post Secondary" />Post Secondary</td>
+</tr>
+</table>
+</div>
+</fieldset>
+        </div>
+        <div style="display: table-cell;"> 
+<fieldset style="width:270;  height:72px">
+<legend style="font-weight:bold; font-size:11px">15. Job/Occupation Status:</legend>
+<div class="radio-toolbar">
+<label></label>
+<table>
+<tr>
+<td><input type="radio" name="jobstatus" value="Unemployed" />Unemployed</td>
+<td><input type="radio" name="jobstatus" value="Student" />Student</td>
+</tr>
+<tr>
+<td><input type="radio" name="jobstatus" value="Employed" />Employed</td>
+<td><input type="radio" name="jobstatus" value="Retired" />Retired</td>
+</tr>
+</table>
+</ul>
+</div>
+</fieldset>
+       </div>
+   </div>
+</div>
+<div style="width: 100%; display: table;">
+<div style="display: table-row">
+<div style="width: 300px; display: table-cell;"> 
+<fieldset>
+<legend style="font-weight:bold; font-size:11px">16. Where does the patient live:</legend>
+<label>Address
+</label>
+<input type="text" name="address" id="address" style="width:120px; height:10px;"/>
+
+<label>Ward/Village
+</label>
+<input type="text" name="addrwardvillage" id="addrwardvillage" style="width:120px; height:10px;"/>
+
+<label>Town Name
+</label>
+<input type="text" name="addrtown" id="addrtown" style="width:120px; height:10px;"/>
+
+<label>LGA
+</label>
+<input type="text" name="addrlga" id="addrlga" style="width:120px; height:10px;"/>
+
+<label>State
+</label>
+<input type="text" name="state" id="state" style="width:120px; height:10px;"/>
+
+
+<label>Phone Number
+</label>
+<input type="text" name="phoneno" id="phoneno" style="width:120px; height:10px;"/>
+
+</fieldset>
+       </div>
+        <div style="display: table-cell;"> 
+<fieldset style="height:260px">
+<legend style="font-weight:bold; font-size:11px">17. Contact person/next of kin:</legend>
+<label>Name
+</label>
+<input type="text" name="nokname" id="nokname" style="width:120px; height:10px;"/>
+
+<label>Relationship
+</label>
+<input type="text" name="nokrelationship" id="nokrelationship" style="width:120px; height:10px;"/>
+
+<label>Address
+</label>
+<input type="text" name="nokaddr" id="nokaddr" style="width:120px; height:10px;"/>
+
+<label>Ward/Village
+</label>
+<input type="text" name="nokwardvillage" id="nokwardvillage" style="width:120px; height:10px;"/>
+
+<label>Town Name
+</label>
+<input type="text" name="noktown" id="noktown" style="width:120px; height:10px;"/>
+
+<label>State
+</label>
+<input type="text" name="nokstate" id="nokstate" style="width:120px; height:10px;"/>
+
+<label>Phone Number
+</label>
+<input type="text" name="nokphoneno" id="nokphoneno" style="width:120px; height:10px;"/>
+</fieldset>
+        </div>
+    </div>
+</div>
+</fieldset>
+
+</fieldset>
+
+<button type="submit" style="alignment-adjust:middle">CONTINUE</button>
+<div class="spacer"></div>
+
+</form>
+</div>
+</body>
+</html>

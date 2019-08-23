@@ -1,0 +1,12 @@
+LOAD DATA LOCAL INFILE 'C:\\FMImp\\Demographics.csv' 
+INTO TABLE apindb.patient 
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"' 
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS 
+(pepid, othernames,surname,@enroldate,@hivposdate,sex,@dob,educationallevel,maritalstatus,jobstatus,drugallergies,hospitalization,riskfactors,currentlypregnant,lastcd4,@lastcd4date,@prevdurationofcarefromdate,prevarvexp,serviceentry,pebp,peskin,peheight,pepulse,petemp,peweight,whostage,plan,@nextappointmentdate)
+SET enroldate = STR_TO_DATE(@enroldate, '%Y/%m/%d'), 
+hivposdate = STR_TO_DATE(@hivposdate, '%Y/%m/%d'), 
+dob = STR_TO_DATE(@dob, '%Y/%m/%d'), 
+prevdurationofcarefromdate = STR_TO_DATE(@prevdurationofcarefromdate, '%Y/%m/%d'), 
+nextappointmentdate = STR_TO_DATE(@nextappointmentdate, '%Y/%m/%d');

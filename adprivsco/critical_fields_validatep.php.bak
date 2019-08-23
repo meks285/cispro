@@ -1,0 +1,594 @@
+<?php
+session_start();
+$con=mysqli_connect("localhost","root","Nu66et%%","apindb");
+// Check connection
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
+$pepid = $_GET['pepid'];
+$surname= $_GET['surname'];
+echo $pepid;
+$result = mysqli_query($con,"select pepid,pcurrmeds,ppreviousarvpmtct,whostage,whostagecriteria,currentmedications,lastvl,lastvldate,lastcd4date,lastcd4,dateeligible,symptomsreview,dateartstart,cd4atart,uniqueid,age,enroldate,DATE_FORMAT(created_on, '%d-%b-%Y') created_on,hivposdate,pepid,sex,dob, surname,othernames,sex,dob,dur_fever,dur_shortbreath,dur_nausea,dur_itch,dur_visimp,dur_nsweats,dur_diarh,dur_painswall,dur_weigthl,dur_gendis,dur_numb,dur_cough,dur_genitch,dur_otherpain,dur_head,dur_gensore,dur_rash from patient where pepid='$pepid' order by pepid asc");
+$followingdata = $result->fetch_array(MYSQLI_ASSOC);
+$num=$result->num_rows;
+mysqli_close($con);
+$whostagecriteria=$followingdata['whostagecriteria'];
+session_write_close();
+?>
+<script type="text/javascript">
+function fnExcelReport()
+{
+    var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
+    var textRange; var j=0;
+    tab = document.getElementById('tg-vLLuj'); // id of table
+
+    for(j = 0 ; j < tab.rows.length ; j++) 
+    {     
+        tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
+        //tab_text=tab_text+"</tr>";
+    }
+
+    tab_text=tab_text+"</table>";
+    tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+    tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+    tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE "); 
+
+    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+    {
+        txtArea1.document.open("txt/html","replace");
+        txtArea1.document.write(tab_text);
+        txtArea1.document.close();
+        txtArea1.focus(); 
+        sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
+    }  
+    else                 //other browser not tested on IE 11
+        sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+
+    return (sa);
+}
+</script>
+<iframe id="txtArea1" style="display:none"></iframe>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;margin:0px auto;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+th.tg-sort-header::-moz-selection { background:transparent; }th.tg-sort-header::selection      { background:transparent; }th.tg-sort-header { cursor:pointer; }table th.tg-sort-header:after {  content:'';  float:right;  margin-top:7px;  border-width:0 4px 4px;  border-style:solid;  border-color:#404040 transparent;  visibility:hidden;  }table th.tg-sort-header:hover:after {  visibility:visible;  }table th.tg-sort-desc:after,table th.tg-sort-asc:after,table th.tg-sort-asc:hover:after {  visibility:visible;  opacity:0.4;  }table th.tg-sort-desc:after {  border-bottom:none;  border-width:4px 4px 0;  }</style>
+
+<body onload="checkFilled();">
+<button id="btnExport" onclick="checkFilled();"> CHECK </button>
+<form id="form" name="form" method="POST" onkeypress="return event.keyCode != 13;" action="crit_f_val_ins.php" >
+<table id="tg-vLLuj" class="tg">
+<tbody>
+<tr>
+<th colspan="7"; >
+<label for="facname" style="font-weight: bold; color: blue">CRITICAL FIELDS VALIDATION (DEMOGRAPHICS, INITIAL CLINICAL EVALUATION, CARE CARD 1)</label>
+</th>
+</tr>
+<tr>
+</tr>
+<tr>
+<th colspan="7"; >
+<label for="facname" style="font-weight: bold; color: blue">DEMOGRAPHICS</label>
+</th>
+</tr>
+<tr>
+	<td><label for="pepid" style="font-weight: bold">Patient ID</label></td>
+	<td><label for="pepid" style="font-weight: bold"><input type="text" name="pepid" id="pepid" value="<?php echo $followingdata['pepid']?>" style="width:80px;"/></label></td>
+
+	<td><label for="surname" style="font-weight: bold">Surname:</label></td>
+	<td><label for="surname" style="font-weight: bold"><input type="text" name="surname" id="surname" value="<?php echo $followingdata['surname']?>" style="width:80px;"/></label></td>
+	<td><label for="othernames" style="font-weight: bold">Other Names:</label></td>
+	<td><label for="othernames" style="font-weight: bold"><input type="text" name="othernames" id="othernames" value="<?php echo $followingdata['othernames']?>" style="width:80px;"/></label></td>
+</tr>
+<tr>
+	<td><label for="uniqueid" style="font-weight: bold">Unique ID</label></td>
+	<td><label for="uniqueid" style="font-weight: bold"><input type="text" name="uniqueid" id="uniqueid" value="<?php echo $followingdata['uniqueid']?>" style="width:80px;"/></label></td>
+
+	<td><label for="age" style="font-weight: bold">Age:</label></td>
+	<td><label for="age" style="font-weight: bold"><input type="text" name="age" id="age" value="<?php echo $followingdata['age']?>" style="width:80px;"/></label></td>
+	<td><label for="sex" style="font-weight: bold">Sex:</label></td>
+	<td><label for="sex" style="font-weight: bold"><input type="text" name="sex" id="sex" value="<?php echo $followingdata['sex']?>" style="width:80px;"/></label></td>
+</tr>
+<tr>
+	<td><label for="dob" style="font-weight: bold">Date of Birth</label></td>
+	<td><label for="dob" style="font-weight: bold"><input type="date" name="dob" id="dob" value="<?php echo $followingdata['dob']?>" style="width:130px;"/></label></td>
+
+	<td><label for="enroldate" style="font-weight: bold">Visitdate:</label></td>
+	<td><label for="enroldate" style="font-weight: bold"><input type="date" name="enroldate" id="enroldate" value="<?php echo $followingdata['enroldate']?>" style="width:130px;"/></label></td>
+	<td><label for="hivposdate" style="font-weight: bold">Date HIV Confirmed:</label></td>
+	<td><label for="hivposdate" style="font-weight: bold"><input type="date" name="hivposdate" id="hivposdate" value="<?php echo $followingdata['hivposdate']?>" style="width:130px;"/></label></td>
+</tr>
+</table>
+<br />
+<br />
+<br />
+<table id="tg-vLLuj" class="tg">
+<tbody>
+<th colspan="7"; >
+<label for="facname" style="font-weight: bold; color: blue">CARE/ART CARD</label>
+</th>
+<tr>
+	<td><label for="dateeligible" style="font-weight: bold">14. Date medically eligible</label></td>
+	<td><label for="dateeligible" style="font-weight: bold"><input type="date" name="dateeligible" id="dateeligible" value="<?php echo $followingdata['dateeligible']?>" style="width:130px;"/></label></td>
+
+	<td><label for="dateartstart" style="font-weight: bold">20. Date ART Started</label></td>
+	<td><label for="dateartstart" style="font-weight: bold"><input type="date" name="dateartstart" id="dateartstart" value="<?php echo $followingdata['dateartstart']?>" style="width:130px;"/></label></td>
+	<td><label for="cd4atart" style="font-weight: bold">25. CD4 at start of ART</label></td>
+	<td><label for="cd4atart" style="font-weight: bold"><input type="text" name="cd4atart" id="cd4atart" value="<?php echo $followingdata['cd4atart']?>" style="width:130px;"/></label></td>
+</tr>
+
+</table>
+<br />
+<br />
+<br />
+<table id="tg-vLLuj" class="tg">
+<tbody>
+<th colspan="7"; >
+<label for="facname" style="font-weight: bold; color: blue">INITIAL CLINICAL EVALUATION</label>
+</th>
+<tr>
+	<td><label for="symptomsreview" id="symptomsreviewl" style="font-weight: bold">19. Symptoms Review</label></td>
+	<td><label for="symptomsreview" style="font-weight: bold"><div class="checkbox-toolbar"> 
+<table>
+<tr>
+<td>Symptoms</td>
+<td>Duration(days)</td>
+<td>Symptoms</td>
+<td>Duration(days)</td>
+<td>Symptoms</td>
+<td>Duration(days)</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Fever/Chills" <?php if (strpos($followingdata['symptomsreview'],'Fever/Chills') !== false||strpos($followingdata['symptomsreview'],'Fever') !== false) { echo 'checked'; }?> >Fever/Chills</td>
+<td><input type="text" name="dur_fever" id="dur_fever" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_fever']?>"/></td>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Rash" <?php if (strpos($followingdata['symptomsreview'],'Rash') !== false) { echo 'checked'; }?> >Rash </td>
+<td><input type="text" name="dur_rash" id="dur_rash" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_rash']?>"/></td>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Shortness of Breath" <?php if (strpos($followingdata['symptomsreview'],'Shortness of Breath') !== false||strpos($followingdata['symptomsreview'],'Fatigue') !== false) { echo 'checked'; }?> >Shortness of Breath</td>
+<td><input type="text" name="dur_shortbreath" id="dur_shortbreath" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_shortbreath']?>"/></td>
+</tr>
+<tr> 
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Nausea/Vomitting" <?php if (strpos($followingdata['symptomsreview'],'Nausea/Vomitting') !== false||strpos($followingdata['symptomsreview'],'Nausea') !== false||strpos($followingdata['symptomsreview'],'Vomitting') !== false) { echo 'checked'; }?> >Nausea/ Vomitting</td>
+<td><input type="text" name="dur_nausea" id="dur_nausea" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_nausea']?>"/></td>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Itching" <?php if (strpos($followingdata['symptomsreview'],'Itching') !== false||strpos($followingdata['symptomsreview'],'Itchy') !== false) { echo 'checked'; }?> >Itching</td>
+<td><input type="text" name="dur_itch" id="dur_itch" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_itch']?>"/></td>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="New Visual Imparity" <?php if (strpos($followingdata['symptomsreview'],'New Visual Imparity') !== false) { echo 'checked'; }?> >New Visual Imparity</td>
+<td><input type="text" name="dur_visimp" id="dur_visimp" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_visimp']?>"/></td>
+</tr>
+<tr>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Night Sweats" <?php if (strpos($followingdata['symptomsreview'],'Night Sweats') !== false||strpos($followingdata['symptomsreview'],'sweats') !== false||strpos($followingdata['symptomsreview'],'Sweats') !== false) { echo 'checked'; }?> >Night Sweats </td>
+<td><input type="text" name="dur_nsweats" id="dur_nsweats" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_nsweats']?>"/></td>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Chronic Diarrhea" <?php if (strpos($followingdata['symptomsreview'],'Chronic Diarrhea') !== false||strpos($followingdata['symptomsreview'],'Diarrhea, chronic') !== false) { echo 'checked'; }?> >Chronic Diarrhea</td>
+<td><input type="text" name="dur_diarh" id="dur_diarh" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_diarh']?>"/></td>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Pain/Difficulty when swallowing" <?php if (strpos($followingdata['symptomsreview'],'Pain/Difficulty when swallowing') !== false||strpos($followingdata['symptomsreview'],'Sore throat') !== false) { echo 'checked'; }?> >Pain when swallowing</td>
+<td><input type="text" name="dur_painswall" id="dur_painswall" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_painswall']?>"/></td>
+</tr>
+<tr> 
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Recent Weight Loss" <?php if (strpos($followingdata['symptomsreview'],'Recent Weight Loss') !== false||strpos($followingdata['symptomsreview'],'>10%') !== false) { echo 'checked'; }?> >Recent Weight Loss</td>
+<td><input type="text" name="dur_weigthl" id="dur_weigthl" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_weigthl']?>"/></td>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Genital Discharge" <?php if (strpos($followingdata['symptomsreview'],'Genital Discharge') !== false||strpos($followingdata['symptomsreview'],'Discharge (pen') !== false) { echo 'checked'; }?> >Genital Discharge </td>
+<td><input type="text" name="dur_gendis" id="dur_gendis" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_gendis']?>"/></td>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Numbness/Tingling" <?php if (strpos($followingdata['symptomsreview'],'Numbness/Tingling') !== false||strpos($followingdata['symptomsreview'],'Pain/tingling/numbness') !== false) { echo 'checked'; }?> >Numbness/ Tingling </td>
+<td><input type="text" name="dur_numb" id="dur_numb" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_numb']?>"/></td>
+</tr>
+<tr>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Cough" <?php if (strpos($followingdata['symptomsreview'],'Cough') !== false) { echo 'checked'; }?> >Cough</td>
+<td><input type="text" name="dur_cough" id="dur_cough" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_cough']?>"/></td>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Genital Itching" <?php if (strpos($followingdata['symptomsreview'],'Genital Itching') !== false) { echo 'checked'; }?> >Genital Itching </td>
+<td><input type="text" name="dur_genitch" id="dur_genitch" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_genitch']?>"/></td>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Pain (other site)" <?php if (strpos($followingdata['symptomsreview'],'Pain (other site)') !== false||strpos($followingdata['symptomsreview'],'Aches') !== false||strpos($followingdata['symptomsreview'],'Body pain') !== false||strpos($followingdata['symptomsreview'],'Joint pain') !== false||strpos($followingdata['symptomsreview'],'Back pain') !== false||strpos($followingdata['symptomsreview'],'Chest pain') !== false||strpos($followingdata['symptomsreview'],'Abdominal pain') !== false||strpos($followingdata['symptomsreview'],'Body/burning') !== false) { echo 'checked'; }?> >Pain (other site) </td>
+<td><input type="text" name="dur_otherpain" id="dur_otherpain" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_otherpain']?>"/></td>
+</tr>
+<tr>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Headache" <?php if (strpos($followingdata['symptomsreview'],'Headache') !== false||strpos($followingdata['symptomsreview'],'Aches') !== false) { echo 'checked'; }?> >Headache </td>
+<td><input type="text" name="dur_head" id="dur_head" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_head']?>"/></td>
+<td><input type="checkbox" name="symptomsreview[]" id="symptomsreview" value="Genital Sores" <?php if (strpos($followingdata['symptomsreview'],'Genital Sores') !== false||strpos($followingdata['symptomsreview'],'Ulcer (penile') !== false) { echo 'checked'; }?> >Genital Sores </td>
+<td><input type="text" name="dur_gensore" id="dur_gensore" style="width:20%;height:20px;" value="<?php echo $followingdata['dur_gensore']?>"/></td>
+</tr>
+</table>
+</div></label></td>
+</tr>
+
+</table>
+
+<table id="tg-vLLuj" class="tg">
+<tbody>
+<tr>
+	<td><label style="font-weight: bold">27. Latest CD4(cells/mL)</label></td>
+	<td><label style="font-weight: bold"><input type="text" name="lastcd4" id="lastcd4" value="<?php echo $followingdata['lastcd4']?>" style="width:130px;"/></label></td>
+
+	<td><label style="font-weight: bold">Latest CD4 Date</label></td>
+	<td><label style="font-weight: bold"><input type="date" name="lastcd4date" id="lastcd4date" value="<?php echo $followingdata['lastcd4date']?>" style="width:130px;"/></label></td>
+	<td><label style="font-weight: bold">28. Latest VL(c/ml)</label></td>
+	<td><label style="font-weight: bold"><input type="text" name="lastvl" id="lastvl" value="<?php echo $followingdata['lastvl']?>" style="width:130px;"/></label></td>
+    
+    <td><label style="font-weight: bold">Latest VL Date</label></td>
+	<td><label style="font-weight: bold"><input type="date" name="lastvldate" id="lastvldate" value="<?php echo $followingdata['lastvldate']?>" style="width:130px;"/></label></td>
+
+</tr>
+</table>
+
+<table id="tg-vLLuj" class="tg">
+<tbody>
+<th colspan="7"; >
+</th>
+<tr>
+	<td><label>29. Current Medications</label>
+<div class="radio-toolbar">
+<table>
+<tr>
+<td><input type="radio" name="pcurrmeds" value="None" <?php if ($followingdata['pcurrmeds']=='None') { echo 'checked'; } ?>/>None</td>
+<td><input type="radio" name="pcurrmeds" value="ART" <?php if ($followingdata['pcurrmeds']=='ART') { echo 'checked'; } ?>/>ART</td>
+</tr>
+<tr>
+<td><input type="radio" name="pcurrmeds" value="CTX" <?php if ($followingdata['pcurrmeds']=='CTX') { echo 'checked'; } ?>/>CTX</td>
+<td><input type="radio" name="pcurrmeds" value="Anti-TB" <?php if ($followingdata['pcurrmeds']=='Anti-TB') { echo 'checked'; } ?>/>Anti-TB</td>
+</tr>
+<tr>
+<td><input type="radio" name="pcurrmeds" value="Others" <?php if ($followingdata['pcurrmeds']=='Others') { echo 'checked'; } ?>/>Others</td>
+</tr>
+</table>
+</div></td>
+<td><label id="ppreviousarvpmtctl">28. Previous ART exposure through PMTCT</label>
+<div class="radio-toolbar">
+<table>
+<tr>
+<td><input type="radio" name="ppreviousarvpmtct" value="Yes" <?php if ($followingdata['ppreviousarvpmtct']=='Yes') { echo 'checked'; } ?> />Yes</td>
+<td><input type="radio" name="ppreviousarvpmtct" value="No" <?php if ($followingdata['ppreviousarvpmtct']=='No') { echo 'checked'; } ?> />No</td>
+</tr>
+</table>
+</div>   </td>
+</tr>
+
+</table>
+<table id="tg-vLLuj" class="tg">
+<tbody>
+<th colspan="7"; >
+</th>
+<tr>
+	<td><label id="whostagecriterial" style="font-weight: bold">40. WHO Staging criteria(History of any of the following)</label></td>
+    
+    <td><label for="whostage" style="font-weight: bold">41. WHO Stage: </label><label for="whostage" style="font-weight: bold"><input type="text" name="whostage" id="whostage" value="<?php echo $followingdata['whostage']?>" style="width:130px;"/></label></td>
+
+    </tr>
+<tr>
+	<td  colspan="2"; ><label for="whostagecriteria" id="whostagecriteria" style="font-weight: bold"><div class="checkbox-toolbar"> 
+<fieldset>
+<legend style="font-weight:bold; font-size:11px">Stage 1.</legend>
+<div class="checkbox-toolbar"> 
+<table>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" id="whostagecriteria" value="Asymptomatic*" <?php if (strpos($followingdata['whostagecriteria'],'Asymptomatic*') !== false) { echo 'checked'; }?>/>Asymptomatic</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" id="whostagecriteria" value="Persistent generalized Lympadenopathy"  <?php if (strpos($followingdata['whostagecriteria'],'Persistent generalized Lympadenopathy') !== false) { echo 'checked'; }?>/>Persistent Lymphadenopathy</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" id="whostagecriteria" value="Performance Scale: 1 Asymptomatic, normal activity" <?php if (strpos($followingdata['whostagecriteria'],'Performance Scale: 1 Asymptomatic, normal activity') !== false) { echo 'checked'; }?>/>Performance scale:1 Asymptomatic, normal activity</td>
+</tr>
+</table>
+</div>
+</fieldset>
+<fieldset>
+<legend style="font-weight:bold; font-size:11px">Stage 2.</legend>
+<div class="checkbox-toolbar"> 
+<table>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Weight Loss <10% of Body Weight"  <?php if (strpos($followingdata['whostagecriteria'],'Weight Loss <10% of Body Weight') !== false) { echo 'checked'; }?>/>Weight Loss < 10% of body weight</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Minor Mucocutaneous Manifestations"  <?php if (strpos($followingdata['whostagecriteria'],'Minor Mucocutaneous Manifestations') !== false) { echo 'checked'; }?>/>Minor Mucocutaneous Manifestations</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Herpes Zoster (within last 5 years)" <?php if (strpos($followingdata['whostagecriteria'],'Herpes Zoster (within last 5 years)') !== false) { echo 'checked'; }?>/>Herpes Zoster (within last 5 years)</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Recurrent Upper Respiratory Tract Infections" <?php if (strpos($followingdata['whostagecriteria'],'Recurrent Upper Respiratory Tract Infections') !== false) { echo 'checked'; }?> />Recurrent Upper Respiratory Tract Infections</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Performance scale: 2 symptomatic, normal activity" <?php if (strpos($followingdata['whostagecriteria'],'Performance scale: 2 symptomatic, normal activity') !== false) { echo 'checked'; }?> />Performance scale: 2 symptomatic, normal activity</td>
+</tr>
+</table>
+</div>
+</fieldset>
+<fieldset>
+<legend style="font-weight:bold; font-size:11px">Stage 3.</legend>
+<div class="checkbox-toolbar"> 
+<table>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Weight loss >10% of body weight" <?php if (strpos($followingdata['whostagecriteria'],'Weight loss >10% of body weight') !== false) { echo 'checked'; }?>/>Weight loss >10% of body weight</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Unexplained Chronic Diarrhea (>1 month)" <?php if (strpos($followingdata['whostagecriteria'],'Unexplained Chronic Diarrhea (>1 month)') !== false) { echo 'checked'; }?>/>Unexplained Chronic Diarrhea (>1 month)</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Unexplained Prolonged Fever" <?php if (strpos($followingdata['whostagecriteria'],'Unexplained Prolonged Fever') !== false) { echo 'checked'; }?>/>Unexplained Prolonged Fever</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Oral Candidiasis" <?php if (strpos($followingdata['whostagecriteria'],'Oral Candidiasis') !== false) { echo 'checked'; }?>/>Oral Candidiasis</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Oral Hairy Leukoplakia" <?php if (strpos($followingdata['whostagecriteria'],'Oral Hairy Leukoplakia') !== false) { echo 'checked'; }?>/>Oral Hairy Leukoplakia</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria" value="TB, Pulmonary (within previous year)" <?php if (strpos($followingdata['whostagecriteria'],'TB, Pulmonary (within previous year)') !== false) { echo 'checked'; }?>/>TB, Pulmonary (within previous year)</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Severe Bacterial Infections" <?php if (strpos($followingdata['whostagecriteria'],'Severe Bacterial Infections') !== false) { echo 'checked'; }?>/>Severe Bacterial Infections</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Performance scale: 3 bedridden <50% of day in last month" <?php if (strpos($followingdata['whostagecriteria'],'Performance scale: 3 bedridden <50% of day in last month') !== false) { echo 'checked'; }?>/>Performance scale: 3 bedridden <50% of day in last month</td>
+</tr>
+</table>
+</div>
+
+</fieldset>
+
+
+         </div>
+        <div style="display: table-cell;"> 
+<fieldset>
+<legend style="font-weight:bold; font-size:11px">Stage 4.</legend>
+<div class="checkbox-toolbar"> 
+<table>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="HIV Wasting syndrome" <?php if (strpos($followingdata['whostagecriteria'],'HIV Wasting syndrome') !== false) { echo 'checked'; }?> />HIV Wasting syndrome</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="PCP"  <?php if (strpos($followingdata['whostagecriteria'],'PCP') !== false) { echo 'checked'; }?>/>PCP</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Toxoplasmosis, CNS" <?php if (strpos($followingdata['whostagecriteria'],'Toxoplasmosis, CNS') !== false) { echo 'checked'; }?>/>Toxoplasmosis, CNS</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Cryptosporidiosis with Diarrhea (>1 month)"  <?php if (strpos($followingdata['whostagecriteria'],'Cryptosporidiosis with Diarrhea (>1 month)') !== false) { echo 'checked'; }?>/>Cryptosporidiosis with Diarrhea (>1 month)</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Cryptococcosis, Extrapulmonary"  <?php if (strpos($followingdata['whostagecriteria'],'Cryptococcosis, Extrapulmonary') !== false) { echo 'checked'; }?>/>Cryptococcosis, Extrapulmonary</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Cytomegalovirus disease" <?php if (strpos($followingdata['whostagecriteria'],'Cytomegalovirus disease') !== false) { echo 'checked'; }?>/>Cytomegalovirus disease</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Herpes Simplex (mucotaneous >1 month)"  <?php if (strpos($followingdata['whostagecriteria'],'Herpes Simplex (mucotaneous >1 month)') !== false) { echo 'checked'; }?>/>Herpes Simplex (mucotaneous >1 month)</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Progressive Multifocal Leukoencephalopathy"  <?php if (strpos($followingdata['whostagecriteria'],'Progressive Multifocal Leukoencephalopathy') !== false) { echo 'checked'; }?>/>Progressive Multifocal Leukoencephalopathy</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Mycosis, disseminated"  <?php if (strpos($followingdata['whostagecriteria'],'Mycosis, disseminated') !== false) { echo 'checked'; }?>/>Mycosis, disseminated</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Candidiasis*"  <?php if (strpos($followingdata['whostagecriteria'],'Candidiassis*') !== false) { echo 'checked'; }?>/>Candidiasis</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Atypical Mycobacteriosis, disseminated" <?php if (strpos($followingdata['whostagecriteria'],'Atypical Mycobacteriosis, disseminated') !== false) { echo 'checked'; }?>/>Atypical Mycobacteriosis, disseminated</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Oral Candidiasis"  <?php if (strpos($followingdata['whostagecriteria'],'Oral Candidiasis') !== false) { echo 'checked'; }?>/>Oral Candidiasis</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Oral Hairy Leukoplakia"  <?php if (strpos($followingdata['whostagecriteria'],'Oral Hairy Leukoplakia') !== false) { echo 'checked'; }?>/>Oral Hairy Leukoplakia</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="TB, Pulmonary (within previous year)" <?php if (strpos($followingdata['whostagecriteria'],'TB, Pulmonary (within previous year)') !== false) { echo 'checked'; }?>/>TB, Pulmonary (within previous year)</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Severe Bacterial Infections"  <?php if (strpos($followingdata['whostagecriteria'],'Severe Bacterial Infections') !== false) { echo 'checked'; }?>/>Severe Bacterial Infections</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="whostagecriteria[]" value="Performance scale: 3 bedridden <50% of day in last month"  <?php if (strpos($followingdata['whostagecriteria'],'Performance scale: 3 bedridden <50% of day in last month') !== false) { echo 'checked'; }?>/>Performance scale: 3 bedridden <50% of day in last month</td>
+</tr>
+</table>
+</label></td>
+</tr>
+
+</table>
+<button  type="submit" style="alignment-adjust:middle">VALIDATE!</button>
+</form>
+</body>
+
+
+
+
+<script type="text/javascript">
+function checkFilled() {
+    var pepid = document.getElementById("pepid");
+    var pcurrmeds = document.getElementById("pcurrmeds");
+    var ppreviousarvpmtct = document.getElementById("ppreviousarvpmtct");
+    var whostage = document.getElementById("whostage");
+    var whostagecriterial = document.getElementById("whostagecriterial");
+    var currentmedicationsl = document.getElementById("pcurrmedsl");
+    var symptomsreviewl = document.getElementById("symptomsreviewl");
+    var lastvl = document.getElementById("lastvl");
+    var lastvldate = document.getElementById("lastvldate");
+    var lastcd4date = document.getElementById("lastcd4date");
+    var lastcd4 = document.getElementById("lastcd4");
+    var dateeligible = document.getElementById("dateeligible");
+    var dateartstart = document.getElementById("dateartstart");
+    var cd4atart = document.getElementById("cd4atart");
+    var uniqueid = document.getElementById("uniqueid");
+    var age = document.getElementById("age");
+    var enroldate = document.getElementById("enroldate");
+    var hivposdate = document.getElementById("hivposdate");
+    var sex = document.getElementById("sex");
+    var dob = document.getElementById("dob");
+    var surname = document.getElementById("surname");
+    var othernames = document.getElementById("othernames");
+    var ppreviousarvpmtctl = document.getElementById("ppreviousarvpmtctl");
+	var whostagecriteria = "<?php echo $followingdata['whostagecriteria']; ?>"; 
+	var currentmedications = "<?php echo $followingdata['pcurrmeds']; ?>"; 
+	var symptomsreview = "<?php echo $followingdata['symptomsreview']; ?>"; 
+	var ppreviousarvpmtct = "<?php echo $followingdata['ppreviousarvpmtct']; ?>"; 
+    
+
+	if (whostagecriteria.value == "" || whostagecriteria.value == "0"|| whostagecriteria.value == null) {
+        whostagecriterial.style.backgroundColor = "red";
+    }
+    else{
+		 whostagecriterial.style.backgroundColor = "";      
+	}
+//	
+	if (ppreviousarvpmtct.value == "" || ppreviousarvpmtct.value == "0"|| ppreviousarvpmtct.value == null) {
+        ppreviousarvpmtctl.style.backgroundColor = "red";
+    }
+    else{
+		 ppreviousarvpmtctl.style.backgroundColor = "";      
+	}
+//	
+	if (symptomsreview.value == "" || symptomsreview.value == "0"|| symptomsreview.value == null) {
+        symptomsreviewl.style.backgroundColor = "red";
+    }
+    else{
+		 symptomsreviewl.style.backgroundColor = "white";      
+	}
+//	
+	if (currentmedications.value == "" || currentmedications.value == "0"|| currentmedications.value == null) {
+        currentmedicationsl.style.backgroundColor = "red";
+    }
+    else{
+		 currentmedicationsl.style.backgroundColor = "";      
+	}
+//	
+	    if (whostage.value == ""|| whostage.value == null|| whostage.value == "0") {
+        whostage.style.backgroundColor = "red";
+    }
+    else{
+        whostage.style.backgroundColor = "";
+    }
+//	
+
+
+    if (lastvl.value == ""||lastvl.value == null||lastvl.value == "0") {
+        lastvl.style.backgroundColor = "red";
+    }
+    else{
+        lastvl.style.backgroundColor = "";
+    }
+//	
+    if (lastcd4.value == ""||lastcd4.value == null||lastcd4.value == "0") {
+        lastcd4.style.backgroundColor = "red";
+    }
+    else{
+        lastcd4.style.backgroundColor = "";
+    }
+//
+    if (lastcd4date.value == ""||lastcd4date.value == null||lastcd4date.value == "0000-00-00") {
+        lastcd4date.style.backgroundColor = "red";
+    }
+    else{
+        lastcd4date.style.backgroundColor = "";
+    }
+//	
+    if (lastvldate.value == ""||lastvldate.value == null||lastvldate.value == "0000-00-00") {
+        lastvldate.style.backgroundColor = "red";
+    }
+    else{
+        lastvldate.style.backgroundColor = "";
+    }
+//	
+    if (dateeligible.value == ""||dateeligible.value == null||dateeligible.value == "0000-00-00") {
+        dateeligible.style.backgroundColor = "red";
+    }
+    else{
+        dateeligible.style.backgroundColor = "";
+    }
+//	
+    if (dateartstart.value == ""||dateartstart.value == null||dateartstart.value == "0000-00-00") {
+        dateartstart.style.backgroundColor = "red";
+    }
+    else{
+        dateartstart.style.backgroundColor = "";
+    }
+//	
+    if (cd4atart.value == ""||cd4atart.value == null||cd4atart.value == "0") {
+        cd4atart.style.backgroundColor = "red";
+    }
+    else{
+        cd4atart.style.backgroundColor = "";
+    }
+//	
+    if (uniqueid.value == ""||uniqueid.value == "0"||uniqueid.value == null) {
+        uniqueid.style.backgroundColor = "red";
+    }
+    else{
+        uniqueid.style.backgroundColor = "";
+    }
+//	
+    if (age.value == ""||age.value == "0"||age.value == null) {
+        age.style.backgroundColor = "red";
+    }
+    else{
+        age.style.backgroundColor = "";
+    }
+//	
+    if (enroldate.value == ""||enroldate.value == null||enroldate.value == "0000-00-00") {
+        enroldate.style.backgroundColor = "red";
+    }
+    else{
+        enroldate.style.backgroundColor = "";
+    }
+//	
+    if (hivposdate.value == ""||hivposdate.value == null||hivposdate.value == "0000-00-00") {
+        hivposdate.style.backgroundColor = "red";
+    }
+    else{
+        hivposdate.style.backgroundColor = "";
+    }
+//	
+    if (sex.value == ""||sex.value == "0"||sex.value == null) {
+        sex.style.backgroundColor = "red";
+    }
+    else{
+        sex.style.backgroundColor = "";
+    }
+//	
+    if (dob.value == ""||dob.value == null||dob.value == "0000-00-00") {
+        dob.style.backgroundColor = "red";
+    }
+    else{
+        dob.style.backgroundColor = "";
+    }
+//	
+    if (surname.value == ""||surname.value == "0"||surname.value == null) {
+        surname.style.backgroundColor = "red";
+    }
+    else{
+        surname.style.backgroundColor = "";
+    }
+//	
+    if (othernames.value == ""||othernames.value == "0"||othernames.value == null) {
+        othernames.style.backgroundColor = "red";
+    }
+    else{
+        othernames.style.backgroundColor = "";
+    }
+//	
+    if (pepid.value == ""||pepid.value == "0"||pepid.value == null) {
+        pepid.style.backgroundColor = "red";
+    }
+    else{
+        pepid.style.backgroundColor = "";
+    }
+//	
+    if (pcurrmeds.value == ""||pcurrmeds.value == "0"||pcurrmeds.value == null) {
+        pcurrmeds.style.backgroundColor = "red";
+    }
+    else{
+        pcurrmeds.style.backgroundColor = "";
+    }
+//	
+    if (ppreviousarvpmtct.value == ""||ppreviousarvpmtct.value == "0"||ppreviousarvpmtct.value == null) {
+        ppreviousarvpmtct.style.backgroundColor = "red";
+    }
+    else{
+        ppreviousarvpmtct.style.backgroundColor = "";
+    }
+	
+// end of if	
+}
+checkFilled();
+</script>

@@ -1,0 +1,652 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+<title>APIN!Smart</title>
+<link rel="stylesheet" href="jquery.mobile-1.4.2.min.css" type="text/css" />
+<link rel="stylesheet" href="jquery.mobile.theme-1.4.2.min.css" />
+<script src="jquery-2.1.0.min.js" type="text/javascript"></script>
+<script src="jquery.mobile-1.4.2.min.js" type="text/javascript"></script>
+<script src="jquery.mobile.theme-1.4.2.min.css" type="text/css"></script>
+</head>
+<body>
+<!-- This is the First Page -->
+<section id="firstpage" data-role="page" data-fullscreen="true" data-theme="a">
+<header data-role="header" data-position="fixed" data-theme="b">
+<h1 style="color:#09F">APIN!Smart</h1>
+<nav data-role="navbar">
+<ul>
+<li><a href="#" data-icon="plus" ></a></li>
+<li><a href="#" data-icon="minus"></a></li>
+<li><a href="#" data-icon="check"></a></li>
+<li><a href="#" data-icon="grid"></a></li>
+</ul>
+</nav>
+</header>
+<div data-role="content" align="left">
+<form id="formId">
+	<fieldset data-role="controlgroup" data-type="horizontal">
+    <select name="rstate" id="rstate" data-inline="true">
+    <option>State</option>
+    <option value="Lagos">Lagos</option>
+    <option value="Plateau">Plateau</option>
+    <option value="Oyo">Oyo</option>
+    </select>
+
+    <select name="rlga" id="rlga" data-inline="true">
+    <option>LGA</option>
+<optgroup label="LAGOS">
+    <option value="Agege">Agege</option>
+    <option value="Alimosho">Alimosho</option>
+    <option value="Amuwo Odofin">Amuwo Odofin</option>
+    <option value="Epe">Epe</option>
+    <option value="Eti-Osa">Eti-Osa</option>
+    <option value="Ibeju Lekki">Ibeju Lekki</option>
+    <option value="Ifako/Ijaye">Ifako/Ijaye</option>
+    <option value="Ikeja">Ikeja</option>
+    <option value="Ikorodu">Ikorodu</option>
+    <option value="Mushin">Mushin</option>
+    <option value="Oshodi/Isolo">Oshodi/Isolo</option>
+    <option value="Shomolu">Shomolu</option>
+</optgroup>
+<optgroup label="OYO">
+    <option value="Afijio">Afijio</option>
+    <option value="Akinyele">Akinyele</option>
+    <option value="Atiba">Atiba</option>
+    <option value="Egbeda">Egbeda</option>
+    <option value="Ibadan North East">Ibadan North East</option>
+    <option value="Ibadan North West">Ibadan North West</option>
+    <option value="Ibadan North">Ibadan North</option>
+    <option value="Ibadan South East">Ibadan South East</option>
+    <option value="Ibadan South West">Ibadan South West</option>
+    <option value="Ibarapa Central">Ibarapa Central</option>
+    <option value="Ibarapa East">Ibarapa East</option>
+    <option value="Ibarapa North">Ibarapa North</option>
+    <option value="Ido">Ido</option>
+    <option value="Itesiwaju">Itesiwaju</option>
+    <option value="Lagelu">Lagelu</option>
+    <option value="Ogbomosho North">Ogbomosho North</option>
+    <option value="Ogbomosho South">Ogbomosho South</option>
+    <option value="Oluyole">Oluyole</option>
+    <option value="Ona Ara">Ona Ara</option>
+    <option value="Oyo East">Oyo East</option>
+    <option value="Oyo West">Oyo West</option>
+    <option value="Saki West">Saki West</option>
+    <option value="Surulere">Surulere</option>
+    </optgroup>
+<optgroup label="PLATEAU">
+    <option value="Barkin Ladi">Barkin Ladi</option>
+    <option value="Bassa">Bassa</option>
+    <option value="Bokkos">Bokkos</option>
+    <option value="Jos East">Jos East</option>
+    <option value="Jos North">Jos North</option>
+    <option value="Jos South">Jos South</option>
+    <option value="Langtang North">Langtang North</option>
+    <option value="Mangu">Mangu</option>
+    <option value="Pankshin">Pankshin</option>
+    <option value="Qua'an Pan">Qua'an Pan</option>
+    <option value="Riyom">Riyom</option>
+    <option value="Shendam">Shendam</option>
+</optgroup>
+    </select>
+
+<select name="rfacility" id="rfacility" data-inline="true">
+<option>FACILITY</option>
+<optgroup label="LAGOS">
+<option value="Aboru PHC">Aboru PHC</option>
+<option value="Adeniyi Jones MDG PHC">Adeniyi Jones MDG PHC</option>
+<option value="Afuye PHC">Afuye PHC</option>
+<option value="Agbede  Primary Health Centre (APIN)">Agbede  Primary Health Centre (APIN)</option>
+<option value="Agbele PHC">Agbele PHC</option>
+<option value="Agboju PHC (APIN)">Agboju PHC (APIN)</option>
+<option value="Agbowa PHC">Agbowa PHC</option>
+<option value="Agodo PHC (APIN)">Agodo PHC (APIN)</option>
+<option value="Aguda PHC (APIN)">Aguda PHC (APIN)</option>
+<option value="Agura PHC (APIN)">Agura PHC (APIN)</option>
+<option value="Ailegun PHC (APIN)">Ailegun PHC (APIN)</option>
+<option value="Ajao PHC (APIN)">Ajao PHC (APIN)</option>
+<option value="Ajegunle PHC">Ajegunle PHC</option>
+<option value="Akinogun PHC">Akinogun PHC</option>
+<option value="Akinyele Primary Health Centre (APIN)">Akinyele Primary Health Centre (APIN)</option>
+<option value="Akiode PHC">Akiode PHC</option>
+<option value="Akonwonjo Primary Health Centre (APIN)">Akonwonjo Primary Health Centre (APIN)</option>
+<option value="ALves PHC (APIN)">ALves PHC (APIN)</option>
+<option value="Amikanle PHC">Amikanle PHC</option>
+<option value="Anikulapo Primary Health Centre (APIN)">Anikulapo Primary Health Centre (APIN)</option>
+<option value="Anjorin PHC">Anjorin PHC</option>
+<option value="Apakin PHC">Apakin PHC</option>
+<option value="Apata PHC">Apata PHC</option>
+<option value="Ashogbon PHC (APIN)">Ashogbon PHC (APIN)</option>
+<option value="Ayantuga PHC (APIN)">Ayantuga PHC (APIN)</option>
+<option value="Ayo Ni PHC (APIN)">Ayo Ni PHC (APIN)</option>
+<option value="Ayobo Primary Health Centre (APIN)">Ayobo Primary Health Centre (APIN)</option>
+<option value="Bada Primary Health Centre (APIN)">Bada Primary Health Centre (APIN)</option>
+<option value="Baruwa PHC">Baruwa PHC</option>
+<option value="Barwa PHC ">Barwa PHC</option>
+<option value="Coker Aguda Primary Health Centre (APIN)">Coker Aguda Primary Health Centre (APIN)</option>
+<option value="Coker Primary Health Centre (APIN)">Coker Primary Health Centre (APIN)</option>
+<option value="Debojo PHC">Debojo PHC</option>
+<option value="Dopemu PHC">Dopemu PHC</option>
+<option value="Duru-Oyedoyin PHC (APIN)">Duru-Oyedoyin PHC (APIN)</option>
+<option value="Egan PHC (APIN)">Egan PHC (APIN)</option>
+<option value="Egbe Idimu PHC">Egbe Idimu PHC</option>
+<option value="Ejigbo PHC (APIN)">Ejigbo PHC (APIN)</option>
+<option value="Eredo PHC">Eredo PHC</option>
+<option value="Ewetuntun PHC (APIN)">Ewetuntun PHC (APIN)</option>
+<option value="Folu PHC (APIN)">Folu PHC (APIN)</option>
+<option value="Ibeshe PHC (APIN)">Ibeshe PHC (APIN)</option>
+<option value="Ibonwon PHC">Ibonwon PHC</option>
+<option value="Igbalu PHC (APIN)">Igbalu PHC (APIN)</option>
+<option value="Igbo Olomu PHC (APIN)">Igbo Olomu PHC (APIN)</option>
+<option value="Igbogbo PHC (APIN)">Igbogbo PHC (APIN)</option>
+<option value="IgbonPHC">IgbonPHC</option>
+<option value="Ikate PHC">Ikate PHC</option>
+<option value="Ikota PHC">Ikota PHC</option>
+<option value="Ikotun PHC (APIN)">Ikotun PHC (APIN)</option>
+<option value="Ikoyi Primary Health Centre (APIN)">Ikoyi Primary Health Centre (APIN)</option>
+<option value="Ilasa PHC (APIN)">Ilasa PHC (APIN)</option>
+<option value="Iloro PHC">Iloro PHC</option>
+<option value="Imota PHC">Imota PHC</option>
+<option value="Ipaja Primary Health Centre (APIN)">Ipaja Primary Health Centre (APIN)</option>
+<option value="Ipakodo PHC">Ipakodo PHC</option>
+<option value="Ishefu Primary Health Centre (APIN)">Ishefu Primary Health Centre (APIN)</option>
+<option value="Isheri PHC (APIN)">Isheri PHC (APIN)</option>
+<option value="Isolo PHC (APIN)">Isolo PHC (APIN)</option>
+<option value="Ita Elewe PHC">Ita Elewe PHC</option>
+<option value="Itire Ijesa PHC (APIN)">Itire Ijesa PHC (APIN)</option>
+<option value="Iyana Ejigbo PHC (APIN)">Iyana Ejigbo PHC (APIN)</option>
+<option value="Jakande PHC (APIN)">Jakande PHC (APIN)</option>
+<option value="KajoPHC (APIN)">KajoPHC (APIN)</option>
+<option value="Lakowe PHC">Lakowe PHC</option>
+<option value="Lasunwon PHC">Lasunwon PHC</option>
+<option value="Losi oba PHC">Losi oba PHC</option>
+<option value="Madek Hospital">Madek Hospital</option>
+<option value="Mafoluku PHC (APIN)">Mafoluku PHC (APIN)</option>
+<option value="Majidun PHC (APIN)">Majidun PHC (APIN)</option>
+<option value="Meiran PHC">Meiran PHC</option>
+<option value="Mile 2 PHC (APIN)">Mile 2 PHC (APIN)</option>
+<option value="Obalende PHC (APIN)">Obalende PHC (APIN)</option>
+<option value="Obawole Primary Health Centre (APIN)">Obawole Primary Health Centre (APIN)</option>
+<option value="OdomoPHC">OdomoPHC</option>
+<option value="OdonPHC">OdonPHC</option>
+<option value="Odunbankun PHC">Odunbankun PHC</option>
+<option value="Ojokoro PHC (APIN)">Ojokoro PHC (APIN)</option>
+<option value="Oke eletu PHC">Oke eletu PHC</option>
+<option value="Oke odo PHC">Oke odo PHC</option>
+<option value="Oke-ire PHC">Oke-ire PHC</option>
+<option value="Okerube PHC">Okerube PHC</option>
+<option value="Okokumo PHC">Okokumo PHC</option>
+<option value="Okun mopo PHC">Okun mopo PHC</option>
+<option value="Olorunda PHC">Olorunda PHC</option>
+<option value="Ona Iwamimo PHC (APIN)">Ona Iwamimo PHC (APIN)</option>
+<option value="Orisunbare  Primary Health Centre (APIN)">Orisunbare  Primary Health Centre (APIN)</option>
+<option value="Oshodi PHC (APIN)">Oshodi PHC (APIN)</option>
+<option value="OtunPHC">OtunPHC</option>
+<option value="Palm Avenue PHC (APIN)">Palm Avenue PHC (APIN)</option>
+<option value="Papa Ashafa Primary Health Centre (APIN)">Papa Ashafa Primary Health Centre (APIN)</option>
+<option value="Papa Uku Primary Health Centre (APIN)">Papa Uku Primary Health Centre (APIN)</option>
+<option value="Sabokaji PHC (APIN)">Sabokaji PHC (APIN)</option>
+<option value="Sango Primary Health Centre (APIN)">Sango Primary Health Centre (APIN)</option>
+<option value="Satellite PHC (APIN)">Satellite PHC (APIN)</option>
+<option value="Shogunle PHC (APIN)">Shogunle PHC (APIN)</option>
+<option value="St Kizito Ajah Lekki (APIN)">St Kizito Ajah Lekki (APIN)</option>
+<option value="Wright Primary Health Centre (APIN)">Wright Primary Health Centre (APIN)</option>
+</optgroup>
+<optgroup label="OYO"
+<option value="">OYO</option>
+<option value="6 BED Igangan Primary Health Centre (APIN)">6 BED Igangan Primary Health Centre (APIN)</option>
+<option value="6 BED Tapa Primary Health Centre (APIN)">6 BED Tapa Primary Health Centre (APIN)</option>
+<option value="Aafin Primary Health Centre (APIN)">Aafin Primary Health Centre (APIN)</option>
+<option value="Aba Emu Primary Health Centre (APIN)">Aba Emu Primary Health Centre (APIN)</option>
+<option value="Abogunde Baaki Health Centre">Abogunde Baaki Health Centre</option>
+<option value="Adabo Primary Health Centre (APIN)">Adabo Primary Health Centre (APIN)</option>
+<option value="Adaramagbo Primary Health Centre (APIN)">Adaramagbo Primary Health Centre (APIN)</option>
+<option value="Adebayo Alata Primary Health Centre (APIN)">Adebayo Alata Primary Health Centre (APIN)</option>
+<option value="Adifase, Apata Primary Health Centre">Adifase, Apata Primary Health Centre</option>
+<option value="Agbongbon Maternity Centre (APIN)">Agbongbon Maternity Centre (APIN)</option>
+<option value="Agbowo Apata Primary Health Centre (APIN)">Agbowo Apata Primary Health Centre (APIN)</option>
+<option value="Agunpopo Primary Health Centre (APIN)">Agunpopo Primary Health Centre (APIN)</option>
+<option value="Ajibode Primary Health Centre (APIN)">Ajibode Primary Health Centre (APIN)</option>
+<option value="Akeetan Baale Primary Health Centre (APIN)">Akeetan Baale Primary Health Centre (APIN)</option>
+<option value="Alafara Oje Primary Health Centre (APIN)">Alafara Oje Primary Health Centre (APIN)</option>
+<option value="Alafia Hospital, Ibadan (APIN)">Alafia Hospital, Ibadan (APIN)</option>
+<option value="Alakia Primary Health Centre (APIN)">Alakia Primary Health Centre (APIN)</option>
+<option value="Alapafon PHC">Alapafon PHC</option>
+<option value="Alegongo Primary Health Centre (APIN)">Alegongo Primary Health Centre (APIN)</option>
+<option value="Alhaja Sarat Adesina Health Centre, Ogbere Baba">Alhaja Sarat Adesina Health Centre, Ogbere Baba</option>
+<option value="Anko Primary Health Centre Eruwa (APIN)">Anko Primary Health Centre Eruwa (APIN)</option>
+<option value="Aperin Oniyere Primary Health Centre (APIN)">Aperin Oniyere Primary Health Centre (APIN)</option>
+<option value="Apete Primary Health Centre">Apete Primary Health Centre</option>
+<option value="Arowomole Primary Health Centre (APIN)">Arowomole Primary Health Centre (APIN)</option>
+<option value="Arowomole Primary Health Centre (APIN)">Arowomole Primary Health Centre (APIN)</option>
+<option value="Asunmode Primary Health Centre (APIN)">Asunmode Primary Health Centre (APIN)</option>
+<option value="Atolu Primary Health Centre (APIN)">Atolu Primary Health Centre (APIN)</option>
+<option value="Atolu Primary Health Centre (APIN)">Atolu Primary Health Centre (APIN)</option>
+<option value="Awe Maternity Centre (APIN)">Awe Maternity Centre (APIN)</option>
+<option value="Ayekale Primary Health Centre (APIN)">Ayekale Primary Health Centre (APIN)</option>
+<option value="Ayete Primary Health Centre">Ayete Primary Health Centre</option>
+<option value="Ayeye Maternity Health Centre (APIN)">Ayeye Maternity Health Centre (APIN)</option>
+<option value="Baabo PHC">Baabo PHC</option>
+<option value="Babaode Primary Health Centre (APIN)">Babaode Primary Health Centre (APIN)</option>
+<option value="Bashorun OluwonPHC (APIN)">Bashorun OluwonPHC (APIN)</option>
+<option value="Bayaoje PHC">Bayaoje PHC</option>
+<option value="Bodija Olive Primary Health Centre (APIN)">Bodija Olive Primary Health Centre (APIN)</option>
+<option value="Boluwaji Primary Health Centre (APIN)">Boluwaji Primary Health Centre (APIN)</option>
+<option value="Egbeda Primary Health Centre Centre (APIN)">Egbeda Primary Health Centre Centre (APIN)</option>
+<option value="Ejioku Primary Health Centre, Lagelu (APIN)">Ejioku Primary Health Centre, Lagelu (APIN)</option>
+<option value="Elekuro Primary Health Centre (APIN)">Elekuro Primary Health Centre (APIN)</option>
+<option value="Elewiodo Primary Health Centre (APIN)">Elewiodo Primary Health Centre (APIN)</option>
+<option value="Eleyele Primary Health Centre (APIN)">Eleyele Primary Health Centre (APIN)</option>
+<option value="Eruwa Primary Health Centre (APIN)">Eruwa Primary Health Centre (APIN)</option>
+<option value="Fawole Idi Obi Primary Health Centre (APIN)">Fawole Idi Obi Primary Health Centre (APIN)</option>
+<option value="Felele Primary Health Centre">Felele Primary Health Centre</option>
+<option value="Fiditi Primary Health Centre (APIN)">Fiditi Primary Health Centre (APIN)</option>
+<option value="Foko Primary Health Centre (APIN)">Foko Primary Health Centre (APIN)</option>
+<option value="Gambari Primary Health Centre (APIN)">Gambari Primary Health Centre (APIN)</option>
+<option value="Gbaremu Primary Health Centre (APIN)">Gbaremu Primary Health Centre (APIN)</option>
+<option value="Health Centre Ifelodun">Health Centre Ifelodun</option>
+<option value="Ibrahim Taiwo Primary Health Centre (APIN)">Ibrahim Taiwo Primary Health Centre (APIN)</option>
+<option value="Idere PHC (APIN)">Idere PHC (APIN)</option>
+<option value="Idi Ayunre Primary Health Centre (APIN)">Idi Ayunre Primary Health Centre (APIN)</option>
+<option value="Idi Ogungun PHC (APIN)">Idi Ogungun PHC (APIN)</option>
+<option value="Ido Primary Health Centre (APIN)">Ido Primary Health Centre (APIN)</option>
+<option value="Ifelodun Primary Health Centre (APIN)">Ifelodun Primary Health Centre (APIN)</option>
+<option value="Ifeloju Health Centre (APIN)">Ifeloju Health Centre (APIN)</option>
+<option value="Igbole PHC (APIN)">Igbole PHC (APIN)</option>
+<option value="Igboora General Hospital (APIN)">Igboora General Hospital (APIN)</option>
+<option value="Igbo-Ora Primary Health Centre (APIN)">Igbo-Ora Primary Health Centre (APIN)</option>
+<option value="Ijaye Primary Health Centre">Ijaye Primary Health Centre</option>
+<option value="Ijeru Primary Health Centre (APIN)">Ijeru Primary Health Centre (APIN)</option>
+<option value="Ikereku Primary Health Centre">Ikereku Primary Health Centre</option>
+<option value="Ikose Primary Health Centre">Ikose Primary Health Centre</option>
+<option value="Ilogbo Primary Health Centre (APIN)">Ilogbo Primary Health Centre (APIN)</option>
+<option value="Ilora Primary Health Centre (APIN)">Ilora Primary Health Centre (APIN)</option>
+<option value="Ipapo Comprehensive Health Centre (APIN)">Ipapo Comprehensive Health Centre (APIN)</option>
+<option value="Ipapo Primary Health Centre (APIN)">Ipapo Primary Health Centre (APIN)</option>
+<option value="Irepodun Primary Health Centre (APIN)">Irepodun Primary Health Centre (APIN)</option>
+<option value="Iresa Adu Primary Health Centre (APIN)">Iresa Adu Primary Health Centre (APIN)</option>
+<option value="Iroko PHC (APIN)">Iroko PHC (APIN)</option>
+<option value="Isale Oba PHC (APIN)">Isale Oba PHC (APIN)</option>
+<option value="Isale Taba Model Primary Health Centre (APIN)">Isale Taba Model Primary Health Centre (APIN)</option>
+<option value="Iseke Maternity Centre, Oyo (APIN)">Iseke Maternity Centre, Oyo (APIN)</option>
+<option value="Iware Primary Health Centre (APIN)">Iware Primary Health Centre (APIN)</option>
+<option value="Iwo Road Primary Health Centre (APIN)">Iwo Road Primary Health Centre (APIN)</option>
+<option value="Iwo Road Primary Health Centre (APIN)">Iwo Road Primary Health Centre (APIN)</option>
+<option value="Iyana Church Primary Health Centre (APIN)">Iyana Church Primary Health Centre (APIN)</option>
+<option value="Jaja Clinic, U.I. (APIN)">Jaja Clinic, U.I. (APIN)</option>
+<option value="Katangua Primary Health Centre (APIN)">Katangua Primary Health Centre (APIN)</option>
+<option value="Kolobo Primary Health Centre (APIN)">Kolobo Primary Health Centre (APIN)</option>
+<option value="Komu Primary Health Centre (APIN)">Komu Primary Health Centre (APIN)</option>
+<option value="Koseunti Primary Health Centre (APIN)">Koseunti Primary Health Centre (APIN)</option>
+<option value="Lagelu, Agugu Primary Health Centre (APIN)">Lagelu, Agugu Primary Health Centre (APIN)</option>
+<option value="Lalupon Primary Health Centre (APIN)">Lalupon Primary Health Centre (APIN)</option>
+<option value="Mapo Primary Health Centre">Mapo Primary Health Centre</option>
+<option value="Molete Primary Health Centre (APIN)">Molete Primary Health Centre (APIN)</option>
+<option value="Monatan Primary Health Centre (APIN)">Monatan Primary Health Centre (APIN)</option>
+<option value="Moniya Primary Health Centre (APIN)">Moniya Primary Health Centre (APIN)</option>
+<option value="Muslim Hospital, Saki (APIN)">Muslim Hospital, Saki (APIN)</option>
+<option value="Oba Adeyemi Primary Health Centre (APIN)">Oba Adeyemi Primary Health Centre (APIN)</option>
+<option value="Odinjo Primary Health Centre (APIN)">Odinjo Primary Health Centre (APIN)</option>
+<option value="Odo Ona Elewe (APIN)">Odo Ona Elewe (APIN)</option>
+<option value="Ogidigbo Primary Health Centre (APIN)">Ogidigbo Primary Health Centre (APIN)</option>
+<option value="Ojaigbo Primary Health Centre (APIN)">Ojaigbo Primary Health Centre (APIN)</option>
+<option value="Ojoo PHC (APIN)">Ojoo PHC (APIN)</option>
+<option value="Okaka Primary Health Centre (APIN)">Okaka Primary Health Centre (APIN)</option>
+<option value="Oke Odo Primary Health Centre (APIN)">Oke Odo Primary Health Centre (APIN)</option>
+<option value="Oke Ola, Igangan PHC (APIN)">Oke Ola, Igangan PHC (APIN)</option>
+<option value="Oke OloPHC (APIN)">Oke OloPHC (APIN)</option>
+<option value="Okeadu PHC (APIN)">Okeadu PHC (APIN)</option>
+<option value="Oke-Amu Primary Health Centre (APIN)">Oke-Amu Primary Health Centre (APIN)</option>
+<option value="Oke-Apo PHC">Oke-Apo PHC</option>
+<option value="Okelerin Primary Health Centre">Okelerin Primary Health Centre</option>
+<option value="Oke-Mole Olunloyo Primary Health Centre (APIN)">Oke-Mole Olunloyo Primary Health Centre (APIN)</option>
+<option value="Oko Primary Health Centre (APIN)">Oko Primary Health Centre (APIN)</option>
+<option value="Olomi PHC Ibadan (APIN)">Olomi PHC Ibadan (APIN)</option>
+<option value="Olorombo Akeke Elewiodo">Olorombo Akeke Elewiodo</option>
+<option value="Oloya Primary Health Centre (APIN)">Oloya Primary Health Centre (APIN)</option>
+<option value="Omi Adio Primary Health Centre (APIN)">Omi Adio Primary Health Centre (APIN)</option>
+<option value="Oniyanrin Primary Health Centre (APIN)">Oniyanrin Primary Health Centre (APIN)</option>
+<option value="Oranyan Primary Health Centre (APIN)">Oranyan Primary Health Centre (APIN)</option>
+<option value="Oremeji Primary Health Centre (APIN)">Oremeji Primary Health Centre (APIN)</option>
+<option value="Ori Eru Primary Health Centre (APIN)">Ori Eru Primary Health Centre (APIN)</option>
+<option value="Otu Comprehensive Health Centre (APIN)">Otu Comprehensive Health Centre (APIN)</option>
+<option value="Out Primary Health Centre (APIN)">Out Primary Health Centre (APIN)</option>
+<option value="Primary Health Centre Centre, SDP Secretariat, Ibadan (APIN)">Primary Health Centre Centre, SDP Secretariat, Ibadan (APIN)</option>
+<option value="Sabo Primary Health Centre (APIN)">Sabo Primary Health Centre (APIN)</option>
+<option value="Saki Ajegunle PHC">Saki Ajegunle PHC</option>
+<option value="Saki Primary Health Centre (APIN)">Saki Primary Health Centre (APIN)</option>
+<option value="Sango Primary Health Centre (APIN)">Sango Primary Health Centre (APIN)</option>
+<option value="Sango Primary Health Centre (APIN)">Sango Primary Health Centre (APIN)</option>
+<option value="Sarat Primary Health Centre (APIN)">Sarat Primary Health Centre (APIN)</option>
+<option value="Semimbio Primary Health Centre (APIN)">Semimbio Primary Health Centre (APIN)</option>
+<option value="Shasha Primary Health Centre (APIN)">Shasha Primary Health Centre (APIN)</option>
+<option value="Tapa PHC">Tapa PHC</option>
+<option value="Taraa Primary Health Centre">Taraa Primary Health Centre</option>
+<option value="Temidire PHC (APIN)">Temidire PHC (APIN)</option>
+<option value="UCH (MOPD) (APIN)">UCH (MOPD) (APIN)</option>
+<option value="Yidi Agunpop Primary Health Centre (APIN)">Yidi Agunpop Primary Health Centre (APIN)</option>
+</optgroup>
+<optgroup label="PLATEAU">
+<option value="Abnira PHC (APIN)">Abnira PHC (APIN)</option>
+<option value="Abwor/Dyis Primary Health Centre (APIN)">Abwor/Dyis Primary Health Centre (APIN)</option>
+<option value="Aldamen Primary Health Centre (APIN)">Aldamen Primary Health Centre (APIN)</option>
+<option value="Alrina PHC">Alrina PHC</option>
+<option value="Amo Katako PHC (APIN)">Amo Katako PHC (APIN)</option>
+<option value="Amper Kanke Primary Health Centre (APIN)">Amper Kanke Primary Health Centre (APIN)</option>
+<option value="Angware PHC (APIN)">Angware PHC (APIN)</option>
+<option value="Assak Primary Health Centre (APIN)">Assak Primary Health Centre (APIN)</option>
+<option value="B/Wonpe Primary Health Centre (APIN)">B/Wonpe Primary Health Centre (APIN)</option>
+<option value="Babale PHC">Babale PHC</option>
+<option value="Bakin Kogi Primary Health Centre (APIN)">Bakin Kogi Primary Health Centre (APIN)</option>
+<option value="Ballang Shippang Primary Health Centre (APIN)">Ballang Shippang Primary Health Centre (APIN)</option>
+<option value="Barkin Ciyawa PHC">Barkin Ciyawa PHC</option>
+<option value="Barkin Kogi Primary Health Centre (APIN)">Barkin Kogi Primary Health Centre (APIN)</option>
+<option value="Barkin Ladi PHC (APIN)">Barkin Ladi PHC (APIN)</option>
+<option value="Baten PHC">Baten PHC</option>
+<option value="Bene Clinic (APIN)">Bene Clinic (APIN)</option>
+<option value="Bidol Primary Health Centre (APIN)">Bidol Primary Health Centre (APIN)</option>
+<option value="Binchi PHC">Binchi PHC</option>
+<option value="Bindi Primary Health Centre (APIN)">Bindi Primary Health Centre (APIN)</option>
+<option value="Bisichi Primary Health Centre (APIN)">Bisichi Primary Health Centre (APIN)</option>
+<option value="Boda PHC">Boda PHC</option>
+<option value="Bokkos PHC (APIN)">Bokkos PHC (APIN)</option>
+<option value="Bukuru Central Primary Health Centre (APIN)">Bukuru Central Primary Health Centre (APIN)</option>
+<option value="Bukuru Express PHC (APIN)">Bukuru Express PHC (APIN)</option>
+<option value="Bum Primary Health Centre (APIN)">Bum Primary Health Centre (APIN)</option>
+<option value="Bumnan Primary Health Centre (APIN)">Bumnan Primary Health Centre (APIN)</option>
+<option value="Bwall PHC">Bwall PHC</option>
+<option value="Chakarum PHC">Chakarum PHC</option>
+<option value="Chanso PHC">Chanso PHC</option>
+<option value="Chip Primary Health Centre (APIN)">Chip Primary Health Centre (APIN)</option>
+<option value="Chit Primary Health Centre (APIN)">Chit Primary Health Centre (APIN)</option>
+<option value="Chugwi PHC (APIN)">Chugwi PHC (APIN)</option>
+<option value="Cocin Maternity Panyam (APIN)">Cocin Maternity Panyam (APIN)</option>
+<option value="D/Wal Primary Health Centre (APIN)">D/Wal Primary Health Centre (APIN)</option>
+<option value="Dadur Primary Health Centre (APIN)">Dadur Primary Health Centre (APIN)</option>
+<option value="Danwal Primary Health Centre (APIN)">Danwal Primary Health Centre (APIN)</option>
+<option value="Demshin Primary Health Centre (APIN)">Demshin Primary Health Centre (APIN) </option>
+<option value="Demshin Primary Health Centre (APIN)">Demshin Primary Health Centre (APIN)</option>
+<option value="Dikibin PHC">Dikibin PHC</option>
+<option value="Dinjor Primary Health Centre (APIN)">Dinjor Primary Health Centre (APIN)</option>
+<option value="Dinya PHC">Dinya PHC</option>
+<option value="Doemak Primary Health Centre (APIN)">Doemak Primary Health Centre (APIN)</option>
+<option value="Dogon Agogo Primary Health Centre (APIN)">Dogon Agogo Primary Health Centre (APIN)</option>
+<option value="Dogon Nahawa PHC">Dogon Nahawa PHC</option>
+<option value="Doka Kasuwa PHC  ">Doka Kasuwa PHC</option>
+<option value="Dokan Tofa Primary Health Centre (APIN)">Dokan Tofa Primary Health Centre (APIN) </option>
+<option value="Dokpai PHC">Dokpai PHC</option>
+<option value="Dong Primary Health Centre (APIN)">Dong Primary Health Centre (APIN)</option>
+<option value="Dorong Primary Health Centre (APIN)">Dorong Primary Health Centre (APIN)</option>
+<option value="Dorowa Babuje PHC (APIN)">Dorowa Babuje PHC (APIN)</option>
+<option value="Ekan Fobur">Ekan Fobur</option>
+<option value="Fadan Fobur">Fadan Fobur</option>
+<option value="Farin Lamba PHC (APIN)">Farin Lamba PHC (APIN)</option>
+<option value="Fier Primary Health Centre (APIN)">Fier Primary Health Centre (APIN)</option>
+<option value="FOMWAN Primary Health Centre (APIN)">FOMWAN Primary Health Centre (APIN)</option>
+<option value="Foron PHC (APIN)">Foron PHC (APIN)</option>
+<option value="Fujing PHC">Fujing PHC</option>
+<option value="Fuskar Mata PHC (APIN)">Fuskar Mata PHC (APIN)</option>
+<option value="Fwam PHC">Fwam PHC</option>
+<option value="Gada PHC (APIN)">Gada PHC (APIN)</option>
+<option value="Ganawuri PHC (APIN)">Ganawuri PHC (APIN)</option>
+<option value="Gassa PHC">Gassa PHC</option>
+<option value="Gazum Primary Health Centre (APIN)">Gazum Primary Health Centre (APIN)</option>
+<option value="Gidan Adamu Primary Health Centre (APIN)">Gidan Adamu Primary Health Centre (APIN)</option>
+<option value="Gindiri Primary Health Centre (APIN)">Gindiri Primary Health Centre (APIN)</option>
+<option value="Godiya Clinic (APIN)">Godiya Clinic (APIN)</option>
+<option value="Gora Primary Health Centre (APIN)">Gora Primary Health Centre (APIN)</option>
+<option value="Gyambwas Primary Health Centre (APIN)">Gyambwas Primary Health Centre (APIN)</option>
+<option value="Halle Primary Health Centre (APIN)">Halle Primary Health Centre (APIN)</option>
+<option value="Hassale PHC">Hassale PHC</option>
+<option value="Heipang PHC">Heipang PHC</option>
+<option value="Horop PHC">Horop PHC</option>
+<option value="Janneret Primary Health Centre (APIN)">Janneret Primary Health Centre (APIN)</option>
+<option value="Jantu PHC">Jantu PHC</option>
+<option value="Jebbu Bassa PHC (APIN)">Jebbu Bassa PHC (APIN)</option>
+<option value="Jengre FHC (APIN)">Jengre FHC (APIN)</option>
+<option value="Jengre PHC (APIN)">Jengre PHC (APIN)</option>
+<option value="Jenta Apata (APIN)">Jenta Apata (APIN)</option>
+<option value="Jibam Primary Health Centre (APIN)">Jibam Primary Health Centre (APIN)</option>
+<option value="Jing Primary Health Centre (APIN)">Jing Primary Health Centre (APIN)</option>
+<option value="Jivir Primary Health Centre (APIN)">Jivir Primary Health Centre (APIN)</option>
+<option value="Jol PHC">Jol PHC</option>
+<option value="Julie Useni Memorial Clinic Tillam">Julie Useni Memorial Clinic Tillam</option>
+<option value="Kabong PHC (APIN)">Kabong PHC (APIN)</option>
+<option value="Kadunu Primary Health Centre (APIN)">Kadunu Primary Health Centre (APIN)</option>
+<option value="Kagu Primary Health Centre (APIN)">Kagu Primary Health Centre (APIN)</option>
+<option value="Kalong PHC">Kalong PHC</option>
+<option value="Kamwai Primary Health Centre (APIN)">Kamwai Primary Health Centre (APIN)</option>
+<option value="Kapkwis PHC">Kapkwis PHC</option>
+<option value="Kashidung PHC">Kashidung PHC</option>
+<option value="Kawam Primary Health Centre (APIN)">Kawam Primary Health Centre (APIN)</option>
+<option value="Kerang Primary Health Centre (APIN)">Kerang Primary Health Centre (APIN)</option>
+<option value="Kerker PHC">Kerker PHC</option>
+<option value="Kogom PHC">Kogom PHC</option>
+<option value="Kuba PHC">Kuba PHC</option>
+<option value="Kugot">Kugot</option>
+<option value="Kuka Primary Health Centre (APIN)">Kuka Primary Health Centre (APIN)</option>
+<option value="Kumbul Primary Health Centre (APIN)">Kumbul Primary Health Centre (APIN)</option>
+<option value="Kumkwam Primary Health Centre (APIN)">Kumkwam Primary Health Centre (APIN)</option>
+<option value="Kungba PHC">Kungba PHC</option>
+<option value="Kura Falls Primary Health Centre (APIN)">Kura Falls Primary Health Centre (APIN)</option>
+<option value="Kurgwi Primary Health Centre (APIN)">Kurgwi Primary Health Centre (APIN)</option>
+<option value="Kuru PHC">Kuru PHC</option>
+<option value="Kurum Lazai Primary Health Centre (APIN)">Kurum Lazai Primary Health Centre (APIN)</option>
+<option value="Kuwang PHC">Kuwang PHC</option>
+<option value="Kwall PHC">Kwall PHC</option>
+<option value="Kwande Primary Health Centre (APIN)">Kwande Primary Health Centre (APIN)</option>
+<option value="Kwang 1 Primary Health Centre (APIN)">Kwang 1 Primary Health Centre (APIN)</option>
+<option value="Kwang II Primary Health Centre (APIN)">Kwang II Primary Health Centre (APIN)</option>
+<option value="Kwang PHC">Kwang PHC</option>
+<option value="Kwatas PHC">Kwatas PHC</option>
+<option value="Kwi Primary Health Centre (APIN)">Kwi Primary Health Centre (APIN)</option>
+<option value="Kwoor Primary Health Centre (APIN)">Kwoor Primary Health Centre (APIN)</option>
+<option value="Lamingo PHC">Lamingo PHC</option>
+<option value="Langai Primary Health Centre (APIN)">Langai Primary Health Centre (APIN)</option>
+<option value="Langkaku Primary Health Centre (APIN)">Langkaku Primary Health Centre (APIN)</option>
+<option value="Langtang Primary Health Centre (APIN)">Langtang Primary Health Centre (APIN)</option>
+<option value="Lankan PHC">Lankan PHC</option>
+<option value="Lardang Comprehensive Health Centre (APIN)">Lardang Comprehensive Health Centre (APIN)</option>
+<option value="Lawrin PHC">Lawrin PHC</option>
+<option value="Limun Primary Health Centre (APIN)">Limun Primary Health Centre (APIN)</option>
+<option value="Lipchok Primary Health Centre (APIN)">Lipchok Primary Health Centre (APIN)</option>
+<option value="Longvel Primary Health Centre (APIN)">Longvel Primary Health Centre (APIN)</option>
+<option value="Low Cost Primary Health Centre (APIN)">Low Cost Primary Health Centre (APIN)</option>
+<option value="Lu-lawan PHC">Lu-lawan PHC</option>
+<option value="Lwa PHC">Lwa PHC</option>
+<option value="M/Demshin MPHC (APIN)">M/Demshin MPHC (APIN)</option>
+<option value="Maijuju PHC (APIN)">Maijuju PHC (APIN)</option>
+<option value="Maikatako PHC (APIN)">Maikatako PHC (APIN)</option>
+<option value="Mandung Mushu PHC">Mandung Mushu PHC</option>
+<option value="Mangar PHC">Mangar PHC</option>
+<option value="Mangif Primary Health Centre (APIN)">Mangif Primary Health Centre (APIN)</option>
+<option value="Mangu Town PHC">Mangu Town PHC</option>
+<option value="Mangun Primary Health Centre (APIN)">Mangun Primary Health Centre (APIN)</option>
+<option value="Manguna PHC">Manguna PHC</option>
+<option value="Maraba Demshin PHC">Maraba Demshin PHC</option>
+<option value="Marafa PHC">Marafa PHC</option>
+<option value="Mararaban Kantoma Primary Health Centre (APIN)">Mararaban Kantoma Primary Health Centre (APIN)</option>
+<option value="Mathanmi (APIN)">Mathanmi (APIN)</option>
+<option value="Matol PHC">Matol PHC</option>
+<option value="May Hospital Shendam (APIN)">May Hospital Shendam (APIN)</option>
+<option value="Mbar PHC">Mbar PHC</option>
+<option value="Mere PHC">Mere PHC</option>
+<option value="MHC Bachi Primary Health Centre (APIN)">MHC Bachi Primary Health Centre (APIN)</option>
+<option value="Miango Primary Health Centre (APIN)">Miango Primary Health Centre (APIN)</option>
+<option value="Miket Primary Health Centre (APIN)">Miket Primary Health Centre (APIN)</option>
+<option value="Mile 8 Primary Health Centre (APIN)">Mile 8 Primary Health Centre (APIN)</option>
+<option value="Mista Ali">Mista Ali</option>
+<option value="MMC Pankshin (APIN)">MMC Pankshin (APIN)</option>
+<option value="Moekat Primary Health Centre (APIN)">Moekat Primary Health Centre (APIN)</option>
+<option value="Murish Primary Health Centre (APIN)">Murish Primary Health Centre (APIN)</option>
+<option value="Murna (APIN)">Murna (APIN)</option>
+<option value="Mushere Central Primary Health Centre (APIN)">Mushere Central Primary Health Centre (APIN)</option>
+<option value="N/Fusa Primary Health Centre (APIN)">N/Fusa Primary Health Centre (APIN)  </option>
+<option value="Nakwang PHC">Nakwang PHC</option>
+<option value="Namu Primary Health Centre (APIN)">Namu Primary Health Centre (APIN)</option>
+<option value="Naraguta Primary Health Centre (APIN)">Naraguta Primary Health Centre (APIN)</option>
+<option value="Niyes Primary Health Centre (APIN)">Niyes Primary Health Centre (APIN)</option>
+<option value="Njak PHC">Njak PHC</option>
+<option value="Nkun Ganawuri PHC">Nkun Ganawuri PHC</option>
+<option value="Npoll PHC">Npoll PHC</option>
+<option value="Ntuer Primary Health Centre (APIN)">Ntuer Primary Health Centre (APIN)</option>
+<option value="Nubatong PHC">Nubatong PHC</option>
+<option value="Nyak PHC">Nyak PHC</option>
+<option value="Nyer PHC">Nyer PHC</option>
+<option value="Nziring Primary Health Centre (APIN)">Nziring Primary Health Centre (APIN)</option>
+<option value="Oreedam PHC">Oreedam PHC</option>
+<option value="Pandadi PHC">Pandadi PHC</option>
+<option value="Pandam Primary Health Centre (APIN)">Pandam Primary Health Centre (APIN)</option>
+<option value="Panyam Primary Health Centre (APIN)">Panyam Primary Health Centre (APIN)</option>
+<option value="Panzam Primary Health Centre (APIN)">Panzam Primary Health Centre (APIN)</option>
+<option value="Pilgani Primary Health Centre (APIN)">Pilgani Primary Health Centre (APIN)</option>
+<option value="Poeship Primary Health Centre (APIN)">Poeship Primary Health Centre (APIN)</option>
+<option value="PPFN Ganawuri Primary Health Centre (APIN)">PPFN Ganawuri Primary Health Centre (APIN)</option>
+<option value="Pushit Primary Health Centre (APIN)">Pushit Primary Health Centre (APIN)</option>
+<option value="Rabwak PHC">Rabwak PHC</option>
+<option value="Ra-hoss Primary Health Centre (APIN)">Ra-hoss Primary Health Centre (APIN)</option>
+<option value="Rapyam Primary Health Centre (APIN)">Rapyam Primary Health Centre (APIN)</option>
+<option value="Rawainku PHC">Rawainku PHC</option>
+<option value="Rayfield Primary Health Centre (APIN)">Rayfield Primary Health Centre (APIN)</option>
+<option value="Richa PHC (APIN)">Richa PHC (APIN)</option>
+<option value="Rimi Primary Health Centre (APIN)">Rimi Primary Health Centre (APIN)</option>
+<option value="Rimi Primary Health Centre (APIN)">Rimi Primary Health Centre (APIN)</option>
+<option value="Riyom Primary Health Centre (APIN)">Riyom Primary Health Centre (APIN)</option>
+<option value="Rizet Primary Health Centre (APIN)">Rizet Primary Health Centre (APIN)</option>
+<option value="Sabon Fobur PHC (APIN)">Sabon Fobur PHC (APIN)</option>
+<option value="Sabon Gida Primary Health Centre (APIN)">Sabon Gida Primary Health Centre (APIN)</option>
+<option value="Sabon Kaura PHC">Sabon Kaura PHC</option>
+<option value="Sambak PHC">Sambak PHC</option>
+<option value="Secretariat PHC (APIN)">Secretariat PHC (APIN)</option>
+<option value="Senbiyil Nursing Home Namu (APIN)">Senbiyil Nursing Home Namu (APIN)</option>
+<option value="Shendam A PHC (APIN)">Shendam A PHC (APIN)</option>
+<option value="Shendam B PHC (APIN)">Shendam B PHC (APIN)</option>
+<option value="Shimankar PHC">Shimankar PHC </option>
+<option value="Solace (APIN)">Solace (APIN)</option>
+<option value="Sopp Primary Health Centre (APIN)">Sopp Primary Health Centre (APIN)</option>
+<option value="Sot-Gyel Primary Health Centre (APIN)">Sot-Gyel Primary Health Centre (APIN)</option>
+<option value="Sunnah Jos (APIN)">Sunnah Jos (APIN)</option>
+<option value="Ta-hoss Primary Health Centre (APIN)">Ta-hoss Primary Health Centre (APIN)</option>
+<option value="Takkas PHC">Takkas PHC</option>
+<option value="Tal PHC">Tal PHC</option>
+<option value="Tarya PHC">Tarya PHC</option>
+<option value="Tengzet Primary Health Centre (APIN)">Tengzet Primary Health Centre (APIN)</option>
+<option value="Tenti Babba Primary Health Centre (APIN)">Tenti Babba Primary Health Centre (APIN)</option>
+<option value="Tenti PHC (APIN)">Tenti PHC (APIN)</option>
+<option value="Tigi PHC">Tigi PHC</option>
+<option value="Tinjim PHC">Tinjim PHC</option>
+<option value="Tofa PHC">Tofa PHC</option>
+<option value="Tomganmare Primary Health Centre (APIN)">Tomganmare Primary Health Centre (APIN) </option>
+<option value="Total Shendam Primary Health Centre (APIN)">Total Shendam Primary Health Centre (APIN)</option>
+<option value="Town Clinic PHC (APIN)">Town Clinic PHC (APIN)</option>
+<option value="Tundun Wada Primary Health Centre (APIN)">Tundun Wada Primary Health Centre (APIN)</option>
+<option value="Tusung PHC">Tusung PHC</option>
+<option value="Tyana PHC">Tyana PHC</option>
+<option value="Ungwa Dadi PHC">Ungwa Dadi PHC</option>
+<option value="Utan Primary Health Centre (APIN)">Utan Primary Health Centre (APIN)</option>
+<option value="Vom VET PHC">Vom VET PHC</option>
+<option value="Vom Vwang Primary Health Centre (APIN)">Vom Vwang Primary Health Centre (APIN)</option>
+<option value="Vutu PHC">Vutu PHC</option>
+<option value="Wallang Primary Health Centre (APIN)">Wallang Primary Health Centre (APIN)</option>
+<option value="Warok Primary Health Centre (APIN)">Warok Primary Health Centre (APIN)</option>
+<option value="Washna PHC">Washna PHC</option>
+<option value="Werang Karang PHC">Werang Karang PHC</option>
+<option value="Wokkos PHC">Wokkos PHC</option>
+<option value="Women In Health, Ampang West (APIN)">Women In Health, Ampang West (APIN)</option>
+<option value="Yayil PHC">Yayil PHC</option>
+<option value="Yelwa East Primary Health Centre (APIN)">Yelwa East Primary Health Centre (APIN)</option>
+<option value="Yelwa Primary Health Centre (APIN)">Yelwa Primary Health Centre (APIN)</option>
+<option value="Yelwa Zangam (APIN)">Yelwa Zangam (APIN)</option>
+<option value="Zabolo PHC (APIN)">Zabolo PHC (APIN)</option>
+<option value="Zagun PHC">Zagun PHC</option>
+<option value="Zallaki PHC">Zallaki PHC</option>
+<option value="Zamkumkum Primary Health Centre (APIN)">Zamkumkum Primary Health Centre (APIN)</option>
+<option value="Zandi PHC (APIN)">Zandi PHC (APIN)</option>
+<option value="Zarazong Primary Health Centre (APIN)">Zarazong Primary Health Centre (APIN)</option>
+<option value="Zigam Primary Health Centre (APIN)">Zigam Primary Health Centre (APIN)</option>
+</optgroup>
+</select>
+    </fieldset>
+<div data-role="datacontrol" data-type="vertical">
+	<label for="sender">Sender:</label>
+	<input type="text" name="sender" id="sender" />
+    </div>
+	<fieldset data-role="controlgroup" data-type="horizontal">
+    <select name="ryear" id="ryear" data-inline="true">
+    <option>Year</option>
+    <option value="2014">2014</option>
+    <option value="2015">2015</option>
+    <option value="2016">2016</option>
+    <option value="2017">2017</option>
+    </select>
+    <select name="rmonth" id="rmonth" data-inline="true">
+    <option>Month</option>
+    <option value="January">January</option>
+    <option value="Feruary">February</option>
+    <option value="March">March</option>
+    <option value="April">April</option>
+    <option value="May">May</option>
+    <option value="June">June</option>
+    <option value="July">July</option>
+    <option value="August">August</option>
+    <option value="September">September</option>
+    <option value="October">October</option>
+    <option value="November">November</option>
+    <option value="December">December</option>
+    </select>
+    </fieldset>
+	<fieldset data-role="datacontrol" data-type="vertical" >
+    <label for="ind1">Individuals HIV CTR</label>
+    <input type="number" name="ind1" id="ind1" required="required" data-clear-btn="true"/>
+    <label for="ind2">Individuals tested  HIV+</label>
+    <input type="number" name="ind2" id="ind2" data-clear-btn="true"/>
+    <label for="ind3">Individuals who received SRH/HIV services</label>
+    <input type="number" name="ind3" id="ind3"  data-clear-btn="true"/>
+    <label for="ind4">New ANC clients</label>
+    <input type="number" name="ind4" id="ind4"  data-clear-btn="true"/>
+    <label for="ind5">Pregnant women HIV CTR (ANC)</label>
+    <input type="number" name="ind5" id="ind5"  data-clear-btn="true"/>
+    <label for="ind6">Pregnant women HIV CTR (L&D) </label>
+    <input type="number" name="ind6" id="ind6"  data-clear-btn="true"/>
+    <label for="ind7">Women HIV CTR (Post-Partum)</label>
+    <input type="number" name="ind7" id="ind7"  data-clear-btn="true"/>
+    <label for="ind8">Pregnant women tested + (ANC)</label>
+    <input type="number" name="ind8" id="ind8"  data-clear-btn="true"/>
+    <label for="ind9">Pregnant women tested + (L&D) </label>
+    <input type="number" name="ind9" id="ind9"  data-clear-btn="true"/>
+    <label for="ind10">Women tested + (Post-Partum)</label>
+    <input type="number" name="ind10" id="ind10"  data-clear-btn="true"/>
+    <label for="ind11">Pregnant women received triple ARVs</label>
+    <input type="number" name="ind11" id="ind11"  data-clear-btn="true"/>
+    <label for="ind12">Infants born to HIV+ mothers</label>
+    <input type="number" name="ind12" id="ind12"  data-clear-btn="true"/>
+    <label for="ind13">Exposed infants who received DNA PCR</label>
+    <input type="number" name="ind13" id="ind13"  data-clear-btn="true"/>
+    <label for="ind14">Exposed infants who received dNVP+6weeks</label>
+    <input type="number" name="ind14" id="ind14"  data-clear-btn="true"/>
+    <label for="ind15">Exposed infants DNA PCR +</label>
+    <input type="number" name="ind15" id="ind15"  data-clear-btn="true" />
+    </fieldset>
+<div data-role="controlgroup" data-type="horizontal" data-position="fixed">
+<input type="button" value="Send" name="btn1" id="btn1" data-inline="true" onclick="save()"/>
+<input type="reset" value="Clear" data-inline="true"/>
+</div>
+</form>
+<script type="text/javascript">
+    function save(){
+        var query = $('#formId').serialize();
+        var url = 'insertindicators.php';
+        $.post(url, query, function (response) {
+         alert ("Indicators Submitted!");
+        });
+    }
+</script>
+
+</div>
+<footer style="text-align:center" data-role="footer" class="ui-bar" data-position="fixed" data-theme="b">
+APIN ©2014
+</footer>
+</section>
+</body>
+</html>

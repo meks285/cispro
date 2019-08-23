@@ -1,0 +1,6 @@
+SELECT visittype, visitdate, pepid 
+FROM visit
+INTO OUTFILE 'C:/CIS_PRO_FILES/MERGE_CIS/indv/visit.csv'
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n';

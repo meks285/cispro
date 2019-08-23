@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="shortcut icon" href="images/favicon.png" type="image/png">
+<style type="text/css">
+body{
+font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+font-size:16px;
+}
+p, h2, form, button{border:0; margin:0; padding:0;}
+.spacer{clear:both; height:1px;}
+h2{ font-family:"Comic Sans MS", cursive;
+font-size:16px;
+font-style:italic;
+background-color:#0C0;
+border-collapse:collapse;
+	
+	}
+	a:hover{
+		border:1px solid red; 	 
+		}
+	
+/* ----------- My Form ----------- */
+.myform{
+margin:0 auto;
+width:850px;
+padding:14px;
+}
+li input
+{
+    position: absolute;
+    margin-left: -40px;
+    margin-top: 5px;
+}
+
+/* ----------- stylized ----------- */
+#stylized{
+border:solid 1px #b7ddf2;
+background:#ebf4fb;
+}
+
+#stylized1{
+border:solid 1px #b7ddf2;
+background:#ebf4fb;
+}
+h1 {
+  margin: 0px;
+  line-height: 40px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+  text-shadow: 0 1px white;
+  background: #f3f3f3;
+  border-bottom: 1px solid #cfcfcf;
+  border-radius: 3px 3px 0 0;
+  background-image: -webkit-linear-gradient(top, whiteffd, #eef2f5);
+  background-image: -moz-linear-gradient(top, whiteffd, #eef2f5);
+  background-image: -o-linear-gradient(top, whiteffd, #eef2f5);
+  background-image: linear-gradient(to bottom, whiteffd, #eef2f5);
+  -webkit-box-shadow: 0 1px whitesmoke;
+  box-shadow: 0 1px whitesmoke;
+}
+#stylized p{
+	font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica,sans-serif;
+	color: #6D929B;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+	height:20px;
+}
+
+#stylized p{
+font-size:11px;
+color:#666666;
+margin-bottom:20px;
+border-bottom:solid 1px #b7ddf2;
+padding-bottom:10px;
+}
+#stylized label{
+display:block;
+font-weight:bold;
+text-align:right;
+width:140px;
+float:left;
+}
+#stylized .small{
+color:#666666;
+display:block;
+font-size:11px;
+font-weight:normal;
+text-align:right;
+width:140px;
+}
+#stylized input{
+float:left;
+font-size:12px;
+padding:4px 2px;
+border:solid 1px #aacfe4;
+width:200px;
+margin:2px 0 20px 10px;
+}
+#stylized button{
+clear:both;
+margin-left:150px;
+width:125px;
+height:31px;
+background:#666666 url(img/button.png) no-repeat;
+text-align:center;
+line-height:31px;
+color:#FFFFFF;
+font-size:11px;
+font-weight:bold;
+}
+
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>APIN DB / Welcome</title>
+</head>
+<h1 align="center">WELCOME: OPTIONS</h1>
+<body>
+<a href="./index.php" >Logout</a>
+<div id="stylized1" class="myform">
+
+<a href="./NewPatient.php">New patient</a>
+<a href="./patsearch.php">Existing patient</a>
+</div>
+<br>
+<div id="stylized" class="myform">
+<p>Facility Summary:</p>
+<form>
+<?php 
+include('database_connection.php');
+$query = "select count(*) from patient";
+            $result = mysql_query($query);
+            $count = mysql_fetch_array($result);
+echo "<div style ='font: italic bold 12px Verdana, Arial, Helvetica,sans-serif;color:blue'>Total Patients in this Facility: </div>".$count[0];
+?>
+<?php 
+include('database_connection.php');
+$query = "select count(*) from patient where sex='male'";
+            $result = mysql_query($query);
+            $count = mysql_fetch_array($result);
+echo "<div style ='
+font: italic bold 12px Verdana, Arial, Helvetica,sans-serif;
+color:blue;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+	height:15px;
+'>Total Male: </div>".$count[0];
+?>
+<?php 
+include('database_connection.php');
+$query = "select count(*) from patient where sex='female'";
+            $result = mysql_query($query);
+            $count = mysql_fetch_array($result);
+echo "<div style ='
+font: italic bold 12px Verdana, Arial, Helvetica,sans-serif;
+color:blue;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+	height:15px;
+'>Total Female: </div>".$count[0];
+?>
+</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,1106 @@
+<?php
+$status='';
+$rowcount='';
+if(isset($_POST["pmtct_id"])){
+// CONNECT TO THE DATABASE
+include_once("db_conx.php");
+
+				$id = preg_replace('#[^0-9]#i', '',  $_POST['id']);
+				$visitdate = $_POST['visitdate'];
+				$pmtct_id = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['pmtct_id']);
+				$delivery_site = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['delivery_site']);
+				$delivery_date = $_POST['delivery_date'];
+				$did_preg_end_in_spon_abortion = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['did_preg_end_in_spon_abortion']);
+				$art_given_to_mother_at_delivery = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['art_given_to_mother_at_delivery']);
+				$art_given_to_mother_at_delivery_yes = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['art_given_to_mother_at_delivery_yes']);
+				
+				$no_of_infants_in_this_pregnancy = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['no_of_infants_in_this_pregnancy']);
+				if($no_of_infants_in_this_pregnancy == "other"){
+				$no_of_infants_in_this_pregnancy_other = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['no_of_infants_in_this_pregnancy_other']);
+				$no_of_infants_in_this_pregnancy = $no_of_infants_in_this_pregnancy_other;
+				}
+			if(isset($_POST['no_of_infants_in_this_pregnancy_other']) && $_POST['no_of_infants_in_this_pregnancy_other'] != ""){
+					$no_of_infants_in_this_pregnancy_other = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['no_of_infants_in_this_pregnancy_other']);
+				$no_of_infants_in_this_pregnancy = $no_of_infants_in_this_pregnancy_other;
+				}
+				$sex = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['sex']);
+				$status_of_birth = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['status_of_birth']);
+				$status_of_birth_alive_weight = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['status_of_birth_alive_weight']);
+				$status_of_birth_alive_lenght = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['status_of_birth_alive_lenght']);
+				$status_of_birth_alive_head_circumf = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['status_of_birth_alive_head_circumf']);
+				$status_of_birth_alive_gest_age = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['status_of_birth_alive_gest_age']);
+				$status_of_birth_alive_apgar = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['status_of_birth_alive_apgar']);
+				$syrup_nvp = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['syrup_nvp']);
+				$syrup_zdv = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['syrup_zdv']);
+				$feeding_method_chosen = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['feeding_method_chosen']);
+				if($feeding_method_chosen == "other"){
+					$feeding_method_chosen_specify = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['feeding_method_chosen_specify']);
+					$feeding_method_chosen = $feeding_method_chosen_specify;
+				}
+				if(isset($_POST['feeding_method_chosen_specify']) && $_POST['feeding_method_chosen_specify'] != ""){
+					$feeding_method_chosen_specify = preg_replace('#[^a-z 0-9,()-]#i', '',  $_POST['feeding_method_chosen_specify']);
+					$feeding_method_chosen = $feeding_method_chosen_specify;
+				}
+	$sql="UPDATE `pmtct_delivery` SET `visitdate` = '$visitdate',  `delivery_site`='$delivery_site',`delivery_date`='$delivery_date',`did_preg_end_in_spon_abortion`='$did_preg_end_in_spon_abortion',`art_given_to_mother_at_delivery`='$art_given_to_mother_at_delivery',`art_given_to_mother_at_delivery_yes`='$art_given_to_mother_at_delivery_yes',`no_of_infants_in_this_pregnancy`='$no_of_infants_in_this_pregnancy',`sex`='$sex',`status_of_birth`='$status_of_birth',`status_of_birth_alive_weight`='$status_of_birth_alive_weight',`status_of_birth_alive_lenght`='$status_of_birth_alive_lenght',`status_of_birth_alive_head_circumf`='$status_of_birth_alive_head_circumf',`status_of_birth_alive_gest_age`='$status_of_birth_alive_gest_age',`status_of_birth_alive_apgar`='$status_of_birth_alive_apgar',`syrup_nvp`='$syrup_nvp',`syrup_zdv`='$syrup_zdv',`feeding_method_chosen`='$feeding_method_chosen' WHERE `pmtct_id` = '$pmtct_id' and `id` = '$id'";
+				 		  
+		try {
+		 $stmt   = $db->exec($sql);
+		 echo "saved_succesfully";
+		 
+		}catch (PDOException $ex) {
+		   echo "saved_failed";
+		}
+		
+
+
+	exit();
+}
+elseif(isset($_GET["pepid"])){
+	$con=mysql_connect("localhost","root","Nu66et%%","apindb");
+mysql_select_db("apindb");
+// Check connection
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
+
+		class MyClasss{
+    public function GetUserInformation(){
+$username = $_GET['pepid'];
+$username;
+$query = "SELECT pepid, uniqueid,hospitalid,surname,othernames,sex,lga,facilityname,ancno, dob,maritalstatus,educationallevel,jobstatus,address,
+wardvillage,town,addrlga,phoneno,nokname,nokaddr,nokwardvillage,noktown,nokstate,nokrelationship,nokphoneno,enroldate,age,hivposdate
+FROM patient WHERE pepid = '$username'";
+        $result = mysql_query($query);
+        $infos = mysql_fetch_assoc($result);
+        return $infos;
+	} 
+	
+
+	}
+$class = new MyClasss;
+$infos = $class->GetUserInformation();
+echo mysql_error();
+session_write_close();
+	
+	}
+?><?php
+
+include_once("db_conx.php");
+
+
+class MyClass{
+    public function GetUserInformation(){
+		global $db;
+		if(isset($_GET['pmtctid']) && $_GET['pmtctid'] !="" && isset($_GET['id']) && $_GET['id'] !=""){
+			$pmtctid = preg_replace('#[^a-z0-9]#i', '', $_GET['pmtctid']);
+			$id = preg_replace('#[^0-9]#i', '', $_GET['id']);
+			
+		}else{
+			header("location: pmtctdeliveryhistory.php");
+            exit();
+		}
+$query = "SELECT `visitdate`,`pmtct_id`, `delivery_site`, `delivery_date`, `did_preg_end_in_spon_abortion`, `art_given_to_mother_at_delivery`, `art_given_to_mother_at_delivery_yes`, `no_of_infants_in_this_pregnancy`, `sex`, `status_of_birth`, `status_of_birth_alive_weight`, `status_of_birth_alive_lenght`, `status_of_birth_alive_head_circumf`, `status_of_birth_alive_gest_age`, `status_of_birth_alive_apgar`, `syrup_nvp`, `syrup_zdv`, `feeding_method_chosen` FROM `pmtct_delivery` WHERE pmtct_id ='$pmtctid' and id = '$id'";
+
+        $stmt = $db->query($query);
+        $info = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $info;
+		
+    } 
+}
+$class = new MyClass;
+$info = $class->GetUserInformation();
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="shortcut icon" href="images/favicon.png" type="image/png">
+<style type="text/css">
+body{
+font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+font-size:11px;
+}
+p,h1, form, button{border:0; margin:0; padding:0;}
+.spacer{clear:both; height:1px;}
+/* ----------- My Form ----------- */
+.myform{
+margin:0 auto;
+width:850px;
+padding:14px;
+background: -webkit-gradient(linear, bottom, left 175px, from(#CCCCCC), to(#EEEEEE));
+background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+font-family: Tahoma, Geneva, sans-serif;
+font-size: 14px;
+font-style: normal;
+font-weight: normal;
+color: #000;
+text-decoration: none;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+
+border-radius: 10px;
+padding:10px;
+border: 1px solid #999;
+border: inset 1px solid #333;
+-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ----------- stylized ----------- */
+#stylized{
+border:solid 1px #b7ddf2;
+background:# FFF;
+}
+#stylized h1 {
+font-size:14px;
+font-weight:bold;
+margin-bottom:8px;
+}
+#stylized p{
+font-size:11px;
+color:#666666;
+margin-bottom:20px;
+border-bottom:solid 1px #b7ddf2;
+padding-bottom:10px;
+}
+#stylized label{
+display:block;
+font-weight:bold;
+text-align:right;
+width:100px;
+float:left;
+font-size:10px;
+color:#666666;
+}
+.sidebar {
+   width: 170px;
+   height: 0px;
+   position: fixed;
+   left: 0px;
+   top: 110px;
+   font-family: Tahoma, Geneva, sans-serif;
+   font-style: normal;
+   text-decoration: none;
+   border: 1px solid #cfcfcf;
+   background: #f3f3f3;
+   border-bottom: 1px solid #cfcfcf;
+   border-radius: 3px 3px 0 0;
+   background-image: -webkit-linear-gradient(top, whiteffd, #eef2f5);
+   background-image: -moz-linear-gradient(top, whiteffd, #eef2f5);
+   background-image: -o-linear-gradient(top, whiteffd, #eef2f5);
+   background-image: linear-gradient(to bottom, whiteffd, #eef2f5);
+   -webkit-box-shadow: 0 1px whitesmoke;
+   box-shadow: 0 1px whitesmoke;
+
+}
+.tops{
+   top: 8px;
+   position: fixed;
+   width:1335px;
+	}
+
+#stylized option{
+display:block;
+font-weight:bold;
+text-align:right;
+width:140px;
+float:left;
+}
+#stylized .small{
+color:#666666;
+display:block;
+font-size:10px;
+font-weight:normal;
+text-align:left;
+}
+#stylized input{
+font-size:12px;
+padding:4px 2px;
+border:solid 1px #aacfe4;
+margin:2px 0 20px 10px;
+text-align:left;
+}
+#stylized button{
+clear:both;
+margin-left:150px;
+width:125px;
+height:31px;
+background:#666666 url(img/button.png) no-repeat;
+text-align:center;
+line-height:31px;
+color:#FFFFFF;
+font-size:11px;
+font-weight:bold;
+}
+#stylized .radio-toolbar input[type="radio"] {
+font-weight:normal;
+text-align:right;
+padding-right:0px;
+width:20px;
+}
+#stylized .radio-toolbar label {
+display:block;
+font-weight:normal;
+text-align:right;
+padding-right:0px;
+position:absolute;
+margin:1px 0 0px 10px;
+}
+#stylized .radio-toolbar input{
+padding-right:50px;
+margin:1px 0 0px 10px;
+position:inherit;
+}
+table
+{
+	width:100%;
+border-collapse:collapse;
+}
+ 
+th
+{
+	font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica,
+	sans-serif;
+	color: #6D929B;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+	height:50px;
+border:1px solid black;
+}
+td {
+	font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica,sans-serif;
+}
+table {
+  max-width: 100%;
+  background-color: transparent;
+}
+th {
+  text-align: left;
+}
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+.table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #ddd;
+}
+.table > caption + thead > tr:first-child > th,
+.table > colgroup + thead > tr:first-child > th,
+.table > thead:first-child > tr:first-child > th,
+.table > caption + thead > tr:first-child > td,
+.table > colgroup + thead > tr:first-child > td,
+.table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+.table > tbody + tbody {
+  border-top: 2px solid #ddd;
+}
+.table .table {
+  background-color: #fff;
+}
+.table-condensed > thead > tr > th,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > tbody > tr > td,
+.table-condensed > tfoot > tr > td {
+  padding: 5px;
+}
+.table-bordered {
+  border: 1px solid #ddd;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 1px solid #ddd;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+}
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: #f9f9f9;
+}
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+  background-color: #f5f5f5;
+}
+table col[class*="col-"] {
+  position: static;
+  display: table-column;
+  float: none;
+}
+table td[class*="col-"],
+table th[class*="col-"] {
+  position: static;
+  display: table-cell;
+  float: none;
+}
+.table > thead > tr > td.active,
+.table > tbody > tr > td.active,
+.table > tfoot > tr > td.active,
+.table > thead > tr > th.active,
+.table > tbody > tr > th.active,
+.table > tfoot > tr > th.active,
+.table > thead > tr.active > td,
+.table > tbody > tr.active > td,
+.table > tfoot > tr.active > td,
+.table > thead > tr.active > th,
+.table > tbody > tr.active > th,
+.table > tfoot > tr.active > th {
+  background-color: #f5f5f5;
+}
+.table-hover > tbody > tr > td.active:hover,
+.table-hover > tbody > tr > th.active:hover,
+.table-hover > tbody > tr.active:hover > td,
+.table-hover > tbody > tr.active:hover > th {
+  background-color: #e8e8e8;
+}
+.table > thead > tr > td.success,
+.table > tbody > tr > td.success,
+.table > tfoot > tr > td.success,
+.table > thead > tr > th.success,
+.table > tbody > tr > th.success,
+.table > tfoot > tr > th.success,
+.table > thead > tr.success > td,
+.table > tbody > tr.success > td,
+.table > tfoot > tr.success > td,
+.table > thead > tr.success > th,
+.table > tbody > tr.success > th,
+.table > tfoot > tr.success > th {
+  background-color: #dff0d8;
+}
+.table-hover > tbody > tr > td.success:hover,
+.table-hover > tbody > tr > th.success:hover,
+.table-hover > tbody > tr.success:hover > td,
+.table-hover > tbody > tr.success:hover > th {
+  background-color: #d0e9c6;
+}
+.table > thead > tr > td.info,
+.table > tbody > tr > td.info,
+.table > tfoot > tr > td.info,
+.table > thead > tr > th.info,
+.table > tbody > tr > th.info,
+.table > tfoot > tr > th.info,
+.table > thead > tr.info > td,
+.table > tbody > tr.info > td,
+.table > tfoot > tr.info > td,
+.table > thead > tr.info > th,
+.table > tbody > tr.info > th,
+.table > tfoot > tr.info > th {
+  background-color: #d9edf7;
+}
+.table-hover > tbody > tr > td.info:hover,
+.table-hover > tbody > tr > th.info:hover,
+.table-hover > tbody > tr.info:hover > td,
+.table-hover > tbody > tr.info:hover > th {
+  background-color: #c4e3f3;
+}
+.table > thead > tr > td.warning,
+.table > tbody > tr > td.warning,
+.table > tfoot > tr > td.warning,
+.table > thead > tr > th.warning,
+.table > tbody > tr > th.warning,
+.table > tfoot > tr > th.warning,
+.table > thead > tr.warning > td,
+.table > tbody > tr.warning > td,
+.table > tfoot > tr.warning > td,
+.table > thead > tr.warning > th,
+.table > tbody > tr.warning > th,
+.table > tfoot > tr.warning > th {
+  background-color: #fcf8e3;
+}
+.table-hover > tbody > tr > td.warning:hover,
+.table-hover > tbody > tr > th.warning:hover,
+.table-hover > tbody > tr.warning:hover > td,
+.table-hover > tbody > tr.warning:hover > th {
+  background-color: #faf2cc;
+}
+.table > thead > tr > td.danger,
+.table > tbody > tr > td.danger,
+.table > tfoot > tr > td.danger,
+.table > thead > tr > th.danger,
+.table > tbody > tr > th.danger,
+.table > tfoot > tr > th.danger,
+.table > thead > tr.danger > td,
+.table > tbody > tr.danger > td,
+.table > tfoot > tr.danger > td,
+.table > thead > tr.danger > th,
+.table > tbody > tr.danger > th,
+.table > tfoot > tr.danger > th {
+  background-color: #f2dede;
+}
+.table-hover > tbody > tr > td.danger:hover,
+.table-hover > tbody > tr > th.danger:hover,
+.table-hover > tbody > tr.danger:hover > td,
+.table-hover > tbody > tr.danger:hover > th {
+  background-color: #ebcccc;
+}
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+  }
+  .table-responsive > .table {
+    margin-bottom: 0;
+  }
+  .table-responsive > .table > thead > tr > th,
+  .table-responsive > .table > tbody > tr > th,
+  .table-responsive > .table > tfoot > tr > th,
+  .table-responsive > .table > thead > tr > td,
+  .table-responsive > .table > tbody > tr > td,
+  .table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+  }
+  .table-responsive > .table-bordered {
+    border: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:first-child,
+  .table-responsive > .table-bordered > tbody > tr > th:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+  .table-responsive > .table-bordered > thead > tr > td:first-child,
+  .table-responsive > .table-bordered > tbody > tr > td:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:first-child {
+    border-left: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:last-child,
+  .table-responsive > .table-bordered > tbody > tr > th:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+  .table-responsive > .table-bordered > thead > tr > td:last-child,
+  .table-responsive > .table-bordered > tbody > tr > td:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:last-child {
+    border-right: 0;
+  }
+  .table-responsive > .table-bordered > tbody > tr:last-child > th,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > th,
+  .table-responsive > .table-bordered > tbody > tr:last-child > td,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > td {
+    border-bottom: 0;
+  }
+  .btn-success {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-success.active,
+.open .dropdown-toggle.btn-success {
+  color: #fff;
+  background-color: #47a447;
+  border-color: #398439;
+}
+.btn-success:active,
+.btn-success.active,
+.open .dropdown-toggle.btn-success {
+  background-image: none;
+  
+}
+#status2{
+	 padding:10px;
+	 background-color:#21D54C;
+	 color:#FFFFFF;
+	 font:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
+	 font-size:18px;
+	 font-weight:bold;
+ }
+ #error{
+	 padding:10px;
+	 background-color:#EF2323;
+	 color:#FFFFFF;
+	 font:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
+	 font-size:18px;
+	 font-weight:bold;
+ }
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PMTCT EMR</title>
+<script src="js/main.js"></script>
+  <script src="js/ajax.js"></script>
+  <script>
+ function emptyElement(x,y){
+_(x).innerHTML = "";
+_(y).innerHTML = "";
+}
+ function savepmtctdelivery(){
+	 var id = _("id").value;
+	 var visitdate = _("visitdate").value;
+var pmtct_id = _("pmtct_id").value;
+				var delivery_site;
+				var rates1 = document.getElementsByName('delivery_site');
+				for(var i = 0; i < rates1.length; i++){
+					if(rates1[i].checked){
+						delivery_site = rates1[i].value;
+					}
+				}
+				
+				var delivery_date = _("delivery_date").value;
+				var did_preg_end_in_spon_abortion;
+				var rates2 = document.getElementsByName('did_preg_end_in_spon_abortion');
+				for(var i = 0; i < rates2.length; i++){
+					if(rates2[i].checked){
+						did_preg_end_in_spon_abortion = rates2[i].value;
+					}
+				}
+				
+				var art_given_to_mother_at_delivery;
+				var rates3 = document.getElementsByName('art_given_to_mother_at_delivery');
+				for(var i = 0; i < rates3.length; i++){
+					if(rates3[i].checked){
+						art_given_to_mother_at_delivery = rates3[i].value;
+					}
+				}
+				
+				var art_given_to_mother_at_delivery_yes;
+				var rates4 = document.getElementsByName('art_given_to_mother_at_delivery_yes');
+				for(var i = 0; i < rates4.length; i++){
+					if(rates4[i].checked){
+						art_given_to_mother_at_delivery_yes = rates4[i].value;
+					}
+				}
+				var no_of_infants_in_this_pregnancy_other = _("no_of_infants_in_this_pregnancy_other").value;
+				//////it has other specify///////////////////////////////////////////////////////
+				var no_of_infants_in_this_pregnancy;
+				var rates5 = document.getElementsByName('no_of_infants_in_this_pregnancy');
+				
+				for(var i = 0; i < rates5.length; i++){
+					if(rates5[i].checked){
+						
+							no_of_infants_in_this_pregnancy = rates5[i].value;
+						
+					}
+				}
+				
+				var sex;
+				var rates6 = document.getElementsByName('sex');
+				for(var i = 0; i < rates6.length; i++){
+					if(rates6[i].checked){
+						sex = rates6[i].value;
+					}
+				}
+				
+				var status_of_birth;
+				var rates7 = document.getElementsByName('status_of_birth');
+				for(var i = 0; i < rates7.length; i++){
+					if(rates7[i].checked){
+						status_of_birth = rates7[i].value;
+					}
+				}
+				
+				var status_of_birth_alive_weight = _("status_of_birth_alive_weight").value;
+				var status_of_birth_alive_lenght = _("status_of_birth_alive_lenght").value;
+				var status_of_birth_alive_head_circumf = _("status_of_birth_alive_head_circumf").value;
+				var status_of_birth_alive_gest_age = _("status_of_birth_alive_gest_age").value;
+				var status_of_birth_alive_apgar = _("status_of_birth_alive_apgar").value;
+				var syrup_nvp;
+				var rates8 = document.getElementsByName('syrup_nvp');
+				for(var i = 0; i < rates8.length; i++){
+					if(rates8[i].checked){
+						syrup_nvp = rates8[i].value;
+					}
+				}
+				
+				var syrup_zdv;
+				var rates9 = document.getElementsByName('syrup_zdv');
+				for(var i = 0; i < rates9.length; i++){
+					if(rates9[i].checked){
+						syrup_zdv = rates9[i].value;
+					}
+				}
+				var feeding_method_chosen_specify = _("feeding_method_chosen_specify").value;
+				var feeding_method_chosen;
+				var rates10 = document.getElementsByName('feeding_method_chosen');
+				
+				for(var i = 0; i < rates10.length; i++){
+					if(rates10[i].checked){
+						
+							feeding_method_chosen = rates10[i].value;
+						
+					}
+				}
+				
+
+var status = _("status");
+var status3 = _("status3");
+if(pmtct_id == "" ){
+status.innerHTML = "<div id=\"error\">Please enter PMTCT ID!</div>";
+status3.innerHTML = "<div id=\"error\">Please enter PMTCT ID!</div>";
+}else if(id == ""){
+status.innerHTML = "<div id=\"error\">Please no id found!</div>";
+status3.innerHTML = "<div id=\"error\">Please no id found!</div>";
+}else if(visitdate == ""){
+status.innerHTML = "<div id=\"error\">Please enter visit date!</div>";
+status3.innerHTML = "<div id=\"error\">Please enter visit date!</div>";
+}else if(delivery_site == "" || delivery_site == null){
+status.innerHTML = "<div id=\"error\">Please enter Delivery site!</div>";
+status3.innerHTML = "<div id=\"error\">Please enter Delivery site!</div>";
+}else if(delivery_date == "" || delivery_date == null){
+status.innerHTML = "<div id=\"error\">Please enter Delivery date!</div>";
+status3.innerHTML = "<div id=\"error\">Please enter Delivery date!</div>";
+}else if(did_preg_end_in_spon_abortion == "" || did_preg_end_in_spon_abortion == null){
+status.innerHTML = "<div id=\"error\">Please enter 	Did pregnancy end in spontaneous abortion!</div>";
+status3.innerHTML = "<div id=\"error\">Please enter Did pregnancy end in spontaneous abortion!</div>";
+} else if(art_given_to_mother_at_delivery == "" || art_given_to_mother_at_delivery == null){
+status.innerHTML = "<div id=\"error\">Please enter ART given to mother at delivery!</div>";
+status3.innerHTML = "<div id=\"error\">Please enter ART given to mother at delivery	!</div>";
+} else if(no_of_infants_in_this_pregnancy == "" || no_of_infants_in_this_pregnancy == null){
+status.innerHTML = "<div id=\"error\">Please enter Number of infants in this pregnancy!</div>";
+status3.innerHTML = "<div id=\"error\">Please enter Number of infants in this pregnancy!</div>";
+} else if(sex == "" || sex == null){
+status.innerHTML = "<div id=\"error\">Please enter Sex!</div>";
+status3.innerHTML = "<div id=\"error\">Please enter Sex!</div>";
+}else if(status_of_birth == "" || status_of_birth == null || status_of_birth_alive_weight=="" || status_of_birth_alive_lenght=="" || status_of_birth_alive_head_circumf=="" || status_of_birth_alive_gest_age == "" || status_of_birth_alive_apgar == ""){
+status.innerHTML = "<div id=\"error\">Please enter Status at birth!</div>";
+status3.innerHTML = "<div id=\"error\">Please enter Status at birth!</div>";
+}else if(syrup_nvp == "" || syrup_nvp == null || syrup_zdv=="" || syrup_zdv==null){
+status.innerHTML = "<div id=\"error\">Please enter Prophylaxis given to infant!</div>";
+status3.innerHTML = "<div id=\"error\">Please enter Prophylaxis given to infant!</div>";
+}else if(feeding_method_chosen == "" || feeding_method_chosen == null){
+status.innerHTML = "<div id=\"error\">Please enter Feeding Method Chosen!</div>";
+status3.innerHTML = "<div id=\"error\">Please enter Feeding Method Chosen!</div>";
+} else {
+	_("submitbtn").style.display = "none";
+status.innerHTML = '<br/><img src="js/loading_bar.gif">';
+status3.innerHTML = '<br/><img src="js/loading_bar.gif">';
+var ajax = ajaxObj("POST", "pmtctdeliverybrowse.php");
+        ajax.onreadystatechange = function() {
+       if(ajaxReturn(ajax) == true) {
+		   if(ajax.responseText == "saved_succesfully"){
+			   _("submitbtn").style.display = "block";
+		    status.innerHTML = "<div id=\"status2\">Data updated Successfully</div>";
+			status3.innerHTML = "<div id=\"status2\">Data updated Successfully</div>";
+		   }else{ //addedto be removed
+			status.innerHTML = "<div id=\"error\">Data failed to update</div>";
+			status3.innerHTML = "<div id=\"error\">Data failed to update</div>";
+				}// end else
+			} 
+        }// end else
+        ajax.send("visitdate="+visitdate+"&pmtct_id="+pmtct_id+"&delivery_site="+delivery_site+"&delivery_date="+delivery_date+"&did_preg_end_in_spon_abortion="+did_preg_end_in_spon_abortion+"&art_given_to_mother_at_delivery="+art_given_to_mother_at_delivery+"&art_given_to_mother_at_delivery_yes="+art_given_to_mother_at_delivery_yes+"&no_of_infants_in_this_pregnancy="+no_of_infants_in_this_pregnancy+"&sex="+sex+"&status_of_birth="+status_of_birth+"&status_of_birth_alive_weight="+status_of_birth_alive_weight+"&status_of_birth_alive_lenght="+status_of_birth_alive_lenght+"&status_of_birth_alive_head_circumf="+status_of_birth_alive_head_circumf+"&status_of_birth_alive_gest_age="+status_of_birth_alive_gest_age+"&status_of_birth_alive_apgar="+status_of_birth_alive_apgar+"&syrup_nvp="+syrup_nvp+"&syrup_zdv="+syrup_zdv+"&feeding_method_chosen="+feeding_method_chosen+"&no_of_infants_in_this_pregnancy_other="+no_of_infants_in_this_pregnancy_other+"&feeding_method_chosen_specify="+feeding_method_chosen_specify+"&id="+id);
+}
+}
+</script>
+</head>
+
+<body>
+<div class='sidebar'>
+<legend style="font-weight:bold; margin:10px 0px; font-size:14px; color:#0EBF5F">DATA ENTRY</legend>
+<fieldset style="background-color:#355681">
+<a href="antenatalcare.php?pepid=<?php echo $_GET['pepid']; ?>?pepid=<?php echo $_GET['pepid']; ?>" style="font-weight:bold; font-size:14px; color:#ffffff;font-family: 'Titillium Web', sans-serif;">ANTENATAL CARE</a> <br>
+</fieldset>
+<fieldset style="background-color:#355681">
+<a href="pmtctdelivery.php?pepid=<?php echo $_GET['pepid']; ?>" style="font-weight:bold; font-size:14px; color:#ffffff;font-family: 'Titillium Web', sans-serif;">PMTCT DELIVERY</a> <br>
+</fieldset>
+<fieldset style="background-color:#355681">
+<a href="exposedinfant.php?pepid=<?php echo $_GET['pepid']; ?>" style="font-weight:bold; font-size:14px; color:#ffffff;font-family: 'Titillium Web', sans-serif;">EXPOSED INFANT</a> <br>
+</fieldset>
+<hr />
+<br/>
+<legend style="font-weight:bold; margin:10px 0px; font-size:14px; color:#0EBF5F">VIEW DATA</legend>
+<fieldset style="background-color:#6490cb">
+<a href="antenatalcarehistory.php?pepid=<?php echo $_GET['pepid']; ?>" style="font-weight:bold; font-size:14px; color:#ffffff;font-family: 'Titillium Web', sans-serif;">ANTENATAL CARE HISTORY</a> <br>
+</fieldset>
+<fieldset style="background-color:#6490cb">
+<a href="pmtctdeliveryhistory.php?pepid=<?php echo $_GET['pepid']; ?>" style="font-weight:bold; font-size:14px; color:#ffffff;font-family: 'Titillium Web', sans-serif;">PMTCT DELIVERY HISTORY</a> <br>
+</fieldset>
+<fieldset style="background-color:#6490cb">
+<a href="exposedinfanthistory.php?pepid=<?php echo $_GET['pepid']; ?>" style="font-weight:bold; font-size:14px; color:#ffffff;font-family: 'Titillium Web', sans-serif;">EXPOSED INFANT HISTORY</a> <br>
+</fieldset>
+<hr />
+</div>
+<div class='tops'>
+<h1 style="font-weight: 600;    font-family: 'Titillium Web', sans-serif;  position: relative;   font-size: 32px; line-height: 15px; padding: 15px 15px 15px 15%;    color: #FFFFFF;    box-shadow:         inset 0 0 0 1px rgba(53,86,129, 0.4),         inset 0 0 5px rgba(53,86,129, 0.5),        inset -285px 0 35px 355681;    border-radius: 0 10px 0 10px;    background: #355681;">PMTCT EMR - PMTCT DELIVERY &nbsp;&nbsp;&nbsp; </h1>
+</div>
+<br />
+<br />
+<br />
+<br />
+<div id="stylized" class="myform">
+
+<form id="form" name="form" onSubmit="return false;">
+<h3 style="text-align:center">BASIC INFORMATION</h3>
+<span id="status"></span>
+<fieldset>
+<div style="width: 100%; display: table;">
+    <div style="display: table-row">
+    
+    
+        <div style="width: 280px; display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+Patient ID
+</label>
+<input type="text" name="pepid" id="pepid"  value="<?php echo $infos['pepid']?>"  readonly="readonly" style="width:120px;height:10px;" required>
+      </fieldset>
+         </div>
+        <div style="display: table-cell; width:280px"> 
+        <fieldset style="height:20px; border:none">
+<label>
+Unique ID
+</label>
+<input type="text" name="uniqueid" id="uniqueid"  value="<?php echo $infos['uniqueid']?>"  readonly style="width:120px;height:10px;" required>
+
+        </fieldset>
+         </div>        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+Hospital(UNIT) Number
+</label>
+<input type="text" name="hospitalid" id="hospitalid"  value="<?php echo $infos['hospitalid']?>"  readonly style="width:120px;height:10px;" required>
+
+        </fieldset>
+         </div>
+    </div>
+</div>
+
+</fieldset>
+<fieldset>
+<div style="width: 100%; display: table;">
+    <div style="display: table-row">
+        <div style="width: 280px; display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>Surname
+</label>
+<input type="text" name="surname" id="surname"  value="<?php echo $infos['surname']?>"  readonly style="width:120px;height:10px;" required>
+      </fieldset>
+         </div>
+        <div style="display: table-cell; width:280px"> 
+        <fieldset style="height:20px; border:none">
+<label>Other names
+</label>
+<input type="text" name="othernames" id="othernames"  value="<?php echo $infos['othernames']?>"  readonly style="width:120px;height:10px;" required>
+
+        </fieldset>
+         </div>        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>HIV+ Date
+</label>
+<input type="date" name="hivposdate" id="hivposdate"  readonly  value="<?php echo $infos['hivposdate']?>"  style="width:120px;height:10px;" required> 
+
+
+        </fieldset>
+         </div>
+    </div>
+</div>
+</fieldset>
+<fieldset>
+
+<div style="width: 100%; display: table;">
+    <div style="display: table-row">
+        <div style="width: 280px; display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+DoB
+</label>
+<input type="date" name="dob" id="dob"  value="<?php echo $infos['dob']?>"  readonly style="width:120px;height:10px;"  required> 
+    </fieldset>
+         </div>
+        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+Phone Number
+</label>
+<input type="text" name="phoneno" id="phoneno" value="<?php echo $infos['phoneno']?>"  style="width:120px;height:10px;" required>
+
+        </fieldset>
+         </div>        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+Sex
+</label>
+<input type="text" name="sex" id="sex" value="<?php echo $infos['sex']?>"  readonly style="width:45px;height:10px;" required>
+
+        </fieldset>
+         </div>
+    </div>
+</div>
+<div style="width: 100%; display: table;">
+    <div style="display: table-row">
+        <div style="width: 280px; display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+Facility Name</label>
+<input type="text" name="facilityname" id="facilityname" value="<?php echo $infos['facilityname']?>" style="width:120px; height:10px;" required>
+    </fieldset>
+         </div>
+        <div style="display: table-cell;"> 
+        <fieldset style="height:20px; border:none">
+<label>
+Age</label>
+<input type="text" name="age" id="age" size="1" value="<?php echo $infos['age']?>" style="height:10px;" required>
+          </fieldset>
+         </div>        
+         
+    </div>
+</div>
+
+</fieldset>
+
+<fieldset>
+<h3 style="text-align:center">DELIVERY</h3>
+<table class="table table-bordered table-hover">
+<tr><td style="width:20px;"></td>
+<td><b>PMTCT ID</b></td><td><input type="text" onfocus="emptyElement('status','status3')" name="pmtct_id" id="pmtct_id" value="<?php echo $info['pmtct_id']?>"   style="width:120px;" required></td>
+</tr>
+<tr><td style="width:20px;"></td>
+<td><b>Visit Date</b></td><td><input type="date" onfocus="emptyElement('status','status3')" name="visitdate" id="visitdate" value="<?php echo $info['visitdate']?>"   style="width:120px;" required></td>
+</tr>
+
+<tr><td style="width:20px;">1</td>
+<td><b>Delivery site</b></td>
+<td>
+<?php if($info['delivery_site'] == "Home"){ ?>
+<input type="radio" name="delivery_site" checked="checked" onfocus="emptyElement('status','status3')" value="Home">Home
+ <input type="radio" name="delivery_site" onfocus="emptyElement('status','status3')" value="Hospital">Hospital(Name)
+ <input type="radio" name="delivery_site" onfocus="emptyElement('status','status3')" value="TBA or CBA, Faith Clinic">TBA or CBA, Faith Clinic (Name)
+ <?php }elseif($info['delivery_site'] == "Hospital"){?>
+ <input type="radio" name="delivery_site" onfocus="emptyElement('status','status3')" value="Home">Home
+ <input type="radio" name="delivery_site" checked="checked" onfocus="emptyElement('status','status3')" value="Hospital">Hospital(Name)
+ <input type="radio" name="delivery_site" onfocus="emptyElement('status','status3')" value="TBA or CBA, Faith Clinic">TBA or CBA, Faith Clinic (Name)
+ <?php }elseif($info['delivery_site'] == "TBA or CBA, Faith Clinic"){?>
+ <input type="radio" name="delivery_site" onfocus="emptyElement('status','status3')" value="Home">Home
+ <input type="radio" name="delivery_site" onfocus="emptyElement('status','status3')" value="Hospital">Hospital(Name)
+ <input type="radio" name="delivery_site" checked="checked" onfocus="emptyElement('status','status3')" value="TBA or CBA, Faith Clinic">TBA or CBA, Faith Clinic (Name)
+ <?php }?>
+ </td>
+</tr>
+
+<tr><td style="width:20px;">2</td>
+<td><b>Delivery date</b></td>
+<td>
+<label>Date</label>
+<input type="date" name="delivery_date" value="<?php echo date("Y-m-d", strtotime($info['delivery_date'])); ?>" onfocus="emptyElement('status','status3')" id="delivery_date"  style="width:120px;"/>
+ </td>
+</tr>
+
+<tr><td style="width:20px;">3</td>
+<td><b>Did pregnancy end in spontaneous abortion</b></td>
+<td>
+<?php if($info['did_preg_end_in_spon_abortion'] == "YES"){ ?>
+<input type="radio" name="did_preg_end_in_spon_abortion" checked="checked" onfocus="emptyElement('status','status3')" value="YES">YES &nbsp;&nbsp;
+ <input type="radio" name="did_preg_end_in_spon_abortion" onfocus="emptyElement('status','status3')" value="NO">NO
+ <?php } elseif($info['did_preg_end_in_spon_abortion'] == "NO"){ ?>
+ <input type="radio" name="did_preg_end_in_spon_abortion" onfocus="emptyElement('status','status3')" value="YES">YES &nbsp;&nbsp;
+ <input type="radio" name="did_preg_end_in_spon_abortion" checked="checked" onfocus="emptyElement('status','status3')" value="NO">NO
+ <?php } ?>
+ </td>
+</tr>
+
+<tr><td style="width:20px;">4</td>
+<td><b>ART given to mother at delivery</b></td>
+<td>
+<?php if($info['art_given_to_mother_at_delivery'] == "YES"){ ?>
+<input type="radio" name="art_given_to_mother_at_delivery"  onfocus="emptyElement('status','status3')" value="NO">NO <br />
+ <input type="radio" name="art_given_to_mother_at_delivery" checked="checked" onfocus="emptyElement('status','status3')" value="YES">YES
+ <?php } elseif($info['art_given_to_mother_at_delivery'] == "NO"){ ?>
+ <input type="radio" name="art_given_to_mother_at_delivery" checked="checked" onfocus="emptyElement('status','status3')" value="NO">NO <br />
+ <input type="radio" name="art_given_to_mother_at_delivery" onfocus="emptyElement('status','status3')" value="YES">YES
+ <?php } ?>
+ 
+ <div style="margin-left:15px;">
+ <?php if($info['art_given_to_mother_at_delivery_yes'] == "SdNVP" && $info['art_given_to_mother_at_delivery'] == "YES"){ ?>
+ <input type="radio" name="art_given_to_mother_at_delivery_yes" checked="checked" onfocus="emptyElement('status','status3')" value="SdNVP">SdNVP <br />
+ <input type="radio" name="art_given_to_mother_at_delivery_yes" onfocus="emptyElement('status','status3')" value="FDC HAART">FDC HAART<br />
+ <input type="radio" name="art_given_to_mother_at_delivery_yes" onfocus="emptyElement('status','status3')" value="Others">Others
+ <?php } elseif($info['art_given_to_mother_at_delivery_yes'] == "FDC HAART" && $info['art_given_to_mother_at_delivery'] == "YES"){ ?>
+ <input type="radio" name="art_given_to_mother_at_delivery_yes" onfocus="emptyElement('status','status3')" value="SdNVP">SdNVP <br />
+ <input type="radio" name="art_given_to_mother_at_delivery_yes" checked="checked" onfocus="emptyElement('status','status3')" value="FDC HAART">FDC HAART<br />
+ <input type="radio" name="art_given_to_mother_at_delivery_yes" onfocus="emptyElement('status','status3')" value="Others">Others
+ <?php } elseif($info['art_given_to_mother_at_delivery_yes'] == "Others" && $info['art_given_to_mother_at_delivery'] == "YES"){ ?>
+  <input type="radio" name="art_given_to_mother_at_delivery_yes" onfocus="emptyElement('status','status3')" value="SdNVP">SdNVP <br />
+ <input type="radio" name="art_given_to_mother_at_delivery_yes" onfocus="emptyElement('status','status3')" value="FDC HAART">FDC HAART<br />
+ <input type="radio" name="art_given_to_mother_at_delivery_yes" checked="checked" onfocus="emptyElement('status','status3')" value="Others">Others
+ <?php } else{ ?>
+ <input type="radio" name="art_given_to_mother_at_delivery_yes" onfocus="emptyElement('status','status3')" value="SdNVP">SdNVP <br />
+ <input type="radio" name="art_given_to_mother_at_delivery_yes" onfocus="emptyElement('status','status3')" value="FDC HAART">FDC HAART<br />
+ <input type="radio" name="art_given_to_mother_at_delivery_yes" onfocus="emptyElement('status','status3')" value="Others">Others
+ 
+ <?php } ?>
+ <br />
+ </div>
+ </td>
+</tr>
+
+<tr><td style="width:20px;">5</td>
+<td><b>Number of infants in this pregnancy</b></td>
+<td>
+<?php if($info['no_of_infants_in_this_pregnancy'] == "1"){ ?>
+<input type="radio" name="no_of_infants_in_this_pregnancy" checked="checked" onfocus="emptyElement('status','status3')" value="1">1 
+ <input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="2">2
+ <input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="3">3 <br />
+ <input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="other">Other &nbsp;&nbsp;&nbsp;
+ <input type="text" name="no_of_infants_in_this_pregnancy_other" value="" onfocus="emptyElement('status','status3')" id="no_of_infants_in_this_pregnancy_other" style="width:120px;"/>Specify
+ 
+ <?php } elseif($info['no_of_infants_in_this_pregnancy'] == "2"){ ?>
+<input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="1">1 
+ <input type="radio" name="no_of_infants_in_this_pregnancy" checked="checked" onfocus="emptyElement('status','status3')" value="2">2
+ <input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="3">3 <br />
+ <input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="other">Other &nbsp;&nbsp;&nbsp;
+ <input type="text" name="no_of_infants_in_this_pregnancy_other" value="" onfocus="emptyElement('status','status3')" id="no_of_infants_in_this_pregnancy_other" style="width:120px;"/>Specify
+ <?php } elseif($info['no_of_infants_in_this_pregnancy'] == "3"){ ?>
+<input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="1">1 
+ <input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="2">2
+ <input type="radio" name="no_of_infants_in_this_pregnancy" checked="checked" onfocus="emptyElement('status','status3')" value="3">3 <br />
+ <input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="other">Other &nbsp;&nbsp;&nbsp;
+ <input type="text" name="no_of_infants_in_this_pregnancy_other" value="" onfocus="emptyElement('status','status3')" id="no_of_infants_in_this_pregnancy_other" style="width:120px;"/>Specify
+ <?php } else{ ?>
+<input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="1">1 
+ <input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="2">2
+ <input type="radio" name="no_of_infants_in_this_pregnancy" onfocus="emptyElement('status','status3')" value="3">3 <br />
+ <input type="radio" name="no_of_infants_in_this_pregnancy" checked="checked" onfocus="emptyElement('status','status3')" value="other">Other &nbsp;&nbsp;&nbsp;
+ <input type="text" name="no_of_infants_in_this_pregnancy_other" value="<?php echo $info['no_of_infants_in_this_pregnancy']; ?>" onfocus="emptyElement('status','status3')" id="no_of_infants_in_this_pregnancy_other" style="width:120px;"/>Specify
+  <?php } ?>
+
+
+ </td>
+</tr>
+</table>
+<h3 style="text-align:center">INFANT STATUS AT BIRTH</h3>
+<table class="table table-bordered table-hover">
+<tr><td style="width:20px;">6</td>
+<td><b>Sex</b></td>
+<td>
+<?php if($info['sex'] == "Male"){ ?>
+ <input type="radio" name="sex" checked="checked" onfocus="emptyElement('status','status3')" value="Male">Male
+ <input type="radio" name="sex" onfocus="emptyElement('status','status3')" value="Female">Female</td>
+ <?php }elseif($info['sex'] == "Female"){ ?>
+  <input type="radio" name="sex" onfocus="emptyElement('status','status3')" value="Male">Male
+ <input type="radio" name="sex" checked="checked" onfocus="emptyElement('status','status3')" value="Female">Female</td>
+ <?php } ?>
+</tr>
+
+<tr><td style="width:20px;">7</td>
+<td><b>Status at birth</b></td>
+<td>
+<?php if($info['status_of_birth'] == "Alive"){ ?>
+ <input type="radio" name="status_of_birth" checked="checked" onfocus="emptyElement('status','status3')" value="Alive">Alive
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Stillbirth">Stillbirth
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Neonatal death">Neonatal death
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Other">Other
+ <?php }elseif($info['status_of_birth'] == "Stillbirth"){ ?>
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Alive">Alive
+ <input type="radio" name="status_of_birth" checked="checked" onfocus="emptyElement('status','status3')" value="Stillbirth">Stillbirth
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Neonatal death">Neonatal death
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Other">Other
+ <?php }elseif($info['status_of_birth'] == "Neonatal death"){ ?>
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Alive">Alive
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Stillbirth">Stillbirth
+ <input type="radio" name="status_of_birth" checked="checked" onfocus="emptyElement('status','status3')" value="Neonatal death">Neonatal death
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Other">Other
+ <?php }elseif($info['status_of_birth'] == "Other"){ ?>
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Alive">Alive
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Stillbirth">Stillbirth
+ <input type="radio" name="status_of_birth" onfocus="emptyElement('status','status3')" value="Neonatal death">Neonatal death
+ <input type="radio" name="status_of_birth" checked="checked" onfocus="emptyElement('status','status3')" value="Other">Other
+ <?php } ?>
+ <br />
+ <div>
+ Weight
+ <input type="text" name="status_of_birth_alive_weight" value="<?php if($info['status_of_birth_alive_weight'] !="" && $info['status_of_birth_alive_weight'] !="undefined"){ echo $info['status_of_birth_alive_weight'];}else{ echo ""; } ?>" onfocus="emptyElement('status','status3')" id="status_of_birth_alive_weight"  style="width:120px;"/>kg &nbsp; &nbsp;&nbsp; &nbsp;
+  Lenght
+ <input type="text" name="status_of_birth_alive_lenght" value="<?php if($info['status_of_birth_alive_lenght'] !="" && $info['status_of_birth_alive_lenght'] !="undefined"){ echo $info['status_of_birth_alive_lenght'];}else{ echo ""; } ?>" onfocus="emptyElement('status','status3')" id="status_of_birth_alive_lenght"  style="width:120px;"/>cm 
+ &nbsp; &nbsp;&nbsp; &nbsp;<br />
+  Head Circumference
+ <input type="text" name="status_of_birth_alive_head_circumf" value="<?php if($info['status_of_birth_alive_head_circumf'] !="" && $info['status_of_birth_alive_head_circumf'] !="undefined"){ echo $info['status_of_birth_alive_head_circumf'];}else{ echo ""; } ?>" onfocus="emptyElement('status','status3')" id="status_of_birth_alive_head_circumf"  style="width:120px;"/>
+ <br />
+  Gest. Age at delivery
+ <input type="text" name="status_of_birth_alive_gest_age" value="<?php if($info['status_of_birth_alive_gest_age'] !="" && $info['status_of_birth_alive_gest_age'] !="undefined"){ echo $info['status_of_birth_alive_gest_age'];}else{ echo ""; } ?>" onfocus="emptyElement('status','status3')" id="status_of_birth_alive_gest_age"  style="width:120px;"/>Wks &nbsp; &nbsp;&nbsp; &nbsp;
+  APGAR score@ 5mins
+ <input type="text" name="status_of_birth_alive_apgar" value="<?php if($info['status_of_birth_alive_apgar'] !="" && $info['status_of_birth_alive_apgar'] !="undefined"){ echo $info['status_of_birth_alive_apgar'];}else{ echo ""; } ?>" onfocus="emptyElement('status','status3')" id="status_of_birth_alive_apgar"  style="width:120px;"/> 
+ 
+ </div>
+ </td>
+</tr>
+
+<tr><td style="width:20px;">8</td>
+<td><b>Prophylaxis given to infant</b></td>
+<td>
+<div>Syrup NVP</div>
+<?php if($info['syrup_nvp'] == "YES"){ ?>
+<input type="radio" name="syrup_nvp" checked="checked" onfocus="emptyElement('status','status3')" value="YES">YES &nbsp;&nbsp;
+ <input type="radio" name="syrup_nvp" onfocus="emptyElement('status','status3')" value="NO">NO
+ <?php }elseif($info['syrup_nvp'] == "NO"){ ?>
+ <input type="radio" name="syrup_nvp" onfocus="emptyElement('status','status3')" value="YES">YES &nbsp;&nbsp;
+ <input type="radio" name="syrup_nvp" checked="checked" onfocus="emptyElement('status','status3')" value="NO">NO
+  <?php } ?>
+ <div>Syrup ZDV</div>
+ <?php if($info['syrup_zdv'] == "YES"){ ?>
+ <input type="radio" name="syrup_zdv" checked="checked" onfocus="emptyElement('status','status3')" value="YES">YES &nbsp;&nbsp;
+ <input type="radio" name="syrup_zdv" onfocus="emptyElement('status','status3')" value="NO">NO
+ <?php }elseif($info['syrup_zdv'] == "NO"){ ?>
+ <input type="radio" name="syrup_zdv" onfocus="emptyElement('status','status3')" value="YES">YES &nbsp;&nbsp;
+ <input type="radio" name="syrup_zdv" checked="checked" onfocus="emptyElement('status','status3')" value="NO">NO
+ <?php } ?>
+</td>
+</tr>
+
+<tr><td style="width:20px;">9</td>
+<td><b>Feeding Method Chosen</b></td>
+<td>
+<?php if($info['feeding_method_chosen'] == "Exclusive BF"){ ?>
+<input type="radio" name="feeding_method_chosen" checked="checked" onfocus="emptyElement('status','status3')" value="Exclusive BF">Exclusive BF &nbsp;&nbsp;
+ <input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="Exclusive BMS">Exclusive BMS
+ <input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="Mixed BMS and BF">Mixed BMS & BF &nbsp;&nbsp;<br />
+ <div><input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="other">Other
+ <input type="text" name="feeding_method_chosen_specify" onfocus="emptyElement('status','status3')" id="feeding_method_chosen_specify" style="width:120px;"/>(specify)</div>
+ <?php }elseif($info['feeding_method_chosen'] == "Exclusive BMS"){ ?>
+ <input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="Exclusive BF">Exclusive BF &nbsp;&nbsp;
+ <input type="radio" name="feeding_method_chosen" checked="checked" onfocus="emptyElement('status','status3')" value="Exclusive BMS">Exclusive BMS
+ <input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="Mixed BMS and BF">Mixed BMS & BF &nbsp;&nbsp;<br />
+ <div><input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="other">Other
+ <input type="text" name="feeding_method_chosen_specify" onfocus="emptyElement('status','status3')" id="feeding_method_chosen_specify" style="width:120px;"/>(specify)</div>
+  <?php }elseif($info['feeding_method_chosen'] == "Mixed BMS and BF"){ ?>
+ <input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="Exclusive BF">Exclusive BF &nbsp;&nbsp;
+ <input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="Exclusive BMS">Exclusive BMS
+ <input type="radio" name="feeding_method_chosen" checked="checked" onfocus="emptyElement('status','status3')" value="Mixed BMS and BF">Mixed BMS & BF &nbsp;&nbsp;<br />
+ <div><input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="other">Other
+ <input type="text" name="feeding_method_chosen_specify" onfocus="emptyElement('status','status3')" id="feeding_method_chosen_specify" style="width:120px;"/>(specify)</div>
+  <?php }else{ ?>
+ <input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="Exclusive BF">Exclusive BF &nbsp;&nbsp;
+ <input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="Exclusive BMS">Exclusive BMS
+ <input type="radio" name="feeding_method_chosen" onfocus="emptyElement('status','status3')" value="Mixed BMS and BF">Mixed BMS & BF &nbsp;&nbsp;<br />
+ <div><input type="radio" name="feeding_method_chosen" checked="checked" onfocus="emptyElement('status','status3')" value="other">Other
+ <input type="text" name="feeding_method_chosen_specify" value="<?php echo $info['feeding_method_chosen']; ?>" onfocus="emptyElement('status','status3')" id="feeding_method_chosen_specify" style="width:120px;"/>(specify)</div>
+ <?php } ?>
+</td>
+</tr>
+
+</table>
+<span id="status3"></span>
+<input type="hidden" id="id" name="id" value="<?php echo preg_replace('#[^0-9]#i', '', $_GET['id']); ?>"  />
+<button type="button" id="submitbtn" name="submitbtn" style="float: right !important; cursor:pointer;" class="btn btn-success" onclick="savepmtctdelivery()">Update</button>
+</fieldset>
+
+</form>
+<p style="margin-bottom:150px;"></p>
+</div>
+
+</body>
+</html>
